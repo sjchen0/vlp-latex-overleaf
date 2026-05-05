@@ -1,0 +1,223 @@
+\documentclass{article}
+
+% NeurIPS 2026 template.
+% For submission, keep the default option below. For camera-ready, use e.g.
+% \usepackage[main, final]{neurips_2026}
+% For arXiv/preprint, use \usepackage[preprint]{neurips_2026}
+\usepackage{neurips_2026}
+
+% Standard NeurIPS/sample-template packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{wrapfig}
+\usepackage[most]{tcolorbox}
+
+
+
+% Packages from the original main.tex
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[capitalize,noabbrev]{cleveref}
+\usepackage{bm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{dsfont}
+\usepackage{soul}
+\usepackage[textsize=tiny]{todonotes}
+\usepackage[table]{xcolor}
+\definecolor{bestgreen}{RGB}{220,245,220}
+\definecolor{lightred}{RGB}{255,225,225}
+\definecolor{lightyellow}{RGB}{255,245,200}
+\definecolor{lightblue}{RGB}{225,240,255}
+
+
+\newtcolorbox{highlightbox}{
+  enhanced,
+  breakable,
+  colback=lightblue,
+  colframe=blue!0!black,
+  boxrule=0.8pt,
+  arc=7pt,
+  left=7pt,
+  right=7pt,
+  top=7pt,
+  bottom=7pt,
+  before skip=10pt,
+  after skip=10pt
+}
+
+\allowdisplaybreaks
+
+\newtcolorbox{chatbox}{
+    colback=gray!5!white,
+    colframe=gray!75!black,
+    arc=5pt,
+    boxrule=0.5pt,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt,
+    fontupper=\ttfamily\small
+}
+
+% Attempt to make hyperref and algorithmic work together better.
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+
+% common notations
+\newcommand{\one}{\bm 1}
+\newcommand{\zero}{\textbf{0}}
+\newcommand{\e}{{\bm e}}
+\newcommand{\Var}{\mathsf{Var}}
+\newcommand{\LL}{\mathcal L}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\U}{\mathrm{Unit}}
+\newcommand{\bdiag}{\mathrm{bdiag}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\nm}[1]{\left\|{#1}\right\|}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ip}[1]{\left<{#1}\right>}
+\newcommand{\eqbr}{\phantom{{}=1}}
+\newcommand{\avg}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+
+% transformers
+\newcommand{\WQK}[1]{\bm W_\mathrm{QK}^{({#1})}}
+\newcommand{\WOV}[1]{\bm W_\mathrm{OV}^{({#1})}}
+\newcommand{\Att}[2]{\sigma\left(\frac{{#1}{#2}{#1}^\top}{\sqrt{d}}\right)}
+\newcommand{\fd}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\sd}[2]{\frac{\partial^2{#1}}{\partial{#2}^2}}
+\newcommand{\vecr}{\mathrm{vec}_\mathrm{r}}
+\newcommand{\vecc}{\mathrm{vec}_\mathrm{c}}
+\newcommand{\mask}{\texttt{M}}
+\newcommand{\alg}{VLP}
+
+\algnewcommand{\Input}{\item[\textbf{Input:}]}
+\algnewcommand{\Output}{\item[\textbf{Output:}]}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator{\prox}{prox}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Det}{Det}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Diag}{Diag}
+\DeclareMathOperator{\Rank}{Rank}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\ind}{\mathds{1}}
+
+\def\vx{{\bm{x}}}
+\def\vy{{\bm{y}}}
+\def\vs{{\bm{s}}}
+
+% Author comments
+\newcommand{\jk}[1]{\textcolor{red}{Jason: #1}}
+\newcommand{\sijin}[1]{\textcolor{blue}{[Sijin: #1]}}
+\newcommand{\cy}[1]{\textcolor{green}{Chang: #1}}
+\newcommand{\jiaxin}[1]{\textcolor{blue}{[Jiaxin: #1]}}
+\newcommand{\strblk}[1]{\sethlcolor{black!12}\hl{\texttt{\footnotesize #1}}}
+
+\title{On Confidence-Based Decoding Strategies for Masked Diffusion and Beyond: A Likelihood Optimization Perspective}
+
+% In the default NeurIPS submission mode, the style anonymizes author information.
+% For the camera-ready version, compile with the final option above.
+\author{%
+  Sijin Chen \\
+  Princeton University\\
+  Princeton, NJ 08540, USA\\
+  \texttt{} \\
+  \And
+  Chang Yu \\
+  Princeton University\\
+  Princeton, NJ 08540, USA\\
+  \texttt{} \\
+  \And
+  Jiaxin Shi \\
+  Meta SuperIntelligence Labs\\
+  Menlo Park, CA 94025, USA\\
+  \texttt{} \\
+  \And
+  Jason M. Klusowski \\
+  Princeton University\\
+  Princeton, NJ 08540, USA\\
+  \texttt{jason.klusowski@princeton.edu} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Masked diffusion language models enable a more flexible generation order than their autoregressive counterparts, but also raise the question of the optimal unmasking order in practical sampling. Empirically, confidence-based unmasking heuristics achieve great success, but the theoretical mechanism behind their advantages remains unclear. In this work, we establish theoretical understanding of confidence-based methods by studying a likelihood optimization problem that searches for the best unmasking policy to maximize sample likelihood. Under planning-depth reduction and distribution approximation, we show that confidence unmasking emerges as the (near-)optimal policy in our framework, justifying their empirical superiority. Moreover, on top of the likelihood principle, we further propose a trainable policy that learns to optimize the global objective without the previous simplifications. Through experiments on multiple MDMs at different scales across text, code, and math generation benchmarks, the trained policy matches or exceeds the performance of confidence methods. Overall, our work reveals the potential of using a likelihood optimization framework to further analyze and develop efficient sampling methods for diffusion language models.
+\end{abstract}
+
+\input{text/introduction}
+\input{text/preliminaries}
+\input{text/theory}
+\input{text/method}
+\input{text/experiments}
+
+\section{Conclusion}
+In this work, we examine inference in masked diffusion language models through a likelihood-based formulation that explicitly accounts for the unmasking order. Under simplifying assumptions, we show that confidence-based unmasking can be derived as an optimal policy, providing a theoretical explanation for its effectiveness in practice. Building on this analysis, we propose Variational Likelihood Policy \alg{}, a framework for training unmasking policies via variational inference. By directly optimizing a likelihood objective, \alg{} offers a principled approach to learning unmasking strategies beyond hand-designed heuristics. Empirical results on text and code generation tasks indicate the effectiveness of the trained policies, particularly when the number of sampling steps is limited.
+
+While this work focuses on masked diffusion, our likelihood framework naturally extends to other discrete or continuous diffusion formulations. Future work may improve optimization methods and training efficiency for likelihood-based policies, and explore the possibility of joint training with MDMs.
+
+\section*{Impact Statement}
+
+This paper presents work whose goal is to advance the field of machine learning. There are many potential societal consequences of our work, none of which we feel must be specifically highlighted here.
+
+% For NeurIPS final versions, acknowledgments should use the ack environment.
+% Do not include acknowledgments in the anonymized submission.
+% \begin{ack}
+% Acknowledgments go here.
+% \end{ack}
+
+\newpage
+
+{\small
+\bibliographystyle{plainnat}
+\bibliography{main}
+}
+
+\appendix
+\input{text/appendix}
+
+% Uncomment if you have a NeurIPS checklist file.
+\newpage
+\input{checklist.tex}
+
+\end{document}

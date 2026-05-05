@@ -1,0 +1,107 @@
+\section{Background}\label{sec:prelim}
+\subsection{Masked Diffusion Models}
+A continuous-time discrete diffusion model consists of a forward noising process and a backward denoising process, both continuous-time Markov chains. In the forward process, the training samples are progressively corrupted into pure noise. The model aims to learn its backward process that inverts this corruption, and generate new samples by sampling through the backward process from noise.
+
+\textbf{Continuous-time Markov chain.} We consider a discrete state space $\mathcal{X}$. A continuous-time Markov chain (CTMC) is a process $\vx_t$ on $\mathcal X$ with ${t \in [0, 1]}$, starting from an initial data distribution $q_0(\vx_0)$. A CTMC is characterized by a time-dependent transition rate matrix $Q_t \in \mathbb{R}^{|\mathcal{X}| \times |\mathcal{X}|}$. For distinct states $\vx_t, \vy \in \mathcal{X}$, $Q_t(\vx_t, \vy) \ge 0$ defines the instantaneous transition rate from $\vx_t$ to $\vy$, i.e., over an infinitesimal time interval $[t,t+\Delta t]$ the transition probability is given by
+\begin{equation}\label{eq:infinitesimal_transition}
+    q_{t+\Delta t|t}(\vy|\vx_t) = \delta(\vx_t, \vy) + Q_t(\vx_t, \vy) \Delta t + o(\Delta t),
+\end{equation}
+where $\delta$ is the Kronecker delta.
+In other words, a CTMC leads to an evolution of the marginal distribution $q_t\in\Delta{(\mathcal X)}$ that follows the Kolmogorov ODE $dq_t/dt = q_t Q_t$.
+Note that the diagonal entries of $Q_t$ should satisfy $Q_t(\vx_t, \vx_t) = - \sum_{\vx_t \neq \vy} Q_t(\vx_t, \vy)$ to ensure that $q_t$ sums to $1$. 
+
+\textbf{The forward masking process.} In the forward process, the transition rate matrix commonly adopts a parameterization $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is adopted so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
+\begin{equation*}
+    q_{t+\Delta t|t}(y|x)=
+\begin{cases}
+\sigma(t)\,\Delta t + o(\Delta t), & y=\mask,\\
+1-\sigma(t)\,\Delta t - o(\Delta t), & y=x\in\mathcal V,\\
+0, & \text{otherwise},
+\end{cases}
+\end{equation*}
+with a state space $\mathcal V\cup\{\mask\}$. Letting $\bar\sigma(t)=\int_0^t\sigma(s)\,ds$, the distribution of a token at time $t$ conditioned on the initial state $x$ is given by
+\begin{equation*}
+\label{eq:forward_seq}
+    q_{t|0}(y|x)
+=
+e^{-\bar\sigma(t)}\mathbf 1[y=x]
++
+\bigl(1-e^{-\bar\sigma(t)}\bigr)\mathbf 1[y=\mask].
+\end{equation*}
+Due to token-wise independence, the forward process for a length-$L$ sequence is the product CTMC on $(\mathcal V\cup\{\mask\})^L$, with the joint distribution
+\begin{equation*}
+\label{eq:forward_distribution}
+        q_{t|0}(\bm x_t|\bm x_0)=\prod_{i=1}^L q_{t|0}(x_t^i|x_0^i).
+\end{equation*}
+
+\textbf{The backward unmasking process.} It is known that the time reversal of a CTMC with rate $Q_t$ is also a CTMC, whose infinitesimal transition probability takes a form analogous to \eqref{eq:infinitesimal_transition}:
+\begin{equation}
+\label{eq:infinitesimal_transition_rev}
+    q_{t-\Delta t|t}(\vy|\vx_t)  =  \delta(\vx_t, \vy) + \tilde{Q}_t(\vx_t, \vy) \Delta t + o(\Delta t).
+\end{equation}
+Here, $\tilde Q_t$ is an unknown transition rate. Specifically for MDMs, the reverse transition is an unmasking process \citep{lou2024discrete,campbell2022continuous,ou2025absorbingdiscretediffusionsecretly}, where we begin from an all-mask sequence and randomly unmask each to a token in the vocabulary with the following token level transitions:
+\begin{align*}
+    q_{s|t}\!\left(x_s^{i}|\bm x_t\right)
+=
+&\quad \begin{cases}
+1,
+& x_t^{i} \neq \mask,\; x_s^{i} = x_t^{i}, \\
+\dfrac{1 - e^{-\bar{\sigma}(s)}}{1 - e^{-\bar{\sigma}(t)}},
+& x_t^{i} = \mask,\; x_s^{i} = \mask, \\
+\dfrac{e^{-\bar{\sigma}(s)} - e^{-\bar{\sigma}(t)}}{1 - e^{-\bar{\sigma}(t)}}\,
+q_{0 | t}\!\left(x_s^{i}|x_t\right),
+& x_t^{i} = \mask,\; x_s^{i} \neq \mask, \\
+0,
+& \text{otherwise}.
+\end{cases}
+\end{align*}
+Therefore, the learning of the backward process reduces to the learning of the reverse rate $\tilde Q_t$ parameterized by a neural network with weight $\theta$. The training can be implemented by various approaches, such as by minimizing score-based objectives \citep{lou2024discrete,ou2025absorbingdiscretediffusionsecretly}. In this way, we have a parameterized approximation of the true backward rate $P_t^\theta\approx \tilde Q_t$, which leads to a marginal distribution $p_t^\theta$ at time $t$ by solving the Kolmogorov ODE $dp^\theta_t/dt=p_t^\theta P_t^\theta$.
+
+
+\subsection{Related Works on MDM Inference}\label{subsec:confidence}
+
+\textbf{Confidence-based unmasking.}
+A common alternative to uniform unmasking in masked diffusion models (MDMs) is to prioritize positions where the model exhibits higher predictive confidence. Concretely, given the conditional token distribution
+$p_i(v) = p_t^\theta(x_{t-\Delta t}^i = v \mid \bm x_t)$
+at position $i$, a confidence score $c_i$ is computed and used to guide the unmasking order. Popular choices include:
+\begin{itemize}[noitemsep, topsep=0pt]
+    \item {Negative entropy} \citep{ye2025dream7bdiffusionlarge}, $c_i = \sum_v p_i(v)\log p_i(v)$;
+    \item {Top-1 probability} \citep{nie2025scalingmaskeddiffusionmodels}, $c_i = \max_v p_i(v)$;
+    \item {Top-2 margin} \citep{kim2025train}, $c_i = p_i(v_1) - p_i(v_2)$, where $v_1, v_2$ are the two most likely tokens at $i$.
+\end{itemize}
+Given these scores, unmasking strategies are typically either \emph{greedy}, selecting the top-$N$ positions with highest confidence, or \emph{randomized}, for example by perturbing confidence scores before top-$N$ selection \citep{kim2025train} or sampling positions proportionally via a softmax transformation \citep{ye2025dream7bdiffusionlarge}. While simple and effective in practice, these approaches are largely heuristic and do not arise from an explicit optimization objective. Beyond fixed-size selection, \citet{benhamu2025eb} propose an adaptive sampler that dynamically chooses both which and how many tokens to unmask, justified by an entropy bound on joint dependence error in a KL framework.
+
+\textbf{Trainable inference methods.}
+Beyond fixed heuristics, several works treat the unmasking order as a trainable policy. Some introduce a separate policy network to learn update sequences \citep{peng2025path, jazbec2025learning, chen2025dultra} or introduce an additional MDM training stage on the preferred trajectories \citep{song2025seeddiffusionlargescalediffusion}, while others modify the backward process itself to encourage more structured updates, such as jointly updating semantically related variables \citep{meshchaninov2025guided} or incorporating corrective refinement steps for already unmasked tokens \citep{zhao2024informed}. These methods demonstrate that learning the inference procedure can significantly improve sample quality, but most existing approaches rely on rewards (reinforcement learning) or ad hoc update rules. Based on sample likelihood maximization, \citet{wang2025learningorder} proposes a framework to learn the optimal decoding order for any-order autoregressive models \citep{shih2022traininginferenceanyorderautoregressive}, which are limited to single-token generation processes; our \alg{} extends this framework to multi-token unmasking in masked diffusion models. From a related likelihood-based perspective, \citet{turok2026duel} restrict attention to deterministic position selection and obtain exact test-time likelihoods within this class. 
+
+\iffalse
+\textbf{Theoretical perspectives and limitations.}
+Recent theoretical work has begun to clarify why inference strategies play a central role in discrete and masked diffusion models. Formalizations of discrete diffusion as continuous- or discrete-time Markov processes show that commonly used approximations, such as $\tau$-leaping, can introduce systematic bias that compounds in high-dimensional discrete spaces \citep{austin2021structured, campbell2022continuous}. From a Gibbs sampling perspective, diffusion inference can be viewed as a sequence of conditional updates, where the unmasking order acts as a scan rule that critically affects convergence and stability \citep{hayakawa2025demystifying, peng2025path}. 
+
+These analyses also help explain the limitations of confidence-based heuristics. Greedy unmasking based on local confidence resembles coordinate descent in an implicit energy landscape, making it highly sensitive to early-stage errors that can propagate and trap the sampler in suboptimal regions \citep{kholkin2025sampling, chen2025beyond}. While learning-based approaches partially address these issues, they often optimize over local transitions or trajectories rather than globally optimal paths through the diffusion process.
+
+\textbf{Our perspective.}
+Building on these insights, we adopt a more foundational viewpoint: rather than treating confidence heuristics or learned policies as ad hoc design choices, we ask what inference objective they implicitly approximate. This perspective allows us to (i) derive confidence-based unmasking from a directly trainable global objective, and (ii) explain when and why such heuristics become suboptimal under certain data or model regimes.
+\fi
+
+\iffalse
+
+\textbf{Confidence-based methods.} As an alternative to uniform unmasking, existing works propose to prioritize unmasking tokens where the MDM's prediction confidence is higher. In these methods, we first compute MDM's confidence $c_i$ at each token position $i$ using the predicted token probabilities $p_i(v)=p_t^\theta(x_{t-\Delta t}^{i}=v|\bm x_t)$. Common metrics of confidence include
+\begin{itemize}[noitemsep, topsep=0pt]
+    \item negative entropy \citep{ye2025dream7bdiffusionlarge}, where $c_i=\sum_v p_i(v)\log p_i(v)$;
+    \item top-1 probability \citep{nie2025scalingmaskeddiffusionmodels}, where $c_i=\max_v p_i(v)$;
+    \item top-2 probability margin \citep{kim2025train}, where $c_i=p_i(v_1)-p_i(v_2)$ and $v_1, v_2$ denotes the 2 tokens with highest probabilities among $\mathcal V$.
+\end{itemize}
+With the computed confidence, one can design a family of unmasking strategies that are either \textit{greedy}---directly select top-$N$ indices with the highest confidence to unmask, or \textit{randomized}---adding noise to the confidence score before top-$N$ \citep{kim2025train} or converting into unmasking probabilities by softmax function \citep{ye2025dream7bdiffusionlarge}.
+
+\textbf{Trainable methods.} 
+
+Several works consider the ordering policy as a separate trainable entity \citep{peng2025path,jazbec2025learning} or construct update rules that allow the backwards process to learn policies that are more globally optimal, such as updating coherent groups of variables that share semantic dependencies \citep{meshchaninov2025guided} or using informed corrective steps to modify unmasked tokens \citep{zhao2024informed}. However, one weakness of these works is the lack of generalizable training framework that would illustrate the specific training objective that an optimal policy should optimize.
+
+
+\textbf{Theory and understanding.} 
+
+However, confidence based methods have several problems. First, most empirical methods are purely heuristics without an explicit training objective \citep{kim2025train} or learn a policy through reinforcement learning \citep{jazbec2025learning}. Second, the obtained policies optimize over local paths rather than global paths, which can lead to early consistency errors that propagate downstream \citep{chen2025beyond, hayakawa2025demystifying}. Recent theoretical work has established that inference in discrete and masked diffusion models is fundamentally governed by the sampling policy rather than the denoiser alone. Formalizations of discrete diffusion as discrete-time or continuous-time Markov processes show that commonly used approximations such as $\tau$-leaping can accumulate bias in high-dimensional discrete spaces \citep{austin2021structured, campbell2022continuous}. Interpreting diffusion sampling as Gibbs-style updates further reveals that the update order functions as a scan rule, which critically affects convergence and stability, motivating structured or planned update schedules \cite{hayakawa2025demystifying, peng2025path}. Energy-based perspectives partially explain why greedy confidence-based unmasking behaves like coordinate descent and is sensitive to early-stage errors, which can propagate and trap the sampler in suboptimal regions \cite{kholkin2025sampling, chen2025beyond}. We build on these ideas through a more foundational approach to understand how confidence methods can be derived from a directly trainable objective and also explain the suboptimality seen in certain data regimes.
+\fi
+
+% \sijin{Old version: Several recent works focus on selecting good sampling trajectories and discourage bad ones. This is a vital part of Seed Diffusion \citep{song2025seeddiffusionlargescalediffusion}. There are many ways to learn the conditional unmasking probabilities of the backwards process. However, constructing a sampling policy given these conditional probabilities can be difficult. In the following sections, we produce a framework that both formalizes the optimization problem of producing an optimal policy and show how previous heuristics arise from simplifications of the objective function.}

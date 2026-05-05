@@ -1,0 +1,242 @@
+\section{Unmasking Policy Optimization}\label{sec:theory}
+\subsection{Time-Discretized Process by Unmasking Policy}
+Let $L$ be the sequence length. Denote $[L]=\{1,2,...,L\}$, and $\Delta(\mathcal S)$ the space of probability distributions on a set $\mathcal S$. Let $K$ be a positive integer and $0=t_0<t_1<...<t_K=1$ form a partition of the interval $[0,1]$. For efficient sampling, we aim to design a discrete-time unmasking process that operates on these timesteps $\{t_k\}$ in place of the learned MDM's backward diffusion $p_t^\theta$.
+
+This can be done by introducing an unmasking policy. Formally, an unmasking policy is a mapping $$\pi:(\mathcal V\cup\{\mask\})^L\to\Delta(\mathrm{Pow}([L]))$$ from a current sampling state to a probability distribution over the collection of all the subsets of $[L]$. In practice, it is customary to further restrict the support of the output distribution within the collection of size-$N$ subsets, where $N=L/K$. When $L$ is not divisible by $K$, we set the size of the final step to the remainder of $L$ divided by $K$.
+
+With a policy $\pi$ and a trained MDM's continuous-time backward process $p_t^\theta$, we can build a discrete-time process $p^{\theta,\pi}_k$ defined as follows. In each step of $p^{\theta,\pi}_k$, given a current state $\bm x_k$, the policy $\pi$ randomly decides an index set $\mathcal U_k\subset[L]$ with probability $\pi(\mathcal U_k|\bm x_k)$, corresponding to a portion of the masked part of $\bm x_k$. Then, we use MDM's prediction $p_{t_k}^\theta(\cdot|\bm x_k)$ evaluated at time $t_k$ to predict newly unmasked tokens at $\mathcal U_k$, and the state transitions to $\bm x_{k-1}$. The transition probability from $\bm x_k$ to $\bm x_{k-1}$ is given by
+\begin{align}\label{eq:policy-decompose}
+    &{p}^{\theta, \pi}_{k}(\bm x_{k-1}|\bm x_k)
+    =\pi(\mathcal U_k|\,\bm x_k)p^\theta_{t_k}(\bm x_{k-1}|\bm x_k)
+\end{align}
+where
+\begin{align*}
+    p^\theta_{t_k}(\bm x_{k-1}|\bm x_k)=\prod_{i\in\mathcal U_k}p^\theta_{k}(x_{k-1}^i|\bm x_k),\quad\mathcal U_k=\{i:x_k^i=\mask\neq x_{k-1}^i\}.
+\end{align*}
+In order for the unmasking policy to be valid, we constrain the unmasking trajectories $\mathcal{U} = \{\mathcal U_1,...,\mathcal U_K\}$ produced by the policy to form a partition of the full index set:
+\begin{align*}
+    \bigcup_{k=1}^K\mathcal U_k=[L];\quad  \mathcal U_k\cap\mathcal U_{k'}=\varnothing.
+\end{align*}
+Clearly, uniform ($\tau$-leaping) and confidence-based unmasking methods in our previous discussion can be fully recovered by $p_k^{\theta,\pi}$ with appropriate choices of $\pi$.
+
+\subsection{Likelihood Optimization}
+Recall that a major question motivating this work is how we can theoretically compare different unmasking methods and search for the best one. This is made possible by connecting our discrete-time sampling process $p_k^{\theta,\pi}$ to likelihood optimization, a fundamental objective of generative modeling. Specifically, as $p_k^{\theta,\pi}$ also aims to recover the data distribution at endpoint $k=0$, its generative performance can be evaluated by its sample log-likelihood under the training data distribution $q_0$. Namely, under this criterion, the optimal policy can be obtained by
+\begin{align}\label{eq:min-obj}
+    \min_\pi-\EE_{\bm x_0\sim q_0}\log p_0^{\theta,\pi}(\bm x_0),
+\end{align}
+cf. \eqref{eq:obj}. This objective is the original MDM training objective with the data marginal $p_0^\theta$ replaced by the policy-induced marginal $p_0^{\theta,\pi}$; this connection motivates our formulation.
+
+The endpoint probability $p_0^{\theta,\pi}(\bm x_0)$ connects to the earlier sampling steps by marginalization:
+\begin{align*}
+    p_0^{\theta,\pi}(\bm x_0)&=\sum_{\bm x_1,...,\bm x_K}p_0^{\theta,\pi}(\bm x_0,\bm x_1,...,\bm x_K)=\sum_{\bm x_1,...,\bm x_K}\prod_{k=1}^Kp_k^{\theta,\pi}(\bm x_{k-1}|\bm x_k).
+\end{align*}
+Since the trajectories $(\bm x_0,\bm x_1,...,\bm x_K)$ have nonzero probability only when each $\bm x_k$ is a masked outcome of $\bm x_{k-1}$, they are fully characterized by applying a trajectory of unmasking sets $\mathcal U=(\mathcal U_1,...,\mathcal U_K)$ to $\bm x_K$. Thus equivalently,
+\begin{align*}
+    p_0^{\theta,\pi}(\bm x_0)=\sum_{\mathcal U_1,...,\mathcal U_K}\prod_{k=1}^Kp_k^{\theta,\pi}(\bm x_{k-1}|\bm x_k)=\sum_{\mathcal U_1,...,\mathcal U_K}\prod_{k=1}^K\pi(\mathcal U_k|\,\bm x_k)\prod_{i\in\mathcal U_k}p^\theta_{t_k}(x_{k-1}^i|\bm x_k),
+\end{align*}
+due to \eqref{eq:policy-decompose}. Note that for non-mask tokens it always holds that $x^i_{k-1}=x^i_0$.
+Plugging this into \eqref{eq:min-obj}, we have the optimization problem
+\begin{align}\label{eq:margin-obj}
+    \min_\pi-\EE_{q_0}\log\sum_{\mathcal U_1,...,\mathcal U_K}\prod_{k=1}^K\pi(\mathcal U_k|\,\bm x_k)\prod_{i\in\mathcal U_k}p^\theta_{t_k}(x_{k-1}^i|\bm x_k).
+\end{align}
+Directly solving \eqref{eq:margin-obj} is intractable. The sum over $(\mathcal U_1, \ldots, \mathcal U_K)$ has $\prod_{k=1}^{K} \binom{L_k}{N}$ terms, where $L_k$ denotes the number of masked positions at step $k$. This count grows exponentially in $K$ (e.g., $L!/(N!)^K$ when $L = KN$), and the log-sum-product structure prevents factorization across timesteps. Even pointwise gradient evaluation requires this same exponential sum, since the trajectory marginal acts as a normalization that does not separate. The obstacle is structurally analogous to exact MAP decoding in autoregressive models, where global optimization is similarly intractable and local approximations (greedy decoding, beam search) are standard. In Sections~\ref{sec:confidence} and~\ref{sec:method} we develop two such approximations to \eqref{eq:margin-obj}: a single-step locality restriction that recovers confidence-based heuristics, and a variational lower bound that enables direct policy training. \citet{turok2026duel} adopt a complementary tractability handle: by restricting to deterministic position selection, the trajectory marginalization collapses to a single term and yields exact likelihoods within this restricted class. Our framework instead approximates the original objective over the broader space of stochastic policies, which encompasses the randomized heuristics used in practice.
+
+
+% Moreover, we assume that we have access to the global coefficients $w$ computed by transition probabilities of each global sampling path. To maximize this objective on each fixed $\bm x_0$, the optimal $\pi$ would assign all the probability weight to the sampling path with the highest total transition probability. This can recover confidence-based approach as a local greedy approximation to this optimal strategy.
+
+% We finally need to optimize the expected objective with $\bm x_0\sim q_0$ (Figure~\ref{fig:placeholder}). As expectation preserves convexity, this is a convex optimization for $\pi$. Indexing each path with $i$, the problem is
+% \begin{align*}
+%     \min_{\pi}-\EE_{\bm x_0\sim q_0}\log\sum \pi_i w_i(\bm x_0),
+% \end{align*}
+% subject to the standard constraint that $\pi$ is a probability distribution. This resembles a logistic regression objective.
+
+% We can characterize the optimal solution $\pi^*$. Introducing Lagrange multipliers $(\lambda_1,...\lambda_n, \mu)$, the Lagrangian is given by
+% \begin{align*}
+%     \mathcal L(\pi,\lambda,\mu)=-\EE_{\bm x_0\sim q_0}\log\sum \pi_i w_i(\bm x_0)-\sum\lambda_i\pi_i-\mu\left(\sum\pi_i-1\right).
+% \end{align*}
+% We have KKT conditions
+% \begin{align*}
+%     \nabla_i\mathcal L=-\EE_{\bm x_0\sim q_0}\left[\frac{w_i(\bm x_0)}{\sum \pi_i w_i(\bm x_0)}\right]-\lambda_i-\mu=0,\tag{stationarity}\\
+%     \lambda_i\pi_i=0,\tag{complementary slackness}\\
+%     \pi\in\Delta_n,\quad \lambda_i\geq0\tag{feasibility}
+% \end{align*}
+% For the sampling path indexed by $i$, define the path metric as
+% $$f_i(\pi)=\EE_{\bm x_0\sim q_0}\left[\frac{w_i(\bm x_0)}{\sum \pi_i w_i(\bm x_0)}\right].$$
+% Then, KKT condition suggests that $\pi^*$ satisfies $f_i(\pi^*)=f_j(\pi^*)$ for $i,j$ with $\pi_i,\pi_j>0$; and $f_i(\pi^*)> f_j(\pi^*)$ for $i,j$ with $\pi_i>0,\pi_j=0$. Basically, this means the optimal strategy $\pi^*$ will concentrate its weights on the sampling paths with highest path metric.
+
+\section{Optimality of Confidence Heuristics}\label{sec:confidence}
+\subsection{Locality Restriction}
+The objective \eqref{eq:margin-obj} requires planning the entire unmasking trajectory $\mathcal U_1,\dots,\mathcal U_K$ globally, which is intractable. In this section, we instead minimize a local surrogate of \eqref{eq:margin-obj} at each step $k$:
+\begin{align}
+    \label{eq:oracle_confidence}
+         \min_{\pi(\cdot|\bm x_k)} -\EE_{\bm x_0\sim q_0(\cdot|\bm x_k)}\log\sum_{\mathcal U_k} \pi(\mathcal U_k|\bm x_k) \prod_{i\in\mathcal U_k}p^\theta_{t_k}(x_{k-1}^i|\bm x_k).
+\end{align}
+Here, the expectation is taken over the conditional distribution $q_0(\cdot|\bm x_k)$, i.e. the data that could lead to $\bm x_k$ by a valid masking process. The notation $x^i_{k-1}$ denotes the value at position $i\in\mathcal U_k$ produced by the single-step unmasking from $\bm x_k$ to $\bm x_{k-1}$.
+
+In this local problem, the summation is reduced to the range of index subsets $\mathcal U_k$, and instead of the whole policy $\pi$, we only need to optimize one single probability distribution $\pi(\cdot|\bm x_k)$ by assigning probabilities $\pi(\mathcal U_k|\bm x_k)$ to each candidate subset $\mathcal U_k$. This is a convex optimization problem due to the concavity of $\log$ and the fact that expectation preserves convexity \citep{boyd2004convex}, thus much more tractable.
+
+
+\iffalse
+The oracle objective has several problems that make it difficult to train directly. First, we only have access to  $p^\theta_{t-\Delta t|t}$ for large timesteps $\Delta t$. Second, the naive logsum of the unmasked index set trajectories requires us to sum over an exponentially large number of possible trajectories. The natural fix to the first issue is to replace the $q$ with $p^\theta$ in the logsum:
+\begin{equation}
+    \begin{split}
+        \min_\pi -\EE_{\bm x_0\sim q_0}\log \sum_{\substack{\mathcal U_1,...,\mathcal U_K}} \prod_{k=1}^{K} \pi(\mathcal U_{k}|\bm x_{k})\prod_{k=1}^{K} \prod_{i\in\mathcal U_{k}}p^\theta_{k-1|k}(\bm x^i_{k-1}|\bm x_{k})
+    \end{split}
+\end{equation}
+In practice, we find that appropriately deep neural networks can learn very close approximations to $q$, and thus this assumption is quite natural. We can also easily approximate the expectation over $q_0$ with a simple average over the $x_0$ seen in the training.
+
+In prior literature, to fix the second issue, we often introduce an evidence lower bound (ELBO). However, naively applying ELBO under our framework fails.
+
+Instead of examining all the $k$ steps at once, suppose we find the optimal index set at each step, and build the policy trajectory step by step. More formally, we wish to find the policy $\pi$ such that for each $1 \leq k \leq  K$,
+
+
+The idea here is that sampling the trajectories naively is computationally infeasible because the number of trajectories grows exponentially with $k$. Furthermore, in this formulation, we can replace $q_0$ with $q_0(\cdot | \bm x_k)$, where $q_0(\cdot | \bm x_k)$ is defined as the data distribution with the tokens in $\bm x_k$ being fixed. This replacement is possible because once we unmask a token, we do not change its value. Hence, at step $k$, the probability of $x_0$ having tokens on $U_{k+1}$ with values not corresponding to $x_k$ is zero. In practice, many likelihood functions are approximately convex, and thus building the trajectories through stepwise local optimizations may yield solutions close to the optimal policy. 
+\fi
+
+\subsection{Deriving Confidence Unmasking}
+Another gap between heuristic unmasking strategies and our framework is that \eqref{eq:oracle_confidence} requires precise knowledge of the conditional data distribution $q_0$, while the heuristics are data-agnostic. In this case where $q_0(\cdot|\bm x_k)$ is unknown, the best (and only) approximation is given by leveraging MDM's prediction at time $t_k$:
+\begin{align}
+    \label{eq:trainable_confidence}
+         \min_{\pi(\cdot|\bm x_k)} -\EE_{\bm x_0\sim p^\theta_{t_k}(\cdot|\bm x_k)}\log\sum_{\mathcal U_k} \pi(\mathcal U_k|\bm x_k) \prod_{i\in\mathcal U_k}p^\theta_{t_k}(x_{k-1}^i|\bm x_k).
+\end{align}
+
+\subsubsection{Greedy Confidence Unmasking}
+Define entropy at index $i$ to be
+\begin{align*}
+ H_k(i)=-\sum_{v\in\mathcal V} p^\theta_{t_k}(x^i_{k-1}=v|\bm x_k)\log p^\theta_{t_k}(x^i_{k-1}=v|\bm x_k).
+\end{align*}
+Now, we have the following result on the optimality of the greedy confidence unmasking method based on negative entropy (cf. Section~\ref{subsec:confidence}).
+
+\begin{theorem}
+    \label{thm:confidence}
+     Consider a policy $\pi$ that selects an index set of size at least $N$. 
+     If (1) $\pi$ is a deterministic policy, or (2) $p_{t_k}^\theta$ satisfies
+     \begin{align*}
+         \EE_{x^i\sim p_{t_k}^\theta(\cdot|\bm x_k)}\left[\frac{\prod_{i\in\mathcal U'}p_{t_k}^\theta(x^i|\bm x_k)}{\prod_{i\in\mathcal U}p_{t_k}^\theta(x^i|\bm x_k)}\right]\leq 1
+     \end{align*}
+     for some $\mathcal U$ and arbitrary $\mathcal U'$, then the optimal strategy $\pi^*$ to \eqref{eq:trainable_confidence} satisfies $\pi^*(\cdot|\bm x_k)=\mathbf1_{\mathcal U^*}$, where
+     $$\mathcal U^*={\arg\max}_{|\mathcal U|=N}\sum_{i\in\mathcal U}-H_k(i).$$
+\end{theorem}
+
+In words, $\pi^*$ will deterministically output the index set $\mathcal U^*$ with the smallest total entropy (highest confidence) for the next step's unmasking. The proof is deferred to Appendix~\ref{subsec:proof-confidence}.
+
+\begin{remark}
+A related entropy criterion appears independently in \citet{benhamu2025eb}: their EB-Sampler unmasks token subsets satisfying an entropy-difference bound $\sum_{l\in\mathcal U}H_k(l)-\max_{l\in\mathcal U}H_k(l)\leq\gamma$, motivated as an upper bound on joint dependence error in a KL-based analysis of MDM sampling. Theorem~\ref{thm:confidence} provides a complementary justification: under our locality restriction, entropy-greedy unmasking is the optimal stochastic policy for likelihood maximization, giving a likelihood-theoretic foundation for the use of entropy as the unmasking signal.
+\end{remark}
+
+\begin{remark}
+The optimization framework underlying Theorem~\ref{thm:confidence} naturally extends to other confidence-based heuristic samplers by augmenting \eqref{eq:trainable_confidence} with additional data-dependent constraints on the policy. Provided such constraints act separably on the feasible simplex of $\pi(\cdot|\bm x_k)$ and preserve convexity, the KKT analysis carries through on the restricted region, and the optimal policy reduces to entropy-greedy unmasking within the constrained subset. We illustrate this with KLASS \citep{kim2025klass} in Appendix~\ref{subsec:klass-extension}.
+\end{remark}
+
+\iffalse
+\begin{theorem}
+     Assuming independence of tokens and that $q_0$ can be approximated by $p^\theta_{k-1|k}$, equation \ref{eq:trainable_confidence} will recover the policy associated with the \textbf{top-$N$ confidence strategy}.
+     \begin{equation}
+         \label{eq:}
+         \min_\pi -\EE_{\bm x_0\sim p^\theta_{k-1|k}(\cdot|\bm x_k)}\log\sum_{\mathcal U_k} \pi(\mathcal U_k|\bm x_k) \prod_{i\in\mathcal U_{k}}p^\theta_{k-1|k}(\bm x^i_{k-1}|\bm x_k)
+     \end{equation}
+\end{theorem}
+\fi
+
+\subsubsection{Randomized Confidence Unmasking}
+In Theorem~\ref{thm:confidence}, the optimality of the greedy confidence policy relies on one of two specific conditions. In the more general case where these conditions do not necessarily hold, greedy confidence can be suboptimal and the optimal $\pi^*$ becomes randomized. Nonetheless, in Theorem~\ref{thm:confidence-rand} we show that the optimal $\pi^*$ can be characterized by a drift from the greedy starting point $\mathbf 1_{\mathcal U^*}$. This resembles the randomized confidence unmasking used in practice (cf. Section~\ref{subsec:confidence}), offering theoretical support for its empirical effectiveness.
+
+\begin{theorem}\label{thm:confidence-rand}
+    Let $\pi^*(\cdot|\bm x_k)$ be the optimal policy to \eqref{eq:trainable_confidence}, and $\mathcal U^*$ as defined in Theorem~\ref{thm:confidence}. Let $\bm M_k$ be the second moment matrix of the random variables $\prod_{i\in\mathcal U}p^\theta_{t_k}(x^i|\bm x_k)$, with $\mathcal U$ enumerating over the index subsets. Then,
+    \begin{align*}
+        \pi^*(\mathcal U^*|\bm x_k)\geq 1-\lambda_{\max}(\bm M_k^{-1})\nm{\bm P\bm g_k}
+    \end{align*}
+    where $\bm g_k$ is a vector indexed by $\mathcal U$ with
+    \begin{align*}
+        g_k^{\mathcal U}=\EE_{\bm x_0\sim p^\theta_{k-1|k}}\left[\frac{\prod_{i\in\mathcal U}p^\theta_{t_k}(x^i|\bm x_k)}{\prod_{i\in\mathcal U^*}p^\theta_{t_k}(x^i|\bm x_k)}\right],
+    \end{align*}
+    and $\bm P$ is the projection to the hyperplane orthogonal to the all-one vector.
+\end{theorem}
+
+In words, while $\pi^*$ is not greedy, it still assigns a high probability to the top-confidence subset $\mathcal U^*$ if the predicted distribution $p^\theta_{t_k}$ is well-conditioned. We defer the proof to Appendix~\ref{subsec:proof-random}.
+
+\subsubsection{Controlling Sub-Optimality Gap under Distribution Shift}
+Note that our optimality results from \eqref{eq:trainable_confidence} adopt a distribution shift from $q_0(\cdot|\bm x_0)$ to $p^\theta_{t_k}(\cdot|\bm x_k)$, and so an optimal policy for \eqref{eq:trainable_confidence} is suboptimal for \eqref{eq:oracle_confidence}. The following theorem bounds the suboptimality gap in terms of the difference between the two distributions.
+
+\begin{theorem}
+\label{thm:confidence_bounds}
+    Suppose that the Renyi divergence between ${p}^\theta_{t_k}(\cdot|\bm x_k)$ and $q_0(\cdot |\bm x_k)$ for $\alpha = \infty$ is bounded in both directions by $\epsilon$ with $\epsilon \le 1$, i.e.
+\begin{align*}
+    D_\infty(q_0(\cdot |\bm x_k)\Vert p^\theta_{t_k}(\cdot | \bm x_k)) := \log \sup_{\bm x} \frac{q_0(\bm x|\bm x_k)}{{p}^\theta_{t_k}(\bm x|\bm x_k)} \leq \epsilon;\quad 
+    D_\infty(p^\theta_{t_k}(\cdot | \bm x_k)\Vert q_0(\cdot |\bm x_k)) \leq \epsilon.
+\end{align*}
+Then, the ratio between the optimal value of \eqref{eq:trainable_confidence} and \eqref{eq:oracle_confidence} is bounded by $1+8\epsilon$.
+\end{theorem}
+
+
+\iffalse
+\subsection{ELBO}
+\begin{proposition}
+\label{prop:naive_elbo}
+    Naively using ELBO eliminates all signal for training policy.
+\end{proposition}
+
+The intuition here is that constructing an ELBO utilizes Jensen's inequality to switch the logsum to a sum of logs, but in this case, the operation disentangles the dependency between the policy $\pi$ and $p^\theta$. Thus, the naive ELBO will select a policy that is uniformly sampling tokens at random, which, as remarked before, does not perform well in practice.
+\fi
+
+% In practice, such as in \cite{kim2025train}, confidence policies are obtained through a randomized process where the top $M> N$ tokens are unmasked, their confidence scores are perturbed by samples $\epsilon$ of a noise distribution, and $M-N$ token of lowest perturbed confidence are remasked. This noising of the scores prevents the policies from strictly learning locally optimal trajectories. However, these learned policies will still be suboptimal to the oracle optimal policy, although possibly better than the deterministic top-$N$ confidence policy. Intuitively, the ability for the training to learn closer to the oracle optimal will heavily depend on the dynamics of the order statistics of the $\epsilon$ noise, and tuning such a hyperparameter can be nontrivial.
+
+% Another approach, the one we will explore more carefully, is to obtain an ELBO-esque bound by viewing the trajectories as generated by some learnable distribution and constructing a bound through Jensen's inequality. The benefits of this final bound is that it aligns the closest to the original oracle objective, and in the following experiments, we show that it has improvements over prior known heuristics.
+
+% \begin{proposition}
+%     The following trainable bound is a lower bound on the oracle objective:
+%     \begin{equation}
+%         \begin{split}
+%             &\min_\pi -\EE_{\bm x_0\sim q_0}\sum_{\substack{\mathcal U_1,...,\mathcal U_K}}r(\mathcal U_1,...,\mathcal U_K)\\
+%             &\quad \log  \prod_{k=1}^{K} \pi(\mathcal U_{k}|\bm x_{k})\prod_{k=1}^{K} \prod_{i\in\mathcal U_{k}}{p}(\bm x^i_{k-1}|\bm x_{k})
+%         \end{split}
+%     \end{equation}
+%     where $r(\mathcal U_1,...,\mathcal U_K)$ is the probability that a particular trajectory is sampled under a multinomial distribution. 
+% \end{proposition}
+
+% \begin{proposition}
+% \label{prop:training}
+% For any distribution $r(T\mid x_0)$ over trajectories $T=(U_1,\dots,U_K)$
+% (possibly depending on $x_0$ but not on $\pi$), define
+% \begin{equation}
+% \begin{split}
+% A_\pi(T)
+% &:= \prod_{k=1}^K \pi(U_k \mid x_k)
+%     \prod_{k=1}^K \prod_{i \in U_k} \hat p(x^{\,i}_{k-1} \mid x_k).
+% \end{split}
+% \end{equation}
+% Then
+% \begin{equation}
+% \begin{split}
+% &\mathbb E_{x_0 \sim q_0}
+% \log \sum_T A_\pi(T)
+% \;\\
+% &\ge\;
+% \mathbb E_{x_0 \sim q_0}\,
+% \mathbb E_{T \sim r(\cdot\mid x_0)}
+% \Big[
+% \log A_\pi(T) - \log r(T\mid x_0)
+% \Big].
+% \end{split}
+% \end{equation}
+% \end{proposition}
+
+
+
+% \iffalse
+% Observation: If we have $s_\theta$ fixed and want to find best $\pi$ that minimizes $\mathcal L_k$, then intuitively $\pi$ will assign more weight to index sets where $s_\theta(t_{k+1},\bm x_{k+1})_{i,\mathcal V}$ has more imbalanced values (lower entropy)? Related to confidence-based policy.
+
+% As a simple example, let us constrain that $\pi$ only draws singleton $\mathcal U$. What is going to be the optimal $\pi$? At index $i$, for $v\in\mathcal V$, denote $q^i_v$ to be the data token distribution and $s^i_v$ to be the predicted score. The objective becomes $-\EE_{i\sim\pi} \sum q_v^i\log s_v^i$. If we assume that $\sum s_v^i=S$ for all $i$ and $q_v^i=s_v^i/S$ (which is true for real score), then the objective becomes $-\EE_{i\sim\pi}H(s^i/S)$, where $H$ is the entropy. So the optimal strategy will be choosing the $i$ with the maximum entropy of its normalized score $s^i/S$. Typically, a high entropy distribution means the top score stands out, connected to the heuristic notation of confidence.
+% \fi
+% It turns out that we can derive confidence sampling as an optimal strategy in a simplified framework, after applying the following reductions.
+
+
+
+% \textbf{Reduction 1: Local proxy.} At given $k$ and an intermediate sampling step $\bm x_k$, we greedily decide $\pi(\mathcal U_k|\bm x_k)$ by computing
+% \begin{align*}
+%     \min_\pi -\EE_{\bm x_0\sim q_0(\cdot|\bm x_k)}\log\sum_{\mathcal U_k} \pi(\mathcal U_k|\bm x_k) \prod_{i\in\mathcal U_{k}}p^\theta_{k-1|k}(\bm x^i_{k-1}|\bm x_k)
+% \end{align*}
+% % Here, $\bm x_0\succ \bm x_k$ means that the non-mask part of $\bm x_k$ shares the same tokens with $\bm x_0$, i.e. $\bm x_k$ is a possible masking outcome of $\bm x_0$.
+
+% \textbf{Remark:} Since the forward process is defined as a CTMC that either keeps the token the same or masks it as an absorbing state, the optimal backwards policy should not reassign unmasked tokens in previous steps to other elements in the vocabulary. Therefore, optimizing over the conditional data distribution $q_0(\cdot | \bm x_k)$ gives us the same optimal policy as the marginal.
+% % (Can we justify this approximation is fair? We can let every token have a probability that ranges from infinitesimally small, but nonzero, to 1. Anything that requires some probability to be zero will simply be bounded above by some epsilon.) 

@@ -1,0 +1,71 @@
+\section{Background}
+Let's consider the setting of predicting tokens by unmasking a length-$L$ sequence of text $(\mask,...,\mask)$.
+
+\textbf{Autoregressive model} (ARM). Assume data vectors $\bm x=(x_1,...,x_L)\in\mathcal V^L$, where $\mathcal V$ is a finite set. ARM factorizes the joint probability as
+\begin{align*}
+    p_\theta(\bm x)=\prod_{i=1}^Lp_\theta(x_i|\bm x_{<i})
+\end{align*}
+
+\textbf{Any-order autoregressive model} (AO-ARM) \citep{uria14deep,hoogeboom2022autoregressive}. Having a fixed or pre-specified order can often be disadvantageous, since it may introduce inappropriate inductive bias when modeling data without a natural ordering. AO-ARM addresses this issue by generating the data dimensions under any random ordering drawn uniformly from $L!$ permutations of the indices $\{1,...,L\}$. Given a permutation $\sigma$, the model factorizes joint distribution as
+\begin{align*}
+    p_\theta(\bm x|\sigma)=\prod_{i=1}^Lp_\theta(x_{\sigma_i}|\bm x_{\sigma_{<i}})
+\end{align*}
+We train this model with \textbf{variational inference}. While we aim to maximize $\log p_\theta(\bm x)$, considering tractability, we will instead maximize an \textbf{evidence lower bound} (ELBO) of log-likelihood as follows. If $p(\sigma)$ denotes the uniform distribution over all permutations, the model parameter $\theta$ is found by maximizing the following ELBO
+\begin{align*}
+    \EE_{p(\sigma)}\log p_\theta(\bm x|\sigma)\leq\log\EE_{p(\sigma)} p_\theta(\bm x|\sigma)=\log p_\theta(\bm x).
+\end{align*}
+
+\textbf{Learning-order autoregressive model} (LO-ARM) \citep{wang2025learningorder}. While AO-ARM has prescribed distribution over the ordering, LO-ARM aims to learn to predict index ordering and token value together. Given data $\bm x$, an order policy decides (randomly) the next index to insert. For permutation $\bm z$ it factorizes as
+\begin{align*}
+    p_\theta^x(\bm z)=\prod_{i=1}^Lp_\theta(z_i|\bm z_{<i}, \bm x_{\bm z_{<i}}),
+\end{align*}
+where each $p_\theta(z_i|\bm z_{<i},\bm x_{\bm z_{<i}})$ is a catagorical distribution computed by NN-modeled logits. An LO-ARM factorizes $p_\theta(\bm z,\bm x)$ into order policy and token prediction:
+\begin{align*}
+    p_\theta(\bm z,\bm x)=\prod_{i=1}^Lp_\theta(z_i|\bm z_{<i},\bm x_{\bm z_{<i}})p_\theta(x_{z_i}|\bm x_{\bm z_{<i}}).
+\end{align*}
+Similar to AO-ARM, we train LO-ARM with variational inference. To construct the ELBO, we introduce a variational distribution
+\begin{align*}
+    q_\theta(\bm z|\bm x)=\prod_{i=1}^Lq_\theta(z_i|\bm z_{<i},\bm x).
+\end{align*}
+The objective we maximize is
+\begin{align*}
+    \EE_{q_\theta(\bm z|\bm x)}\log\frac{p_\theta(\bm z,\bm x)}{q_\theta(\bm z|\bm x)}\leq\log\EE_{q_\theta(\bm z|\bm x)}\frac{p_\theta(\bm z,\bm x)}{q_\theta(\bm z|\bm x)}=\log p_\theta(\bm z,\bm x).
+\end{align*}
+
+\section{Motivation}
+One of the main motivations for non-autoregressive models is to capture the non-autoregressive structures in sequential data, such as coding, math, reasoning, planning, molecules, and so on. How far are we from this?
+
+While LO-ARM learns an order policy by maximizing ELBO, it is hard to tell if the learned ordering correspond to the inherent structure or hierarchy of sequential data. For example, the optimal order in the sense of ELBO may exploit some shortcuts in the probability distribution and produce an unreasonable order. This kind of exploitation is also seen in pretrain-only LLMs, which may produce meaningless output repetitions to hack the log-likelihood. In short, aligning to log-likelihood may not be consistent with aligning to the true ordering structure.
+
+
+So, here are two possible directions:
+\begin{itemize}[itemsep=-4pt,topsep=0pt]
+    \item How to align order models to human preference;
+    \item How to direct a DLM to learn an order policy.
+\end{itemize}
+
+Currently let us explore the first direction.
+
+\section{Formulation}
+
+Jiaxin: can consider the setting where you optimize 
+$\mathbb{E}_{p_\sigma(x)}[R(x)]$
+You can think of the reward $R(x)$ as e.g., in CoT finetuning $\mathbf{1}_{a(x)=a^*}$ where $a^*$ is the correct answer of a question
+
+Assume $\bm x=(x_1,...,x_L)$. For $\mathcal S\subset\{1,...,L\}$, we define $\bm x_{\mathcal S}\in\mathcal V^L$ by
+\begin{align*}
+    (\bm x_\mathcal S)_i=\begin{cases}
+        x_i,&\text{if }i\in\mathcal S\\
+        \texttt{<MASK>},&\text{otherwise},
+    \end{cases}
+\end{align*}
+and we say $\bm x_\mathcal S$ is a \textbf{snapshot} of $\bm x$. Given $\bm x$, a human annotator uses an unknown order policy to generate $\bm x$ and provides $n\ll L$ successive snapshots $(\bm x_{\mathcal S_j})_{j=1}^n$, in the sense that $\varnothing\subset\mathcal S_1\subset\mathcal S_2\subset...\subset\mathcal S_n\subset\{1,...,L\}$. Our goal is to learn the unknown policy based on the annotated samples, each taking the form $(\bm x,(\bm x_{\mathcal S_j})_{j=1}^n)$.
+
+We use a Maximum Likelihood approach. Given a set $\mathcal S$, denote $\sigma(\mathcal S)$ the set of all the possible permutations of the elements in $\mathcal S$. Clearly, a valid order $\bm z$ output by the order policy conforms to the given snapshot if and only if it satisfies $\bm z_{\leq|\mathcal S_j|}\in\sigma(\mathcal S_j)$ for all $j$. Thus, the log-likelihood for a policy $p_\theta^x$ of producing these snapshots is
+\begin{align*}
+    \log\sum_{\bm z\in\mathcal Z_\mathcal S} p_\theta^x(\bm z),\quad\mathcal Z_\mathcal S=\{\bm z:\bm z_{\leq|\mathcal S_j|}\in\sigma(\mathcal S_j)\;\forall j\}.
+\end{align*}
+
+As a sanity check, note that if there is no available snapshot, then any ordering is permitted and log-likelihood becomes constant $\log1=0$. This means the model will not receive gradient updates if no snapshot is provided.
+
+Exact computation is intractable, because the size of $\mathcal Z_\mathcal S$ scales exponentially: $$|\mathcal Z_\mathcal S|=|\sigma(\mathcal S_1)||\sigma(\mathcal S_2\backslash\mathcal S_1)|...|\sigma(\mathcal S_n\backslash\mathcal S_{n-1})|\leq\left(\left(\frac{L}{n}\right)!\right)^n=e^{\Theta(L\log(L/n))}.$$ How to do approximation? Sampling from $\mathcal Z_\mathcal S$ or constructing ELBO may be an option.
