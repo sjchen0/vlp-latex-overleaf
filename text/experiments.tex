@@ -33,7 +33,7 @@ We also evaluate the local objective value \eqref{eq:trainable_confidence} attai
 
 \subsection{Evaluation of VLP}
 
-\subsubsection{Text Generation}
+\paragraph{Text Generation.}
 
 
 \begin{wraptable}{r}{0.55\textwidth}
@@ -74,7 +74,7 @@ confidence-r
 \label{tab:text-gen}
 \end{wraptable}
 
-For text generation, we evaluate \alg{} on RADD~\citep{ou2025absorbingdiscretediffusionsecretly}, a pretrained MDM for unconditional text generation. We train the unmasking policy on OpenWebText and evaluate generation quality using GPT-2 perplexity over sampling budgets from 16 to 256 steps. We compare against uniform unmasking and confidence unmasking based on top-2 probability margin, including both greedy and randomized variants. The detailed training and evaluation setup is provided in Appendix~\ref{sec:code-math-details}.
+For text generation, we evaluate \alg{} on RADD~\citep{ou2025absorbingdiscretediffusionsecretly}, a pretrained MDM for unconditional text generation containing 162M parameters. We train the unmasking policy on OpenWebText and evaluate generation quality using GPT-2 perplexity over sampling budgets from 16 to 256 steps. We compare against uniform unmasking and confidence unmasking based on top-2 probability margin, including both greedy and randomized variants. The detailed training and evaluation setup is provided in Appendix~\ref{sec:code-math-details}.
 
 We report the GPT-2 perplexity of generated samples in Tables~\ref{tab:text-gen}. \alg{} substantially improves over uniform unmasking and matches or outperforms confidence-based methods, with the largest gains in the low-step regime. Randomized confidence unmasking is consistently stronger than greedy confidence unmasking, suggesting that deterministic high-confidence selection can be suboptimal.
 
@@ -144,7 +144,7 @@ confidence-r
 \fi
 
 
-\subsubsection{Code and Math Generation}
+\paragraph{Code and Math Generation.}
 
 We evaluate \alg{} on code and math generation using two 7B-scale MDMs: Dream-7B~\citep{ye2025dream7bdiffusionlarge} and DiffuCoder-7B~\citep{gong2025diffucoderunderstandingimprovingmasked}. We train the policy with OpenCoder-SFT~\citep{Huang2024OpenCoderTO} and MetaMathQA~\citep{yu2023metamath} dataset, and evaluate on two code generation benchmarks: HumanEval~\citep{chen2021evaluatinglargelanguagemodels} as well as MBPP~\citep{austin2021programsynthesislargelanguage}, and two math generation benchmarks: GSM8K~\citep{cobbe2021training} and MATH500~\citep{lightman2023let}. The detailed setup is provided in Appendix~\ref{sec:vlp}.
 
@@ -195,7 +195,7 @@ confidence-r
 \label{tab:dream-all}
 \end{table*}
 
-\subsubsection{Ablation Studies}
+\subsection{Ablation Studies}
 
 \paragraph{Effect of KL regularization.}
 

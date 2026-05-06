@@ -17,8 +17,10 @@ Maximizing this lower bound aligns the auxiliary trajectory distribution $w(\cdo
 
 To discourage the parameterized distributions from collapsing to degenerate solutions, following standard practice in policy-based reinforcement learning \citep{schulman2017proximal}, we additionally introduce KL regularization between $\pi_\phi$ and a reference policy $\pi_\text{ref}$, and between $w_\phi$ and a reference $w_\text{ref}$, where $\pi_\text{ref}$ implements confidence unmasking and $w_\text{ref}$ is the uniform distribution over trajectories.
 
-We defer the detailed description of the model architecture and training/inference algorithms used in VLP to Appendix~\ref{sec:further-vlp}. In \alg{}, both $w$ and $\pi$ are parameterized by neural networks $w_\phi$ and $\pi_\phi$ sharing weights $\phi$; see Section~\ref{subsec:architecture}. Substituting the parameterization into \eqref{eq:vlp}, the loss function we use for training VLP is
+In \alg{}, both $w$ and $\pi$ are parameterized by neural networks $w_\phi$ and $\pi_\phi$ sharing weights $\phi$; see Section~\ref{subsec:architecture}. Substituting the parameterization into \eqref{eq:vlp}, the loss function we use for training VLP is
 \begin{align*}
     \mathcal L(\phi) &:= -\EE_{\bm x_0\sim q_0}\, \EE_{\mathcal U\sim w_\phi(\cdot|\bm x_0)}\log\frac{p_0^{\theta,\pi_\phi}(\bm x_0, \bm x_1, ..., \bm x_K)}{w_\phi(\mathcal U|\bm x_0)} + \lambda\, \mathcal R(\phi),\\
     \mathcal R(\phi) &:= \mathrm{KL}(\pi_\phi\|\pi_\text{ref}) + \mathrm{KL}(w_\phi\|w_\text{ref}).
 \end{align*}
+
+We defer the detailed description of the model architecture and training/inference algorithms used in VLP to Appendix~\ref{sec:further-vlp}. 

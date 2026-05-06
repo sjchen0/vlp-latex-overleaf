@@ -490,20 +490,35 @@ confidence-r
 \end{table*}
 
 
-\begin{table}[t]
+\begin{table*}[h]
 \centering
-\caption{Effect of KL regularization strength $\lambda$ in policy training for RADD. We report the perplexity ($\downarrow$) of unconditional generation at different sampling steps.}
-\begin{tabular}{cccccc}
+\caption{Effect of KL regularization strength $\lambda$ in policy training for RADD. We report perplexity ($\downarrow$) and entropy of unconditional generation at different sampling steps.}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{ccccccccc}
 \toprule
-$\lambda$ & 16 & 32 & 64 & 128 & 256 \\
+& \multicolumn{4}{c}{Perplexity}
+& \multicolumn{4}{c}{Entropy} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+$\lambda$
+& 16 & 32 & 64 & 128
+& 16 & 32 & 64 & 128 \\
 \midrule
-0    & 351.2 & 198.0 & 152.6 & 122.2 & 115.4 \\
-$10^{-2}$ & 332.2 & 197.0 & 149.2 & 129.0 & 122.3 \\
-$10^{-1}$ & \textbf{321.2} & \textbf{183.0} & \textbf{128.7} & \textbf{119.3} & \textbf{114.5} \\
+0
+& \textbf{311.1} & 187.2 & 144.2 & 130.6
+& 5.79 & 5.72 & 5.68 & 5.68 \\
+$10^{-3}$
+& 314.2 & 183.7 & 146.3 & 123.7
+& 5.79 & 5.74 & 5.69 & 5.66 \\
+$10^{-2}$
+& 313.2 & 182.0 & 143.6 & 122.9
+& 5.78 & 5.73 & 5.69 & 5.65 \\
+$10^{-1}$
+& 318.4 & \textbf{180.8} & \textbf{136.2} & \textbf{112.2}
+& 5.77 & 5.71 & 5.66 & 5.64 \\
 \bottomrule
 \end{tabular}
 \label{tab:text-kl}
-\end{table}
+\end{table*}
 
 
 \iffalse
