@@ -431,7 +431,7 @@ For evaluation, we generate unconditional sequences of length 1024 using the RAD
 
 \paragraph{Code and Math Generation Details.}
 
-For both 7B models, we evaluate HumanEval~\citep{chen2021evaluatinglargelanguagemodels}, MBPP~\citep{austin2021programsynthesislargelanguage}, GSM8K, and MATH500. HumanEval and MBPP are evaluated using Pass@1 ($\uparrow$), while GSM8K and MATH500 are evaluated using final-answer accuracy ($\uparrow$). All evaluations are run through the LM Evaluation Harness with our DiffuCoder wrapper.
+For both 7B models, we evaluate HumanEval~\citep{chen2021evaluatinglargelanguagemodels}, MBPP~\citep{austin2021programsynthesislargelanguage}, GSM8K~\citep{cobbe2021training}, and MATH500~\citep{lightman2023let}. HumanEval and MBPP are evaluated using Pass@1 ($\uparrow$), while GSM8K and MATH500 are evaluated using final-answer accuracy ($\uparrow$). All evaluations are run through the LM Evaluation Harness with our DiffuCoder wrapper.
 
 The policy is trained on instruction-output pairs from OpenCoder-SFT and MetaMathQA. For code training, we use the \texttt{educational\_instruct} split of \texttt{OpenCoder-LLM/opc-sft-stage2}. For math training, we use \texttt{meta-math/MetaMathQA}. Each example is converted to the chat format shown in Table~\ref{tab:chat-sft}. We tokenize each formatted sequence with the corresponding model tokenizer, truncate or pad to length 1024, and construct a prompt mask marking all tokens before the assistant response. During training and inference, prompt tokens are kept fixed; only response tokens are masked, unmasked, or generated.
 
