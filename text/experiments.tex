@@ -20,7 +20,7 @@ In this section, we conduct two sets of experiments. In the first part, we provi
         \label{fig:radd-obj-val}
     \end{subfigure}
     \label{fig:optimality-exp}
-    \caption{Likelihood optimality analysis of unmasking strategies. \textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, under the synthetic task of unmasking 2 tokens from a length-3 sequence. We also plot different unmasking methods in the simplex and report their attained objective values. \textbf{(b)}: Monte Carlo estimation of local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in each step of 512-step text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}.}
+    \caption{Likelihood optimality analysis of unmasking strategies. \textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}.}
 \end{figure}
 
 \paragraph{Landscape Visualization under Synthetic Distribution.}
@@ -146,7 +146,7 @@ confidence-r
 
 \subsubsection{Code and Math Generation}
 
-We evaluate \alg{} on code and math generation using two 7B-scale MDMs: Dream-7B~\citep{ye2025dream7bdiffusionlarge} and DiffuCoder-7B~\citep{gong2025diffucoderunderstandingimprovingmasked}. We train the policy with OpenCoder-SFT and MetaMathQA dataset, and evaluate on two code generation benchmarks: HumanEval~\citep{chen2021evaluatinglargelanguagemodels} as well as MBPP~\citep{austin2021programsynthesislargelanguage}, and two math generation benchmarks: GSM8K~\citep{?} and MATH500~\citep{?}. The detailed setup is provided in Appendix~\ref{sec:vlp}.
+We evaluate \alg{} on code and math generation using two 7B-scale MDMs: Dream-7B~\citep{ye2025dream7bdiffusionlarge} and DiffuCoder-7B~\citep{gong2025diffucoderunderstandingimprovingmasked}. We train the policy with OpenCoder-SFT~\citep{Huang2024OpenCoderTO} and MetaMathQA~\citep{yu2023metamath} dataset, and evaluate on two code generation benchmarks: HumanEval~\citep{chen2021evaluatinglargelanguagemodels} as well as MBPP~\citep{austin2021programsynthesislargelanguage}, and two math generation benchmarks: GSM8K~\citep{cobbe2021training} and MATH500~\citep{lightman2023let}. The detailed setup is provided in Appendix~\ref{sec:vlp}.
 
 Results on both models are summarized in Tables~\ref{tab:dream-all} and~\ref{tab:diffucoder-all} (deferred to Appendix~\ref{sec:vlp-additional-results}). Across Dream and DiffuCoder, \alg{} consistently matches or outperforms confidence-based unmasking, especially at small and moderate sampling budgets. Both \alg{} and random confidence method display a clear improvement from the vanilla uniform unmasking. Greedy confidence unmasking often performs poorly, suggesting that deterministic confidence selection can be suboptimal. These results indicate that likelihood-trained unmasking policies can provide robust gains across various models, sampling budgets, and task domains.
 
