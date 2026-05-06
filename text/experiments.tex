@@ -5,22 +5,37 @@ In this section, we conduct two sets of experiments. In the first part, we provi
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[h]{0.4\linewidth}
+    \begin{subfigure}[t]{0.3\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figs/policy_simplex.png}
-        \vspace{-5pt}
-        \caption{Landscape on the policy simplex.}
+        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
+            \centering
+            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/policy_simplex.png}
+        \end{minipage}
+        \caption{Landscape on policy simplex.}
         \label{fig:opt-intro}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[h]{0.58\linewidth}
+    \begin{subfigure}[t]{0.38\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{figs/objective_steps_512.png}
-        \caption{Per-step objective values attained by unmasking strategies.}
+        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
+            \centering
+            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/objective_steps_512.png}
+        \end{minipage}
+        \caption{Likelihood objectives.}
         \label{fig:radd-obj-val}
     \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\linewidth}
+        \centering
+        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
+            \centering
+            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/radar_steps32_64.png}
+        \end{minipage}
+        \caption{VLP evaluation.}
+        \label{fig:vlp-eval}
+    \end{subfigure}
     \label{fig:optimality-exp}
-    \caption{Likelihood optimality analysis of unmasking strategies. \textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}.}
+    \caption{\textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}. \textbf{(c)}: Evaluation results of VLP compared to uniform and confidence unmasking methods in text generation with RADD, and code and math generation with Dream-7B~\citep{ye2025dream7bdiffusionlarge}. Data is taken from Table~\ref{tab:text-gen} and~\ref{tab:dream-all} and rescaled by the best and worst performance.}
 \end{figure}
 
 \paragraph{Landscape Visualization under Synthetic Distribution.}
