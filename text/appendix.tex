@@ -236,6 +236,14 @@ Now, due to linearity of expectation, any optimal $\pi$ should give identical pr
 
 \section{Further Details on VLP}\label{sec:further-vlp}
 \subsection{Model Architecture}\label{subsec:architecture}
+\begin{wrapfigure}{r}{0.42\textwidth}
+    \vspace{-1.0em}
+    \centering
+    \includegraphics[width=\linewidth]{figs/vlp.png}
+    \caption{An illustration of the shared-torso architecture of \alg{} with a trained MDM.}
+    \label{fig:vlp}
+    \vspace{-1.0em}
+\end{wrapfigure}
 To represent a policy $\pi_\phi$, we use a neural network that takes current sampling state $\bm x_{k}$ as input, and outputs a probability distribution over the size-$(L/K)$ index sets $\mathcal U_k$ for the next unmasking step. In our implementation, we adopt a shared-torso architecture: the policy network reuses the trained backbone of the MDM and appends an additional lightweight module. This reduces the number of trainable parameters: we pass the MDM's final-layer hidden states $\bm h_k$ to the policy in place of the raw tokens $\bm x_k$. A similar parameterization applies to the distribution $w$.
 
 In our implementation, the additional module is a single-layer Transformer \citep{vaswani2017attention} block with bidirectional multi-head attention and rotary positional embedding \citep{su2023roformerenhancedtransformerrotary}. In addition to the hidden states $\bm h_{k}$, via concatenation, we also input two binary embeddings $\bm v_\text{mask}=(\mathbf1_{x_k^1=\mask},...,\mathbf1_{x_k^L=\mask})\in\{0,1\}^L$ and $\bm v_\text{prompt}=(\mathbf1_{x_k^1\text{ is prompt}},...,\mathbf1_{x_k^L\text{ is prompt}})\in\{0,1\}^L$ to explicitly provide the mask and prompt positions of the sequence. The output is a probability vector $\bm p=(p_1,...,p_L)$ through an application of the softmax function. It models a multinomial distribution over index sets, where each index $i$ is randomly selected to join $\mathcal U_k$ with probability $p_i$. We adopt the multinomial parameterization rather than independent per-position Bernoulli draws (as in, e.g., \citet{chen2025dultra}) since it natively models distributions over fixed-size index sets; in early experiments, an independent-Bernoulli variant collapsed toward unmasking very few tokens per step, since such low-cardinality outcomes have higher joint probability under the model. We illustrate the above design in Figure~\ref{fig:vlp}.
@@ -327,14 +335,6 @@ We summarize training and inference of \alg{} in Algorithm~\ref{alg:train} and~\
     \State \Return $\bm x_0$
   \end{algorithmic}
 \end{algorithm}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.4\linewidth]{figs/vlp.png}
-    \caption{An illustration of the shared-torso architecture of \alg{} with a trained MDM.}
-    \label{fig:vlp}
-\end{figure}
-
-
 \section{Further Experiments Details}\label{sec:experiment-appendix}
 \subsection{Optimality Analysis}
 \subsubsection{Synthetic Experiments}\label{subsec:synthetic}
@@ -692,71 +692,95 @@ VLP
 \fi
 
 
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[h]{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figs/vocab_temp_humaneval.png}
-        \caption{Vocabulary temperature.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[h]{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figs/policy_temp_humaneval.png}
-        \caption{Policy temperature.}
-    \end{subfigure}
-    \caption{Temperature analysis on HumanEval.}
-    \label{fig:temp-humaneval}
-\end{figure}
-
 \subsubsection{Chat Template for Code Generation Experiments}
-\begin{table}[h]
-    \centering
-    \caption{Chat template for \alg{} OpenCoder-SFT training.}
-    \begin{chatbox}
-        <|im\_start|>system\\
-        You are a helpful assistant.<|im\_end|>\\
-        <|im\_start|>user\\
-        \{{query}\}\\
-        <|im\_end|>\\
-        <|im\_start|>assistant\\
-        \{output\}\\
-        <|im\_end|>
-    \end{chatbox}\label{tab:chat-sft}
-\end{table}
+\begin{table*}[h]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\caption{Temperature analysis on HumanEval. We report Pass@1 ($\uparrow$) at different sampling steps.}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{cccc}
+\toprule
+& & \multicolumn{2}{c}{Steps} \\
+\cmidrule(lr){3-4}
+Temperature type & Value & 16 & 32 \\
+\midrule
+\multirow{6}{*}{Vocabulary}
+& 0.0 & \textbf{23.2} & 25.0 \\
+& 0.1 & 18.9 & \textbf{32.3} \\
+& 0.2 & 19.5 & 28.0 \\
+& 0.5 & 15.2 & 22.6 \\
+& 0.8 & 11.0 & 22.6 \\
+& 1.0 & 7.9 & 11.6 \\
+\midrule
+\multirow{10}{*}{Policy}
+& 0.1 & 13.4 & 24.4 \\
+& 0.2 & 18.9 & 25.0 \\
+& 0.3 & 20.7 & 26.8 \\
+& 0.4 & \textbf{25.0} & \textbf{27.4} \\
+& 0.5 & 23.2 & \textbf{27.4} \\
+& 0.6 & 22.6 & 23.2 \\
+& 0.7 & 21.3 & 22.0 \\
+& 0.8 & 20.7 & 25.0 \\
+& 0.9 & 18.3 & 23.2 \\
+& 1.0 & 17.1 & 24.4 \\
+\bottomrule
+\end{tabular}
+\label{tab:temp-humaneval}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\caption{Chat template for \alg{} OpenCoder-SFT training.}
+\begin{chatbox}
+    <|im\_start|>system\\
+    You are a helpful assistant.<|im\_end|>\\
+    <|im\_start|>user\\
+    \{{query}\}\\
+    <|im\_end|>\\
+    <|im\_start|>assistant\\
+    \{output\}\\
+    <|im\_end|>
+\end{chatbox}
+\label{tab:chat-sft}
+\end{minipage}
 
-\begin{table}[h]
-    \centering
-    \caption{Chat template for \alg{} HumanEval evaluation.}
-    \begin{chatbox}
-        <|im\_start|>system\\
-        You are a helpful assistant.<|im\_end|>\\
-        <|im\_start|>user\\
-        Please complete the following problem:\\
-        ```\\
-        \{prompt\}\\
-        ```\\
-        <|im\_end|>\\
-        <|im\_start|>assistant\\
-        Here is the code to solve this problem:\\
-        ```python
-    \end{chatbox}\label{tab:chat-humaneval}
-\end{table}
+\vspace{0.8em}
 
-\begin{table}[h]
-    \centering
-    \caption{Chat template for \alg{} MBPP evaluation.}
-    \begin{chatbox}
-        <|im\_start|>system\\
-        You are a helpful assistant.<|im\_end|>\\
-        <|im\_start|>user\\
-        ```\\
-        \{{prompt}\}\\
-        ```\\
-        <|im\_end|>\\
-        <|im\_start|>assistant\\
-        Here is the code to solve this problem:\\
-        ```python
-    \end{chatbox}\label{tab:chat-mbpp}
-\end{table}
-\subsubsection{Generation Examples}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\caption{Chat template for \alg{} HumanEval evaluation.}
+\begin{chatbox}
+    <|im\_start|>system\\
+    You are a helpful assistant.<|im\_end|>\\
+    <|im\_start|>user\\
+    Please complete the following problem:\\
+    \textasciigrave\textasciigrave\textasciigrave\\
+    \{prompt\}\\
+    \textasciigrave\textasciigrave\textasciigrave\\
+    <|im\_end|>\\
+    <|im\_start|>assistant\\
+    Here is the code to solve this problem:\\
+    \textasciigrave\textasciigrave\textasciigrave python
+\end{chatbox}
+\label{tab:chat-humaneval}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\caption{Chat template for \alg{} MBPP evaluation.}
+\begin{chatbox}
+    <|im\_start|>system\\
+    You are a helpful assistant.<|im\_end|>\\
+    <|im\_start|>user\\
+    \textasciigrave\textasciigrave\textasciigrave\\
+    \{{prompt}\}\\
+    \textasciigrave\textasciigrave\textasciigrave\\
+    <|im\_end|>\\
+    <|im\_start|>assistant\\
+    Here is the code to solve this problem:\\
+    \textasciigrave\textasciigrave\textasciigrave python
+\end{chatbox}
+\label{tab:chat-mbpp}
+\end{minipage}
+\end{table*}
