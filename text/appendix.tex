@@ -492,7 +492,7 @@ confidence-r
 
 \begin{table*}[h]
 \centering
-\caption{Effect of KL regularization strength $\lambda$ in policy training for RADD. We report perplexity ($\downarrow$) and entropy of unconditional generation at different sampling steps.}
+\caption{Effect of KL regularization strength $\lambda$ in VLP training for RADD. We report perplexity ($\downarrow$) and entropy of unconditional generation at different sampling steps.}
 \setlength{\tabcolsep}{4.5pt}
 \begin{tabular}{ccccccccc}
 \toprule
@@ -504,20 +504,47 @@ $\lambda$
 & 16 & 32 & 64 & 128 \\
 \midrule
 0
-& \textbf{311.1} & 187.2 & 144.2 & 130.6
-& 5.79 & 5.72 & 5.68 & 5.68 \\
+& \textbf{310.4} & 185.4 & 144.3 & 132.5
+& 5.78 & 5.72 & 5.69 & 5.68 \\
 $10^{-3}$
-& 314.2 & 183.7 & 146.3 & 123.7
-& 5.79 & 5.74 & 5.69 & 5.66 \\
+& 311.8 & 186.1 & 147.8 & 123.7
+& 5.79 & 5.74 & 5.69 & 5.67 \\
 $10^{-2}$
-& 313.2 & 182.0 & 143.6 & 122.9
-& 5.78 & 5.73 & 5.69 & 5.65 \\
+& 316.2 & \textbf{178.1} & 141.8 & 125.5
+& 5.78 & 5.72 & 5.69 & 5.66 \\
 $10^{-1}$
-& 318.4 & \textbf{180.8} & \textbf{136.2} & \textbf{112.2}
-& 5.77 & 5.71 & 5.66 & 5.64 \\
+& 316.4 & 180.1 & \textbf{138.1} & \textbf{112.3}
+& 5.76 & 5.70 & 5.65 & 5.64 \\
 \bottomrule
 \end{tabular}
 \label{tab:text-kl}
+\end{table*}
+
+\begin{table*}[h]
+\centering
+\caption{Effect of choice of $K$ in VLP training for RADD. We report perplexity ($\downarrow$) and entropy of unconditional generation at different sampling steps.}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{ccccccccc}
+\toprule
+& \multicolumn{4}{c}{Perplexity}
+& \multicolumn{4}{c}{Entropy} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+$K$
+& 16 & 32 & 64 & 128
+& 16 & 32 & 64 & 128 \\
+\midrule
+16
+& 302.5 & 184.6 & 146.8 & \textbf{125.4}
+& 5.76 & 5.73 & 5.69 & 5.67 \\
+32
+& \textbf{300.8} & \textbf{174.8} & \textbf{138.0} & 128.9
+& 5.78 & 5.72 & 5.67 & 5.67 \\
+64
+& 316.2 & 178.1 & 141.8 & 125.5
+& 5.78 & 5.72 & 5.69 & 5.66 \\
+\bottomrule
+\end{tabular}
+\label{tab:text-step}
 \end{table*}
 
 

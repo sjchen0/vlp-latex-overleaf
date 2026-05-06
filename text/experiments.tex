@@ -57,17 +57,17 @@ confidence-g
 & 782.0
 & 644.3 \\
 confidence-r
-& 308.7
-& 186.3
-& 132.4
-& \textbf{109.2}
+& 313.0
+& 181.6
+& 140.7
+& \textbf{116.7}
 & \textbf{103.4} \\
 \midrule
 \cellcolor{lightblue}\alg{}
-& \cellcolor{bestgreen}\textbf{293.2}
-& \cellcolor{bestgreen}\textbf{179.6}
-& \cellcolor{bestgreen}\textbf{130.3}
-& \cellcolor{lightblue}116.9
+& \cellcolor{bestgreen}\textbf{300.8}
+& \cellcolor{bestgreen}\textbf{174.8}
+& \cellcolor{bestgreen}\textbf{138.0}
+& \cellcolor{lightblue}128.9
 & \cellcolor{lightblue}106.7 \\
 \bottomrule
 \end{tabular}
@@ -197,6 +197,4 @@ confidence-r
 
 \subsection{Ablation Studies}
 
-\paragraph{Effect of KL regularization.}
-
-\paragraph{Choice of $K$ in training.}
+We first ablate the \textbf{KL regularization strength} $\lambda$ in Table~\ref{tab:text-kl}. Compared to the baseline case of no regularization ($\lambda=0$), setting a nonzero $\lambda$ generally improves perplexity at most cases of sampling steps. We also study the effect of choosing different \textbf{diffusion steps} $K$ in VLP training. In Table~\ref{tab:text-step}, training with $K=32$ gives the strongest overall performance, achieving the best perplexity at most evaluation steps. The results also suggest that VLP trained on a fixed $K$ is able to work on a broader range of different evaluation steps. Appendix~\ref{sec:vlp-additional-results} provides further experiment details. 

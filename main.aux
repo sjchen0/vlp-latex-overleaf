@@ -14,11 +14,11 @@
 \fi}
 \global\let\hyper@last\relax 
 \gdef\HyperFirstAtBeginDocument#1{#1}
-\providecommand\HyField@AuxAddToFields[1]{}
-\providecommand\HyField@AuxAddToCoFields[2]{}
+\providecommand*\HyPL@Entry[1]{}
 \citation{li2022diffusion}
 \citation{austin2021structured,lou2024discrete,sahoo2024simple,shi2024simplified,ou2024your}
 \citation{shi2024simplified,sahoo2024simple}
+\HyPL@Entry{0<</S/D>>}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
 \citation{campbell2022continuous}
 \citation{zhao2024informed}
@@ -26,11 +26,11 @@
 \citation{kim2025train}
 \citation{ou2025absorbingdiscretediffusionsecretly}
 \citation{gong2025diffucoderunderstandingimprovingmasked}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Theoretical Understanding of Confidence}{2}{subsection.1.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two different sampling trajectories of decoding a length-2 sequence on a simple vocabulary $\{\texttt  {A},\texttt  {B}\}$. Confidence-based unmasking indicates that trajectory 1 is preferred.\relax }}{2}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:illustrate}{{1}{2}{Two different sampling trajectories of decoding a length-2 sequence on a simple vocabulary $\{\texttt {A},\texttt {B}\}$. Confidence-based unmasking indicates that trajectory 1 is preferred.\relax }{figure.caption.2}{}}
 \newlabel{fig:illustrate@cref}{{[figure][1][]1}{[1][2][]2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Theoretical Understanding of Confidence}{2}{subsection.1.1}\protected@file@percent }
 \newlabel{eq:obj}{{1}{2}{Theoretical Understanding of Confidence}{equation.1.1}{}}
 \newlabel{eq:obj@cref}{{[equation][1][]1}{[1][2][]2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Unmasking Policy via Likelihood Optimization}{2}{subsection.1.2}\protected@file@percent }
@@ -137,17 +137,15 @@
 \newlabel{fig:optimality-exp@cref}{{[subsection][1][6]6.1}{[1][8][]9}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Likelihood optimality analysis of unmasking strategies. \textbf  {(a)}: The landscape of the local likelihood maximization problem \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:trainable_confidence}\unskip \@@italiccorr )}} over the policy simplex, and different unmasking methods with their attained objective values. \textbf  {(b)}: Monte Carlo estimation of per-step local objective values \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:trainable_confidence}\unskip \@@italiccorr )}} attained by different unmasking methods in text generation with RADD\nobreakspace  {}\citep  {ou2025absorbingdiscretediffusionsecretly}.\relax }}{9}{figure.caption.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Evaluation of VLP}{9}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Text Generation}{9}{subsubsection.6.2.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }}{9}{table.caption.6}\protected@file@percent }
-\newlabel{tab:text-gen}{{1}{9}{Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }{table.caption.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }}{9}{table.caption.7}\protected@file@percent }
+\newlabel{tab:text-gen}{{1}{9}{Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }{table.caption.7}{}}
 \newlabel{tab:text-gen@cref}{{[table][1][]1}{[1][9][]9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Code and Math Generation}{9}{subsubsection.6.2.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Results ($\uparrow $) of Dream-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }}{10}{table.caption.7}\protected@file@percent }
-\newlabel{tab:dream-all}{{2}{10}{Results ($\uparrow $) of Dream-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }{table.caption.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Text Generation.}{9}{table.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Code and Math Generation.}{9}{section*.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Results ($\uparrow $) of Dream-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }}{10}{table.caption.9}\protected@file@percent }
+\newlabel{tab:dream-all}{{2}{10}{Results ($\uparrow $) of Dream-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }{table.caption.9}{}}
 \newlabel{tab:dream-all@cref}{{[table][2][]2}{[1][10][]10}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3}Ablation Studies}{10}{subsubsection.6.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Effect of KL regularization.}{10}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Choice of $K$ in training.}{10}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Ablation Studies}{10}{subsection.6.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{10}{section.7}\protected@file@percent }
 \bibstyle{plainnat}
 \bibdata{main}
@@ -271,21 +269,24 @@
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Results ($\uparrow $) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }}{21}{table.caption.17}\protected@file@percent }
 \newlabel{tab:diffucoder-all}{{3}{21}{Results ($\uparrow $) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }{table.caption.17}{}}
 \newlabel{tab:diffucoder-all@cref}{{[table][3][2147483647]3}{[1][21][]21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Temperature analysis on HumanEval.\relax }}{21}{figure.caption.19}\protected@file@percent }
-\newlabel{fig:temp-humaneval}{{6}{21}{Temperature analysis on HumanEval.\relax }{figure.caption.19}{}}
-\newlabel{fig:temp-humaneval@cref}{{[figure][6][2147483647]6}{[1][21][]21}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Effect of KL regularization strength $\lambda $ in VLP training for RADD. We report perplexity ($\downarrow $) and entropy of unconditional generation at different sampling steps.\relax }}{21}{table.caption.18}\protected@file@percent }
+\newlabel{tab:text-kl}{{4}{21}{Effect of KL regularization strength $\lambda $ in VLP training for RADD. We report perplexity ($\downarrow $) and entropy of unconditional generation at different sampling steps.\relax }{table.caption.18}{}}
+\newlabel{tab:text-kl@cref}{{[table][4][2147483647]4}{[1][21][]21}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Effect of choice of $K$ in VLP training for RADD. We report perplexity ($\downarrow $) and entropy of unconditional generation at different sampling steps.\relax }}{21}{table.caption.19}\protected@file@percent }
+\newlabel{tab:text-step}{{5}{21}{Effect of choice of $K$ in VLP training for RADD. We report perplexity ($\downarrow $) and entropy of unconditional generation at different sampling steps.\relax }{table.caption.19}{}}
+\newlabel{tab:text-step@cref}{{[table][5][2147483647]5}{[1][21][]21}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.3}Chat Template for Code Generation Experiments}{21}{subsubsection.C.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.4}Generation Examples}{21}{subsubsection.C.2.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Effect of KL regularization strength ambda policy training for RADD. We report perplexity and entropy (downarrow20 20 12 61 79 80 81 98 33 100 204 250 395 398 399 400 701 of unconditional generation at different sampling steps.\relax }}{22}{table.caption.18}\protected@file@percent }
-\newlabel{tab:text-kl}{{4}{22}{Effect of KL regularization strength ambda policy training for RADD. We report perplexity and entropy (downarrow20 20 12 61 79 80 81 98 33 100 204 250 395 398 399 400 701 of unconditional generation at different sampling steps.\relax }{table.caption.18}{}}
-\newlabel{tab:text-kl@cref}{{[table][4][2147483647]4}{[1][21][]22}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Chat template for VLP{} OpenCoder-SFT training.\relax }}{22}{table.caption.20}\protected@file@percent }
-\newlabel{tab:chat-sft}{{5}{22}{Chat template for \alg {} OpenCoder-SFT training.\relax }{table.caption.20}{}}
-\newlabel{tab:chat-sft@cref}{{[table][5][2147483647]5}{[1][21][]22}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Chat template for VLP{} HumanEval evaluation.\relax }}{23}{table.caption.21}\protected@file@percent }
-\newlabel{tab:chat-humaneval}{{6}{23}{Chat template for \alg {} HumanEval evaluation.\relax }{table.caption.21}{}}
-\newlabel{tab:chat-humaneval@cref}{{[table][6][2147483647]6}{[1][21][]23}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Chat template for VLP{} MBPP evaluation.\relax }}{23}{table.caption.22}\protected@file@percent }
-\newlabel{tab:chat-mbpp}{{7}{23}{Chat template for \alg {} MBPP evaluation.\relax }{table.caption.22}{}}
-\newlabel{tab:chat-mbpp@cref}{{[table][7][2147483647]7}{[1][21][]23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Temperature analysis on HumanEval.\relax }}{22}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:temp-humaneval}{{6}{22}{Temperature analysis on HumanEval.\relax }{figure.caption.20}{}}
+\newlabel{fig:temp-humaneval@cref}{{[figure][6][2147483647]6}{[1][21][]22}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Chat template for VLP{} OpenCoder-SFT training.\relax }}{22}{table.caption.21}\protected@file@percent }
+\newlabel{tab:chat-sft}{{6}{22}{Chat template for \alg {} OpenCoder-SFT training.\relax }{table.caption.21}{}}
+\newlabel{tab:chat-sft@cref}{{[table][6][2147483647]6}{[1][21][]22}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Chat template for VLP{} HumanEval evaluation.\relax }}{23}{table.caption.22}\protected@file@percent }
+\newlabel{tab:chat-humaneval}{{7}{23}{Chat template for \alg {} HumanEval evaluation.\relax }{table.caption.22}{}}
+\newlabel{tab:chat-humaneval@cref}{{[table][7][2147483647]7}{[1][21][]23}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Chat template for VLP{} MBPP evaluation.\relax }}{23}{table.caption.23}\protected@file@percent }
+\newlabel{tab:chat-mbpp}{{8}{23}{Chat template for \alg {} MBPP evaluation.\relax }{table.caption.23}{}}
+\newlabel{tab:chat-mbpp@cref}{{[table][8][2147483647]8}{[1][21][]23}}
 \gdef \@abspage@last{29}

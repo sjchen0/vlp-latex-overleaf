@@ -27,8 +27,6 @@ Standard MDM training does not answer this question because it only learns a con
 %\jiaxin{I believe the theoretical backward is indeed a uniform choice even under discretization.}
 usually underperforms in empirical studies of MDM inference \citep{zhao2024informed}.
 
-Another method that works better in practice is \textit{confidence}-based unmasking \citep{kim2025train,nie2025largelanguagediffusionmodels,ye2025dream7bdiffusionlarge}. Specifically, it prioritizes unmasking positions where the model is more confident in its vocabulary distribution. For example, in Figure~\ref{fig:illustrate}, the left masked token has prediction $p(\texttt{A})=0.9,p(\texttt{B})=0.1$, which shows the model's higher confidence than the right position with $p(\texttt{A})=p(\texttt{B})=0.5$, and hence gets unmasked first. Here, confidence can be quantified by various metrics such as negative entropy, top probability, and the margin between the top-2 probabilities; see details in Section~\ref{sec:prelim}.
-
 \begin{wrapfigure}{r}{0.45\textwidth}
     \vspace{-1em}
     \centering
@@ -38,13 +36,11 @@ Another method that works better in practice is \textit{confidence}-based unmask
     \vspace{-1.5em}
 \end{wrapfigure}
 
+Another method that works better in practice is \textit{confidence}-based unmasking \citep{kim2025train,nie2025largelanguagediffusionmodels,ye2025dream7bdiffusionlarge}. Specifically, it prioritizes unmasking positions where the model is more confident in its vocabulary distribution. For example, in Figure~\ref{fig:illustrate}, the left masked token has prediction $p(\texttt{A})=0.9,p(\texttt{B})=0.1$, which shows the model's higher confidence than the right position with $p(\texttt{A})=p(\texttt{B})=0.5$, and hence gets unmasked first. Here, confidence can be quantified by various metrics such as negative entropy, top probability, and the margin between the top-2 probabilities; see details in Section~\ref{sec:prelim}.
+
 \subsection{Theoretical Understanding of Confidence}
 
-Despite its empirical success, the design of confidence-based methods remains largely heuristic and the reasons for their success are not fully clear. Although earlier work provides some intuition that these methods plan for a good reasoning path \citep{kim2025train}, there is still a lack of theoretical justification for their advantages over the uniform scheme. This is the first question we aim to address in this paper:
-
-\begin{quote}
-\emph{Is confidence unmasking provably better for the time-discretized backward process?}
-\end{quote}
+Despite its empirical success, the design of confidence-based methods remains largely heuristic and the reasons for their success are not fully clear. Although earlier work provides some intuition that these methods plan for a good reasoning path \citep{kim2025train}, there is still a lack of theoretical justification for their advantages over the uniform scheme. This is the first question we aim to address in this paper: \emph{Is confidence unmasking provably better for the time-discretized backward process?}
 
 In the first half of this paper, we formulate an optimization problem of searching for the best unmasking policy $\pi$, that is, the random mapping from current sampling step to the index set for next unmasking step. The objective of the problem is to maximize the sampling log-likelihood $\log p_0^{\theta,\pi}$ with respect to the discrete-time policy $\pi$ and a parameterized backward process $p_t^\theta$ learned separately, i.e.
 \begin{align}\label{eq:obj}
@@ -53,11 +49,7 @@ In the first half of this paper, we formulate an optimization problem of searchi
 where $q_0$ is the unknown source data distribution. We show that, under a data-agnostic approximation and a local restriction of objective for tractability, entropy-based confidence unmasking emerges as a (near-)optimal policy. This indicates a provable advantage of confidence unmasking over other methods in terms of sample likelihood, consistent with empirical evidence. We also conduct numerical evaluations in synthetic and real text generation tasks to support our theoretical claims on the near-optimality of confidence-based unmasking methods (Figure~\ref{fig:opt-intro}).
 
 \subsection{Unmasking Policy via Likelihood Optimization}
-On the other hand, the reductions in our theory also suggest that confidence unmasking is not optimal, as it does not maximize the original objective \eqref{eq:obj}. This motivates us to revisit \eqref{eq:obj} and ask a second question:
-
-\begin{quote}
-\emph{Can we further develop advanced unmasking policies based on the original likelihood optimization problem?}
-\end{quote}
+On the other hand, the reductions in our theory also suggest that confidence unmasking is not optimal, as it does not maximize the original objective \eqref{eq:obj}. This motivates us to revisit \eqref{eq:obj} and ask a second question: \emph{Can we further develop advanced unmasking policies based on the original likelihood optimization problem?}
 
 The second half of this paper is devoted to this extension from confidence to trainable policies. Specifically, we develop Variational Likelihood Policy (\alg{}), a prototypical training framework based on \eqref{eq:obj} with variational inference to optimize a neural-network-parameterized policy $\pi$, serving as an auxiliary trainable component to pretrained MDMs. We further apply \alg{} to two DLMs of different sizes, RADD \citep{ou2025absorbingdiscretediffusionsecretly} with 160M parameters and DiffuCoder \citep{gong2025diffucoderunderstandingimprovingmasked} with 7B parameters, in text and code generation tasks respectively. Our experiments indicate that \alg{} effectively learns unmasking policies and improves downstream performance.
 
