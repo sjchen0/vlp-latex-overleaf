@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.9)  6 MAY 2026 21:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.9)  6 MAY 2026 21:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1016,7 +1016,7 @@ Package pdftex.def Info: figs/radar_steps32_64.png  used on input line 45.
 
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<figs/illustration-icml.png, id=243, 423.546pt x 201.699pt>
+<figs/illustration-icml.png, id=247, 423.546pt x 201.699pt>
 File: figs/illustration-icml.png Graphic file (type png)
 <use figs/illustration-icml.png>
 Package pdftex.def Info: figs/illustration-icml.png  used on input line 68.
@@ -1038,17 +1038,17 @@ Overfull \hbox (1.11671pt too wide) in paragraph at lines 23--55
  [][] 
  []
 
-[8]) [9] (./main.bbl
-Underfull \hbox (badness 1917) in paragraph at lines 151--158
+[8]) [9] (./main.bbl [10]
+Underfull \hbox (badness 1917) in paragraph at lines 287--294
 []\T1/ptm/m/n/9 (+20) Ilya Sutskever, Oriol Vinyals, and Quoc V Le.  Se-quence to se-quence learn-ing with neu-
  []
 
 
-Underfull \hbox (badness 2393) in paragraph at lines 151--158
+Underfull \hbox (badness 2393) in paragraph at lines 287--294
 \T1/ptm/m/n/9 (+20) ral net-works.  In Z. Ghahra-mani, M. Welling, C. Cortes, N. Lawrence, and K.Q. Wein-
  []
 
-[10] [11]) [12] (./checklist.tex [13] [14]
+[11]) [12] (./checklist.tex [13] [14]
 
 LaTeX Warning: Reference `sec:code-math-details' on page 15 undefined on input line 98.
 
@@ -1058,7 +1058,7 @@ Underfull \hbox (badness 1014) in paragraph at lines 60--61
  []
 
 [21] [22]
-<figs/vlp.png, id=646, 619.113pt x 506.766pt>
+<figs/vlp.png, id=653, 619.113pt x 506.766pt>
 File: figs/vlp.png Graphic file (type png)
 <use figs/vlp.png>
 Package pdftex.def Info: figs/vlp.png  used on input line 277.
@@ -1071,33 +1071,33 @@ Underfull \hbox (badness 1158) in paragraph at lines 284--285
 [23 <./figs/vlp.png>]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 307.
  [24]
-<figs/policy_simplex_seed_6.png, id=671, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_6.png, id=677, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_6.png Graphic file (type png)
 <use figs/policy_simplex_seed_6.png>
 Package pdftex.def Info: figs/policy_simplex_seed_6.png  used on input line 385.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_8.png, id=672, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_8.png, id=678, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_8.png Graphic file (type png)
 <use figs/policy_simplex_seed_8.png>
 Package pdftex.def Info: figs/policy_simplex_seed_8.png  used on input line 390.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_10.png, id=673, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_10.png, id=679, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_10.png Graphic file (type png)
 <use figs/policy_simplex_seed_10.png>
 Package pdftex.def Info: figs/policy_simplex_seed_10.png  used on input line 395.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_12.png, id=674, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_12.png, id=680, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_12.png Graphic file (type png)
 <use figs/policy_simplex_seed_12.png>
 Package pdftex.def Info: figs/policy_simplex_seed_12.png  used on input line 400.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
  [25 <./figs/policy_simplex_seed_6.png> <./figs/policy_simplex_seed_8.png> <./figs/policy_simplex_seed_10.png> <./figs/policy_simplex_seed_12.png>]
-<figs/objective_steps_128.png, id=688, 578.16pt x 361.35pt>
+<figs/objective_steps_128.png, id=694, 578.16pt x 361.35pt>
 File: figs/objective_steps_128.png Graphic file (type png)
 <use figs/objective_steps_128.png>
 Package pdftex.def Info: figs/objective_steps_128.png  used on input line 425.
 (pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
-<figs/objective_steps_256.png, id=689, 578.16pt x 361.35pt>
+<figs/objective_steps_256.png, id=695, 578.16pt x 361.35pt>
 File: figs/objective_steps_256.png Graphic file (type png)
 <use figs/objective_steps_256.png>
 Package pdftex.def Info: figs/objective_steps_256.png  used on input line 431.
@@ -1106,7 +1106,7 @@ File: figs/objective_steps_512.png Graphic file (type png)
 <use figs/objective_steps_512.png>
 Package pdftex.def Info: figs/objective_steps_512.png  used on input line 437.
 (pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
-<figs/objective_steps_1024.png, id=690, 578.16pt x 361.35pt>
+<figs/objective_steps_1024.png, id=696, 578.16pt x 361.35pt>
 File: figs/objective_steps_1024.png Graphic file (type png)
 <use figs/objective_steps_1024.png>
 Package pdftex.def Info: figs/objective_steps_1024.png  used on input line 443.
@@ -1178,18 +1178,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: AEE1F0CB1C037BFC804180FC4DD49BB2;7298.
  ) 
 Here is how much of TeX's memory you used:
- 36861 strings out of 478268
- 727318 string characters out of 5846347
- 1074945 words of memory out of 5000000
+ 36864 strings out of 478268
+ 727348 string characters out of 5846347
+ 1074910 words of memory out of 5000000
  53828 multiletter control sequences out of 15000+600000
- 536060 words of font info for 349 fonts, out of 8000000 for 9000
+ 536285 words of font info for 351 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,19n,104p,1661b,796s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (29 pages, 13471605 bytes).
+Output written on main.pdf (29 pages, 13471971 bytes).
 PDF statistics:
- 875 PDF objects out of 1000 (max. 8388607)
- 735 compressed objects within 8 object streams
+ 881 PDF objects out of 1000 (max. 8388607)
+ 741 compressed objects within 8 object streams
  179 named destinations out of 1000 (max. 500000)
  63497 words of extra memory for PDF output out of 74296 (max. 10000000)
 
