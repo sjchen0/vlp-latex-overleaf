@@ -1,42 +1,7 @@
 \section{Experiments}\label{sec:exp}
 In this section, we conduct two sets of experiments. In the first part, we provide empirical support for our optimality theory in Section~\ref{sec:confidence} by evaluating, on synthetic and real text generation tasks, the local likelihood optimization objective \eqref{eq:trainable_confidence} attained by different unmasking strategies. In the second part, we train unmasking policies with \alg{} and evaluate the resulting sampling performance on text, code, and math benchmarks across multiple masked diffusion models (MDMs). In addition to the main comparisons with uniform and confidence-based unmasking, we also study the effect of KL regularization, temperature, and the per-step unmasking schedule.
 
-\subsection{Numerical Analysis on Likelihood Optimization}
-
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[t]{0.3\linewidth}
-        \centering
-        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
-            \centering
-            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/policy_simplex.png}
-        \end{minipage}
-        \caption{Landscape on policy simplex.}
-        \label{fig:opt-intro}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.38\linewidth}
-        \centering
-        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
-            \centering
-            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/objective_steps_512.png}
-        \end{minipage}
-        \caption{Likelihood objectives.}
-        \label{fig:radd-obj-val}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.3\linewidth}
-        \centering
-        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
-            \centering
-            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/radar_steps32_64.png}
-        \end{minipage}
-        \caption{\alg{} evaluation.}
-        \label{fig:vlp-eval}
-    \end{subfigure}
-    \label{fig:optimality-exp}
-    \caption{\textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}. \textbf{(c)}: Evaluation results of \alg{} compared to uniform and confidence unmasking methods in text generation with RADD, and code and math generation with Dream-7B~\citep{ye2025dream7bdiffusionlarge}. Data is taken from Table~\ref{tab:text-gen} and~\ref{tab:dream-all} and rescaled by the best and worst performance.}
-\end{figure}
+\subsection{Numerical Analysis on Likelihood Optimization}\label{subsec:numerical-analysis}
 
 \paragraph{Landscape Visualization under Synthetic Distribution.}
 
@@ -46,7 +11,7 @@ We consider the task of unmasking 2 tokens from a length-3 sequence. There are e
 
 We also evaluate the local objective value \eqref{eq:trainable_confidence} attained by different unmasking strategies on text generation with RADD~\citep{ou2024your}, a pretrained MDM. We compare uniform unmasking, greedy confidence unmasking based on the top-2 probability margin, and its randomized counterpart. At each step, the objective \eqref{eq:trainable_confidence} is approximated by Monte Carlo estimation; see Appendix~\ref{subsec:radd-gen-exp}. In Figure~\ref{fig:radd-obj-val}, we set the generation length to 1024 and use 512 diffusion sampling steps. We observe that both confidence methods consistently achieve higher objective values than the uniform method, consistent with our theory in Section~\ref{sec:confidence}. See Appendix~\ref{subsec:radd-gen-exp} for further results.
 
-\subsection{Evaluation of VLP}
+\subsection{Evaluation of VLP}\label{subsec:vlp-eval}
 
 \paragraph{Text Generation.}
 
@@ -212,4 +177,4 @@ confidence-r
 
 \subsection{Ablation Studies}
 
-We first ablate the \textbf{KL regularization strength} $\lambda$ in Table~\ref{tab:text-kl}. Compared to the no-regularization baseline ($\lambda=0$), a nonzero $\lambda$ generally improves perplexity across most sampling-step counts. We also study the effect of choosing different \textbf{diffusion steps} $K$ in \alg{} training. In Table~\ref{tab:text-step}, training with $K=32$ gives the strongest overall performance, achieving the best perplexity across most evaluation step counts. The results also suggest that \alg{} trained at a fixed $K$ generalizes to a broader range of evaluation step counts. Table~\ref{tab:temp-humaneval} reports the performance of \alg{} under different choices of \textbf{sampling temperature}. Appendix~\ref{sec:vlp-additional-results} provides further details on these studies. 
+We first ablate the \textbf{KL regularization strength} $\lambda$ in RADD text generation experiments in Table~\ref{tab:text-kl}. The effect of $\lambda$ reveals that KL regularization consistently brings performance improvement to generation quality across multiple sampling budgets. We also study the effect of choosing different \textbf{diffusion steps} $K$ in VLP training. In RADD text generation experiments in Table~\ref{tab:text-step}, training with $K=32$ gives the strongest overall performance, achieving the best perplexity at most evaluation steps. The results also suggest that VLP trained on a fixed $K$ is able to work on a broader range of different evaluation steps. Finally, table~\ref{tab:temp-humaneval} reports the performance of VLP under different choices of \textbf{sampling temperature} through evaluations. Appendix~\ref{sec:vlp-additional-results} provides further details on these studies. 

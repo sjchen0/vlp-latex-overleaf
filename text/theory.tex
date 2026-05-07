@@ -39,7 +39,9 @@ Plugging this into \eqref{eq:min-obj}, we have the optimization problem
 \begin{align}\label{eq:margin-obj}
     \min_\pi-\EE_{q_0}\log\sum_{\mathcal U_1,...,\mathcal U_K}\prod_{k=1}^K\pi(\mathcal U_k|\,\bm x_k)\prod_{i\in\mathcal U_k}p^\theta_{t_k}(x_{k-1}^i|\bm x_k).
 \end{align}
-Directly solving \eqref{eq:margin-obj} is intractable. The sum over $(\mathcal U_1, \ldots, \mathcal U_K)$ has $\prod_{k=1}^{K} \binom{L_k}{N}$ terms, where $L_k$ denotes the number of masked positions at step $k$. This count grows exponentially in $K$ (e.g., $L!/(N!)^K$ when $L = KN$), and the log-sum-product structure prevents factorization across timesteps. Even pointwise gradient evaluation requires this same exponential sum, since the trajectory marginal acts as a normalization that does not factorize. The obstacle is structurally analogous to exact MAP decoding in autoregressive models, where global optimization is similarly intractable and local approximations (greedy decoding, beam search) are standard. In Sections~\ref{sec:confidence} and~\ref{sec:method} we develop two such approximations to \eqref{eq:margin-obj}: a single-step locality restriction that recovers confidence-based heuristics, and a variational lower bound that enables direct policy training. \citet{turok2026duel} take a complementary tractability route: by restricting to deterministic position selection, the trajectory marginalization collapses to a single term, yielding exact likelihoods within this restricted class. Our framework instead approximates the original objective over the broader space of stochastic policies, which encompasses the randomized heuristics used in practice.
+Directly solving \eqref{eq:margin-obj} is intractable. The sum over $(\mathcal U_1, \ldots, \mathcal U_K)$ has $\prod_{k=1}^{K} \binom{L_k}{N}$ terms, where $L_k$ denotes the number of masked positions at step $k$. This count grows exponentially in $K$ (e.g., $L!/(N!)^K$ when $L = KN$), and the log-sum-product structure prevents factorization across timesteps. This obstacle is structurally analogous to exact MAP decoding in autoregressive models, where global optimization is similarly intractable and local approximations (greedy decoding, beam search) are standard~\citep{chen2025decodinggameminimaxoptimality}. In Sections~\ref{sec:confidence} and~\ref{sec:method} we develop two such approximations to \eqref{eq:margin-obj}: a single-step locality restriction that recovers confidence-based heuristics, and a variational lower bound that enables direct policy training. 
+
+%\citet{turok2026duel} adopt a complementary tractability handle: by restricting to deterministic position selection, the trajectory marginalization collapses to a single term and yields exact likelihoods within this restricted class. Our framework instead approximates the original objective over the broader space of stochastic policies, which encompasses the randomized heuristics used in practice.
 
 
 % Moreover, we assume that we have access to the global coefficients $w$ computed by transition probabilities of each global sampling path. To maximize this objective on each fixed $\bm x_0$, the optimal $\pi$ would assign all the probability weight to the sampling path with the highest total transition probability. This can recover confidence-based approach as a local greedy approximation to this optimal strategy.
@@ -118,15 +120,7 @@ We have the following result on the optimality of greedy confidence unmasking ba
      $$\mathcal U^*={\arg\max}_{|\mathcal U|=N}\sum_{i\in\mathcal U}-H_k(i).$$
 \end{theorem}
 
-In words, $\pi^*$ will deterministically output the index set $\mathcal U^*$ with the smallest total entropy (highest confidence) as the next unmasking step. The proof is deferred to Appendix~\ref{subsec:proof-confidence}.
-
-\begin{remark}
-A related entropy criterion appears independently in \citet{benhamu2025eb}: their EB-Sampler unmasks token subsets satisfying an entropy-difference bound $\sum_{l\in\mathcal U}H_k(l)-\max_{l\in\mathcal U}H_k(l)\leq\gamma$, motivated as an upper bound on joint dependence error in a KL-based analysis of MDM sampling. Theorem~\ref{thm:confidence} provides a complementary justification: under our locality restriction, entropy-greedy unmasking is the optimal stochastic policy for likelihood maximization, giving a likelihood-theoretic foundation for the use of entropy as the unmasking signal.
-\end{remark}
-
-\begin{remark}
-The optimization framework underlying Theorem~\ref{thm:confidence} naturally extends to other confidence-based heuristic samplers by augmenting \eqref{eq:trainable_confidence} with additional data-dependent constraints on the policy. Provided such constraints act separably on the feasible simplex of $\pi(\cdot|\bm x_k)$ and preserve convexity, the KKT analysis carries through on the restricted region, and the optimal policy reduces to entropy-greedy unmasking within the constrained subset. We illustrate this with KLASS \citep{kim2025klass} in Appendix~\ref{subsec:klass-extension}.
-\end{remark}
+In words, $\pi^*$ will deterministically output the index set $\mathcal U^*$ with the smallest total entropy (highest confidence) for the next step's unmasking. The proof is deferred to Appendix~\ref{subsec:proof-confidence}. We also leave remarks on the connection to prior entropy-based criteria and extensions to constrained confidence samplers in Appendix~\ref{subsec:proof-confidence}.
 
 \iffalse
 \begin{theorem}

@@ -16,7 +16,42 @@
 
 \section{Introduction}
 
-Diffusion language models \citep{li2022diffusion} have recently emerged as a potential alternative to autoregressive models for language modeling, driven by advances in discrete diffusion \citep{austin2021structured, lou2024discrete, sahoo2024simple, shi2024simplified, ou2024your}. These models train and sample using a forward-backward pair of continuous-time Markov chains (CTMCs) on a discrete state space, evolving over continuous time $t\in(0,1)$. In the forward (noising) process, a training data sample is gradually corrupted into pure noise; the model then learns the reverse, i.e.\ the backward (denoising) process, which refines a random draw from pure noise step by step back into data.
+\begin{figure}[t]
+    \centering
+    \begin{subfigure}[t]{0.3\linewidth}
+        \centering
+        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
+            \centering
+            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/policy_simplex.png}
+        \end{minipage}
+        \caption{Landscape on policy simplex.}
+        \label{fig:opt-intro}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.38\linewidth}
+        \centering
+        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
+            \centering
+            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/objective_steps_512.png}
+        \end{minipage}
+        \caption{Likelihood objectives.}
+        \label{fig:radd-obj-val}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\linewidth}
+        \centering
+        \begin{minipage}[c][0.17\textheight][c]{\linewidth}
+            \centering
+            \includegraphics[height=0.17\textheight,width=\linewidth,keepaspectratio]{figs/radar_steps32_64.png}
+        \end{minipage}
+        \caption{VLP evaluation.}
+        \label{fig:vlp-eval}
+    \end{subfigure}
+    \label{fig:optimality-exp}
+    \caption{\textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}. \textbf{(c)}: Selected evaluation results (see Table~\ref{tab:text-gen} and~\ref{tab:dream-all} for full version) of our likelihood-trained policy, VLP, compared to uniform and confidence unmasking methods in RADD text generation, and Dream-7B~\citep{ye2025dream7bdiffusionlarge} code and math generation. Data are rescaled between the best and worst performance among the compared methods.}
+\end{figure}
+
+Diffusion language models \citep{li2022diffusion} recently emerged as a potential alternative to their autoregressive counterparts for language modeling with advances in discrete diffusion \citep{austin2021structured, lou2024discrete, sahoo2024simple, shi2024simplified, ou2024your}. These models conduct training and inference by leveraging a forward-backward pair of continuous-time Markov chains (CTMC) evolving over continuous time $t\in(0,1)$ in a discrete state space. In the forward (noising) process, a training data sample is gradually corrupted into pure noise; then the model aims to learn its reverse, i.e. the backward (denoising) process, that refines a random draw from pure noise step by step back to data.
 
 The CTMC formulation takes a specific form in masked diffusion models (MDMs) \citep{shi2024simplified,sahoo2024simple}, currently one of the most representative discrete diffusion schemes for language modeling. In the forward process of MDMs, each token in the input sequence independently transitions to a special mask token \mask{} at the same rate, and remains in \mask{} thereafter. At inference, the backward process begins with an all-mask sequence and performs random unmasking, converting each \mask{} to a predicted text token. In this way, compared to autoregressive models that maintain a left-to-right ordering, MDMs offer enhanced flexibility in training and generation order.
 
@@ -46,11 +81,18 @@ In the first half of this paper, we formulate an optimization problem that searc
 \begin{align}\label{eq:obj}
     \max_\pi \EE_{\bm x_0\sim q_0}\log p^{\theta,\pi}_0(\bm x_0),
 \end{align}
-where $q_0$ is the unknown source data distribution. We show that, under a data-agnostic approximation and a local restriction of the objective for tractability, entropy-based confidence unmasking emerges as a (near-)optimal policy. This indicates a provable advantage of confidence unmasking over other methods in terms of sample likelihood, consistent with empirical evidence. We also conduct numerical evaluations on synthetic and real text generation tasks to support our theoretical claims about the near-optimality of confidence-based unmasking (Figure~\ref{fig:opt-intro}).
+where $q_0$ is the unknown source data distribution. We show that, under a data-agnostic approximation and a local restriction of objective for tractability, entropy-based confidence unmasking emerges as a (near-)optimal policy (Section~\ref{sec:confidence}). This indicates a provable advantage of confidence unmasking over other methods in terms of sample likelihood, consistent with empirical observations. We also conduct numerical evaluations in synthetic and real text generation tasks to support our theoretical claims on the near-optimality of confidence-based unmasking methods (Figure~\ref{fig:opt-intro},~\ref{fig:radd-obj-val}).
 
 \subsection{Unmasking Policy via Likelihood Optimization}
 At the same time, the reductions in our theory suggest that confidence unmasking is not optimal, as it does not maximize the original objective \eqref{eq:obj}. This motivates us to revisit \eqref{eq:obj} and ask a second question: \emph{Can we further develop advanced unmasking policies based on the original likelihood optimization problem?}
 
-The second half of this paper is devoted to this extension from confidence to trainable policies. Specifically, we develop Variational Likelihood Policy (\alg{}), a prototypical training framework that uses variational inference to optimize a neural-network-parameterized policy $\pi$ from \eqref{eq:obj}; \alg{} serves as an auxiliary trainable component for pretrained MDMs. We further apply \alg{} to two DLMs of different sizes, RADD \citep{ou2025absorbingdiscretediffusionsecretly} with 162M parameters and DiffuCoder \citep{gong2025diffucoderunderstandingimprovingmasked} with 7B parameters, in text and code generation tasks respectively. Our experiments indicate that \alg{} effectively learns unmasking policies and improves downstream performance.
+The second half of this paper is devoted to this extension from confidence to trainable policies. Specifically, we develop Variational Likelihood Policy (\alg{}), a prototypical training framework based on \eqref{eq:obj} with variational inference to optimize a neural-network-parameterized policy $\pi$, serving as an auxiliary trainable component to pretrained MDMs (Section~\ref{sec:method}). We train and evaluate \alg{} on differently scaled DLMs, including RADD~\citep{ou2025absorbingdiscretediffusionsecretly}, Dream-7B~\citep{ye2025dream7bdiffusionlarge}, and DiffuCoder-7B~\citep{gong2025diffucoderunderstandingimprovingmasked} across text, code, and math generation tasks (Figure~\ref{fig:vlp-eval}). The evaluation results indicate that our likelihood-trained policy, \alg{}, effectively learns unmasking policies and consistently matches or surpasses the performance of confidence-based methods across different models and tasks.
 
-To summarize, in this paper we propose a systematic framework based on a standard likelihood maximization problem that (1) proves the theoretical advantages of confidence unmasking, and (2) motivates trainable unmasking policies with enhanced performance for MDMs. We believe that our likelihood framework can motivate further design of inference policies and extend to other discrete diffusion schemes for language modeling beyond masking \citep{austin2021structured, sun2023scorebased}. % The rest of the paper is organized as follows. In Section~\ref{sec:prelim}, we briefly review the preliminaries for MDMs. Section~\ref{sec:theory}, confidence theory. Section~\ref{sec:method}, \alg{} policy training framework. Section~\ref{sec:exp}, experiment results.
+To summarize, in this paper, we propose a systematic framework based on likelihood optimization to analyze MDM unmasking methods. Our contribution lies in
+
+\begin{itemize}[noitemsep, topsep=0pt]
+    \item \textbf{Theoretical understanding of confidence:} We prove the theoretical advantages of confidence unmasking in terms of near-optimality in likelihood optimization (Section~\ref{sec:confidence}), supported by numerical analysis on the optimization objective in synthetic and real generation scenarios (Section~\ref{subsec:numerical-analysis}; Figure~\ref{fig:opt-intro},~\ref{fig:radd-obj-val}).
+
+    \item \textbf{Principled design of trainable unmasking methods:} We design a likelihood-trained unmasking policy, \alg{} (Section~\ref{sec:method}), with variational inference and show its advantages through comprehensive evaluations across text, code, and math generation tasks on MDMs at different scales (Section~\ref{subsec:vlp-eval}; Figure~\ref{fig:vlp-eval}).
+
+\end{itemize}

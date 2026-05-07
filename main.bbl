@@ -67,11 +67,19 @@ Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique~Ponde
 \newblock Evaluating large language models trained on code, 2021.
 \newblock URL \url{https://arxiv.org/abs/2107.03374}.
 
-\bibitem[Chen et~al.(2025)Chen, Jiao, Ratliff, and Zhu]{chen2025dultra}
+\bibitem[Chen et~al.(2025{\natexlab{a}})Chen, Jiao, Ratliff, and
+  Zhu]{chen2025dultra}
 Shirui Chen, Jiantao Jiao, Lillian~J. Ratliff, and Banghua Zhu.
 \newblock dultra: Ultra-fast diffusion language models via reinforcement
   learning.
-\newblock \emph{arXiv preprint arXiv:2512.21446}, 2025.
+\newblock \emph{arXiv preprint arXiv:2512.21446}, 2025{\natexlab{a}}.
+
+\bibitem[Chen et~al.(2025{\natexlab{b}})Chen, Hagrass, and
+  Klusowski]{chen2025decodinggameminimaxoptimality}
+Sijin Chen, Omar Hagrass, and Jason~M. Klusowski.
+\newblock Decoding game: On minimax optimality of heuristic text generation
+  strategies, 2025{\natexlab{b}}.
+\newblock URL \url{https://arxiv.org/abs/2410.03968}.
 
 \bibitem[Cobbe et~al.(2021)Cobbe, Kosaraju, Bavarian, Chen, Jun, Kaiser,
   Plappert, Tworek, Hilton, Nakano, et~al.]{cobbe2021training}
@@ -253,13 +261,6 @@ Yuxuan Song, Zheng Zhang, Cheng Luo, Pengyang Gao, Fan Xia, Hao Luo, Zheng Li,
 Jianlin Su, Yu~Lu, Shengfeng Pan, Ahmed Murtadha, Bo~Wen, and Yunfeng Liu.
 \newblock Roformer: Enhanced transformer with rotary position embedding, 2023.
 \newblock URL \url{https://arxiv.org/abs/2104.09864}.
-
-\bibitem[Sun et~al.(2023)Sun, Yu, Dai, Schuurmans, and Dai]{sun2023scorebased}
-Haoran Sun, Lijun Yu, Bo~Dai, Dale Schuurmans, and Hanjun Dai.
-\newblock Score-based continuous-time discrete diffusion models.
-\newblock In \emph{The Eleventh International Conference on Learning
-  Representations}, 2023.
-\newblock URL \url{https://openreview.net/forum?id=BYWWwSY2G5s}.
 
 \bibitem[Turok et~al.(2026)Turok, De~Sa, and Kuleshov]{turok2026duel}
 Gilad Turok, Chris De~Sa, and Volodymyr Kuleshov.

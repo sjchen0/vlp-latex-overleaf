@@ -1,6 +1,33 @@
 \appendix
-\onecolumn
 
+\section{Additional Background and Preliminaries}\label{sec:literature-appendix}
+
+\paragraph{Backward unmasking process of MDMs.}
+It is known that the time reversal of a CTMC with rate $Q_t$ is also a CTMC, whose infinitesimal transition probability takes a form analogous to \eqref{eq:infinitesimal_transition}:
+\begin{equation}
+\label{eq:infinitesimal_transition_rev}
+    q_{t-\Delta t|t}(\vy|\vx_t)  =  \delta(\vx_t, \vy) + \tilde{Q}_t(\vx_t, \vy) \Delta t + o(\Delta t).
+\end{equation}
+Here, $\tilde Q_t$ is an unknown transition rate. Specifically for MDMs, the reverse transition is an unmasking process \citep{lou2024discrete,campbell2022continuous,ou2025absorbingdiscretediffusionsecretly}, where we begin from an all-mask sequence and randomly unmask each to a token in the vocabulary with the following token level transitions:
+\begin{align*}
+    q_{s|t}\!\left(x_s^{i}|\bm x_t\right)
+=
+&\quad \begin{cases}
+1,
+& x_t^{i} \neq \mask,\; x_s^{i} = x_t^{i}, \\
+\dfrac{1 - e^{-\bar{\sigma}(s)}}{1 - e^{-\bar{\sigma}(t)}},
+& x_t^{i} = \mask,\; x_s^{i} = \mask, \\
+\dfrac{e^{-\bar{\sigma}(s)} - e^{-\bar{\sigma}(t)}}{1 - e^{-\bar{\sigma}(t)}}\,
+q_{0 | t}\!\left(x_s^{i}|x_t\right),
+& x_t^{i} = \mask,\; x_s^{i} \neq \mask, \\
+0,
+& \text{otherwise}.
+\end{cases}
+\end{align*}
+Therefore, the learning of the backward process reduces to the learning of the reverse rate $\tilde Q_t$ parameterized by a neural network with weight $\theta$. The training can be implemented by various approaches, such as by minimizing score-based objectives \citep{lou2024discrete,ou2025absorbingdiscretediffusionsecretly}. In this way, we have a parameterized approximation of the true backward rate $P_t^\theta\approx \tilde Q_t$, which leads to a marginal distribution $p_t^\theta$ at time $t$ by solving the Kolmogorov ODE $dp^\theta_t/dt=p_t^\theta P_t^\theta$.
+
+\paragraph{Trainable inference methods for MDMs.}
+Beyond fixed heuristics, several works treat the unmasking order as a trainable policy. Some introduce a separate policy network to learn update sequences \citep{peng2025path, jazbec2025learning, chen2025dultra} or introduce an additional MDM training stage on the preferred trajectories \citep{song2025seeddiffusionlargescalediffusion}, while others modify the backward process itself to encourage more structured updates, such as jointly updating semantically related variables \citep{meshchaninov2025guided} or incorporating corrective refinement steps for already unmasked tokens \citep{zhao2024informed}. These methods demonstrate that learning the inference procedure can significantly improve sample quality, but most existing approaches rely on rewards (reinforcement learning) or ad hoc update rules. Based on sample likelihood maximization, \citet{wang2025learningorder} proposes a framework to learn the optimal decoding order for any-order autoregressive models \citep{shih2022traininginferenceanyorderautoregressive}, which are limited to single-token generation processes; our \alg{} extends this framework to multi-token unmasking in masked diffusion models. From a related likelihood-based perspective, \citet{turok2026duel} restrict attention to deterministic position selection and obtain exact test-time likelihoods within this class. 
 
 \section{Proofs}
 \subsection{Preparation}
@@ -28,6 +55,14 @@ Therefore, the minimum must be attained at the policy that deterministically out
 Thus, if $\bm e_k$ is optimal for some $k$, then $\EE[z_j/z_k]\leq1$ for all $j$. Moreover, since there exists strictly feasible $\bm\pi$ in the probability simplex, Slater's condition holds and KKT optimality is necessary and sufficient. Thus an optimal $\bm\pi^*$ must be deterministic, and we have the same result as in Condition (1).
 
 \end{proof}
+
+\begin{remark}
+A related entropy criterion appears independently in \citet{benhamu2025eb}: their EB-Sampler unmasks token subsets satisfying an entropy-difference bound $\sum_{l\in\mathcal U}H_k(l)-\max_{l\in\mathcal U}H_k(l)\leq\gamma$, motivated as an upper bound on joint dependence error in a KL-based analysis of MDM sampling. Theorem~\ref{thm:confidence} provides a complementary justification: under our locality restriction, entropy-greedy unmasking is the optimal stochastic policy for likelihood maximization, giving a likelihood-theoretic foundation for the use of entropy as the unmasking signal.
+\end{remark}
+
+\begin{remark}
+The optimization framework underlying Theorem~\ref{thm:confidence} naturally extends to other confidence-based heuristic samplers by augmenting \eqref{eq:trainable_confidence} with additional data-dependent constraints on the policy. Provided such constraints act separably on the feasible simplex of $\pi(\cdot|\bm x_k)$ and preserve convexity, the KKT analysis carries through on the restricted region, and the optimal policy reduces to entropy-greedy unmasking within the constrained subset. We illustrate this with KLASS \citep{kim2025klass} in Appendix~\ref{subsec:klass-extension}.
+\end{remark}
 
 \subsection{Worked Example: KLASS as a Constrained Instance}\label{subsec:klass-extension}
 
@@ -289,9 +324,7 @@ We summarize training and inference of \alg{} in Algorithm~\ref{alg:train} and~\
         \pi_\phi(\cdot \mid \bm x_k^{(i)})
         \,\|\, 
         \pi_{\mathrm{ref}}(\cdot \mid \bm x_k^{(i)})
-        \right)$
-        \Statex \hspace{\algorithmicindent}
-        $+
+        \right)+
         \mathrm{KL}\!\left(
         w_\phi(\cdot \mid \bm x_0^{(i)})
         \,\|\,
@@ -300,7 +333,7 @@ We summarize training and inference of \alg{} in Algorithm~\ref{alg:train} and~\
         \State $s^{(i)} \gets \log w^{(i)} - \log p^{(i)} + \lambda r^{(i)}$
       \EndFor
       \State $s \gets \frac{1}{B}\sum_{i=1}^B s^{(i)}$
-      \State $g_{\mathrm{REINFORCE}} \gets
+      \State $g_{\text{REINFORCE}} \gets
       \frac{1}{B}\sum_{i=1}^B
       \left[
       \nabla_\phi s^{(i)}
@@ -308,7 +341,7 @@ We summarize training and inference of \alg{} in Algorithm~\ref{alg:train} and~\
       \left(s^{(i)} - s\right)
       \nabla_\phi \log w^{(i)}
       \right]$
-      \State $\phi \gets \phi - \eta\, g_{\mathrm{REINFORCE}}$
+      \State $\phi \gets \phi - \eta\, g_{\text{REINFORCE}}$
     \Until{converged}
   \end{algorithmic}
 \end{algorithm}
@@ -335,7 +368,7 @@ We summarize training and inference of \alg{} in Algorithm~\ref{alg:train} and~\
     \State \Return $\bm x_0$
   \end{algorithmic}
 \end{algorithm}
-\section{Further Experiments Details}\label{sec:experiment-appendix}
+\section{Further Details on Experiments}\label{sec:experiment-appendix}
 \subsection{Optimality Analysis}
 \subsubsection{Synthetic Experiments}\label{subsec:synthetic}
 
@@ -420,29 +453,36 @@ For each \(N\), we aggregate the objective values across up to 100 runs for each
 
 \paragraph{Text Generation Details.}
 
-For the RADD text generation experiments, we use the pretrained \texttt{JingyangOu/radd-t-dce} checkpoint, corresponding to the small RADD configuration with 12 Transformer blocks, hidden size 768, 12 attention heads, sequence length 1024, and approximately 162M parameters. The backbone is loaded from Hugging Face and kept frozen throughout policy training. The policy network follows Section~\ref{subsec:architecture}: it takes the frozen RADD hidden states together with binary indicators for masked and unmasked positions, applies a one-layer RoPE Transformer policy module, and outputs forward/backward unmasking distributions over sequence positions. The policy has approximately 5.3M trainable parameters, about 3\% of the RADD backbone.
+For the RADD text generation experiments, we use the pretrained checkpoint corresponding to the small RADD configuration with 12 Transformer blocks, hidden size 768, 12 attention heads, sequence length 1024, and approximately 162M parameters. The backbone is kept frozen throughout policy training. The policy network follows Section~\ref{subsec:architecture}, with approximately 5.3M trainable parameters, about 3\% of the RADD backbone.
 
-We train the policy on OpenWebText. Text is tokenized with the GPT-2 tokenizer, appended with EOS tokens, concatenated, and split into fixed-length chunks of 1024 tokens. Since this is unconditional generation, there is no prompt portion and all positions are eligible for masking or unmasking. We use Wikitext-103 as the validation set. Unless otherwise specified, policy training uses batch size 4, one gradient accumulation step, and \(K=64\) discrete masking steps for the RADD runs used in our reported sampling experiments. The discrete time grid consists of \(K\) points in \((0,1)\), transformed by exponent 0.9. We optimize with AdamW using learning rate \(3\times 10^{-4}\), weight decay 0, \((\beta_1,\beta_2)=(0.9,0.999)\), \(\epsilon=10^{-8}\), 2500 warmup steps, gradient clipping at norm 1.0, and EMA decay 0.9999 for the policy parameters. Training is run on a single A100 80GB GPU.
+We train the policy on OpenWebText. Text is tokenized with the GPT-2 tokenizer, appended with EOS tokens, concatenated, and split into fixed-length chunks of 1024 tokens. Since this is unconditional generation, there is no prompt portion and all positions are eligible for masking or unmasking. Unless otherwise specified, policy training uses batch size 4, one gradient accumulation step, and \(K=32\) discrete masking steps for the RADD runs used in our reported sampling experiments. We optimize with AdamW using learning rate \(3\times 10^{-4}\), weight decay 0, \((\beta_1,\beta_2)=(0.9,0.999)\), \(\epsilon=10^{-8}\), gradient clipping at norm 1.0, and EMA decay 0.9999 for the policy parameters. The KL regularization parameter $\lambda$ is set to $10^{-2}$. Training is run on a single A100 80GB GPU for $2\times10^3$ steps.
 
-During policy training, each batch is used to sample bidirectional masking trajectories. At each discrete step, the forward policy samples a subset of currently unmasked tokens to mask, the frozen RADD model evaluates the conditional token likelihood of reconstructing the removed tokens, and the backward policy scores the corresponding unmasking distribution. The loss combines the frozen-model token likelihood with the learned forward and backward policy probabilities, using a REINFORCE-style correction for the sampled forward subset. We additionally include the KL/entropy regularization term described in Section~\ref{subsec:architecture}, with the regularization weight varied in the KL ablation.
-
-For evaluation, we generate unconditional sequences of length 1024 using the RADD diffusion sampler. We evaluate sampling budgets from 16 to 256 steps. For each setting, we generate 100 independent samples and report the mean and standard deviation of GPT-2-large perplexity. The evaluation model is \texttt{gpt2-large}; perplexity is computed from the average next-token cross entropy of the generated sequence. We compare uniform unmasking, greedy margin-based confidence unmasking, randomized margin-based confidence unmasking, and the learned policy. In the learned-policy sampler, the policy distribution is temperature-scaled, truncated to top-\(p=0.99\), and sampled without replacement to choose the positions revealed at each step; token values are then sampled from the frozen RADD conditional distribution.
+For evaluation, we generate unconditional sequences of length 1024 using the RADD diffusion sampler. We evaluate sampling budgets from 16 to 256 steps. For each setting, we generate 100 independent samples and report the mean and standard deviation of GPT-2-large perplexity. We compare uniform unmasking, greedy margin-based confidence unmasking, randomized margin-based confidence unmasking, and the learned policy.
 
 
 \paragraph{Code and Math Generation Details.}
 
 For both 7B models, we evaluate HumanEval~\citep{chen2021evaluatinglargelanguagemodels}, MBPP~\citep{austin2021programsynthesislargelanguage}, GSM8K~\citep{cobbe2021training}, and MATH500~\citep{lightman2023let}. HumanEval and MBPP are evaluated using Pass@1 ($\uparrow$), while GSM8K and MATH500 are evaluated using final-answer accuracy ($\uparrow$). All evaluations are run through the LM Evaluation Harness with our DiffuCoder wrapper.
 
-The policy is trained on instruction-output pairs from OpenCoder-SFT and MetaMathQA. For code training, we use the \texttt{educational\_instruct} split of \texttt{OpenCoder-LLM/opc-sft-stage2}. For math training, we use \texttt{meta-math/MetaMathQA}. Each example is converted to the chat format shown in Table~\ref{tab:chat-sft}. We tokenize each formatted sequence with the corresponding model tokenizer, truncate or pad to length 1024, and construct a prompt mask marking all tokens before the assistant response. During training and inference, prompt tokens are kept fixed; only response tokens are masked, unmasked, or generated.
+The policy is trained on instruction-output pairs from OpenCoder-SFT~\citep{Gokaslan2019OpenWeb} and MetaMathQA~\citep{yu2023metamath}. Each example is converted to the chat format shown in Table~\ref{tab:chat-sft}. We tokenize each formatted sequence with the corresponding model tokenizer, truncate or pad to length 1024, and construct a prompt mask marking all tokens before the assistant response. During training and inference, prompt tokens are kept fixed; only response tokens are masked, unmasked, or generated.
 
 The backbone model is loaded in \texttt{bfloat16} and kept frozen throughout policy training. The trained policy is a lightweight transformer policy network as described in Section~\ref{subsec:architecture}, with approximately 115.7M parameters or about 1.5\% of the 7.6B-parameter backbone.
 
-Unless otherwise specified, we train the policy with batch size 4, sequence length 1024, and \(K=16\) discrete masking steps. We optimize the policy with AdamW using learning rate \(10^{-3}\), weight decay 0, \((\beta_1,\beta_2)=(0.9,0.999)\), \(\epsilon=10^{-8}\), and gradient clipping at norm $1.0$. Training is run on a single A100 80GB GPU for $10^3$ steps.
+Unless otherwise specified, we train the policy with batch size 4, sequence length 1024, and \(K=16\) discrete masking steps. We optimize the policy with AdamW using learning rate \(10^{-3}\), weight decay 0, \((\beta_1,\beta_2)=(0.9,0.999)\), \(\epsilon=10^{-8}\), and gradient clipping at norm $1.0$. The KL regularization parameter $\lambda$ is set to $10^{-2}$. Training is run on a single A100 80GB GPU for $10^3$ steps.
 
-For evaluation, prompts are formatted with the chat template (Table~\ref{tab:chat-humaneval}, \ref{tab:chat-mbpp}) and padded with mask tokens up to the requested generation length. We use context length 1024 for code tasks (HumanEval, MBPP) and 512 for math tasks (GSM8K, MATH500). Generation uses the diffusion sampler for the specified number of steps. For confidence and policy variants, an algorithm temperature controls whether positions are selected greedily or sampled from a softmax over scores. Token values are sampled from the model distribution with top-\(p=0.95\); unless otherwise specified, the temperature for performing categorical sampling among the vocabulary is set to $0$.
+For evaluation, prompts are formatted with the chat template (Table~\ref{tab:chat-humaneval}, \ref{tab:chat-mbpp}) and padded with mask tokens up to the requested generation length. We use context length 1024 for code tasks (HumanEval, MBPP) and 512 for math tasks (GSM8K, MATH500). Generation uses the diffusion sampler for the specified number of steps. For confidence and policy variants, an algorithm temperature controls whether positions are selected greedily or sampled from a softmax over scores. Unless otherwise specified, the temperature for performing categorical sampling among the vocabulary is set to $0$.
 
 
 \subsubsection{Additional Results}\label{sec:vlp-additional-results}
+
+\paragraph{Evaluation on DiffuCoder-7B.} Table~\ref{tab:diffucoder-all} reports the corresponding full DiffuCoder-7B results on HumanEval, MBPP, GSM8K, and MATH500. This table expands the main-text summary by including all step counts and both confidence variants. VLP consistently improves over uniform unmasking and is especially strong on HumanEval and MATH500, while randomized confidence remains a competitive baseline on some MBPP and GSM8K settings.
+
+\paragraph{Effect of KL regularization in VLP training.} Table~\ref{tab:text-kl} studies the effect of the KL regularization strength $\lambda$ in RADD text generation with diffusion steps $K$ for training fixed at 16. We evaluate unconditional generation quality using perplexity and entropy across different sampling steps. The best value of $\lambda$ depends on the inference budget: $\lambda=10^{-2}$ gives the lowest perplexity at 16 steps, while $\lambda=10^{-1}$ gives the lowest perplexity at 32, 64, and 128 steps. This suggests that KL regularization consistently brings improvement to generation quality.
+
+\paragraph{Effect of sampling steps $K$ in VLP training.} Table~\ref{tab:text-step} ablates the choice of the training diffusion step $K$ for RADD, with $\lambda$ fixed at $1e^{-2}$. Although each policy is trained with a fixed $K$, we evaluate it across several sampling budgets. Training with $K=32$ gives the strongest overall perplexity, suggesting that a mid-range training horizon transfers well across different numbers of inference steps.
+
+\paragraph{Effect of sampling temperature.} The generation process involves two types of temperature: (1) vocabulary temperature that controls the categorical sampling among the vocabulary, and (2) policy temperature that controls the greediness of choosing unmasking indices from the predicted multinomial distribution. Table~\ref{tab:temp-humaneval} studies the effect of varying both types of temperatures on Pass@1 score of HumanEval with DiffuCoder-7B model. The results show that low vocabulary temperature is important for reliable code generation, while a moderate policy temperature can improve Pass@1 by avoiding overly deterministic position selection.
+
 
 \begin{table*}[h]
 \centering
@@ -504,17 +544,17 @@ $\lambda$
 & 16 & 32 & 64 & 128 \\
 \midrule
 0
-& \textbf{310.4} & 185.4 & 144.3 & 132.5
-& 5.78 & 5.72 & 5.69 & 5.68 \\
+& 313.9 & 186.0 & 142.5 & 127.4
+& 5.79 & 5.73 & 5.68 & 5.68 \\
 $10^{-3}$
-& 311.8 & 186.1 & 147.8 & 123.7
-& 5.79 & 5.74 & 5.69 & 5.67 \\
+& 320.0 & 182.8 & 140.5 & 129.8
+& 5.78 & 5.73 & 5.68 & 5.66 \\
 $10^{-2}$
-& 316.2 & \textbf{178.1} & 141.8 & 125.5
-& 5.78 & 5.72 & 5.69 & 5.66 \\
+& \textbf{301.7} & 186.8 & 145.3 & 127.3
+& 5.77 & 5.73 & 5.68 & 5.67 \\
 $10^{-1}$
-& 316.4 & 180.1 & \textbf{138.1} & \textbf{112.3}
-& 5.76 & 5.70 & 5.65 & 5.64 \\
+& 301.8 & \textbf{179.1} & \textbf{134.4} & \textbf{118.6}
+& 5.77 & 5.72 & 5.67 & 5.64 \\
 \bottomrule
 \end{tabular}
 \label{tab:text-kl}

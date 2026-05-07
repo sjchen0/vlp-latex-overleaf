@@ -10,7 +10,7 @@ where $\delta$ is the Kronecker delta.
 Equivalently, the marginal distribution $q_t\in\Delta(\mathcal X)$ evolves according to the Kolmogorov ODE $dq_t/dt = q_t Q_t$.
 Note that the diagonal entries of $Q_t$ should satisfy $Q_t(\vx_t, \vx_t) = - \sum_{\vx_t \neq \vy} Q_t(\vx_t, \vy)$ to ensure that $q_t$ sums to $1$. 
 
-\textbf{The forward masking process.} In the forward process, the transition rate matrix is commonly parameterized as $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is chosen so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
+\textbf{The masking and unmasking processes.} In the forward process of MDMs, the transition rate matrix is commonly parameterized as $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is adopted so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
 \begin{equation*}
     q_{t+\Delta t|t}(y|x)=
 \begin{cases}
@@ -34,28 +34,7 @@ Due to token-wise independence, the forward process for a length-$L$ sequence is
         q_{t|0}(\bm x_t|\bm x_0)=\prod_{i=1}^L q_{t|0}(x_t^i|x_0^i).
 \end{equation*}
 
-\textbf{The backward unmasking process.} It is known that the time reversal of a CTMC with rate $Q_t$ is also a CTMC, whose infinitesimal transition probability takes a form analogous to \eqref{eq:infinitesimal_transition}:
-\begin{equation}
-\label{eq:infinitesimal_transition_rev}
-    q_{t-\Delta t|t}(\vy|\vx_t)  =  \delta(\vx_t, \vy) + \tilde{Q}_t(\vx_t, \vy) \Delta t + o(\Delta t).
-\end{equation}
-Here, $\tilde Q_t$ is an unknown transition rate. Specifically for MDMs, the reverse transition is an unmasking process \citep{lou2024discrete,campbell2022continuous,ou2025absorbingdiscretediffusionsecretly}: starting from an all-mask sequence, each masked token is randomly unmasked to a vocabulary token with the following token-level transitions:
-\begin{align*}
-    q_{s|t}\!\left(x_s^{i}|\bm x_t\right)
-=
-&\quad \begin{cases}
-1,
-& x_t^{i} \neq \mask,\; x_s^{i} = x_t^{i}, \\
-\dfrac{1 - e^{-\bar{\sigma}(s)}}{1 - e^{-\bar{\sigma}(t)}},
-& x_t^{i} = \mask,\; x_s^{i} = \mask, \\
-\dfrac{e^{-\bar{\sigma}(s)} - e^{-\bar{\sigma}(t)}}{1 - e^{-\bar{\sigma}(t)}}\,
-q_{0 | t}\!\left(x_s^{i}|x_t\right),
-& x_t^{i} = \mask,\; x_s^{i} \neq \mask, \\
-0,
-& \text{otherwise}.
-\end{cases}
-\end{align*}
-Therefore, learning the backward process reduces to learning the reverse rate $\tilde Q_t$, parameterized by a neural network with weights $\theta$. Training can be implemented in various ways, such as by minimizing score-based objectives \citep{lou2024discrete,ou2025absorbingdiscretediffusionsecretly}. This yields a parameterized approximation $P_t^\theta\approx\tilde Q_t$ to the true backward rate, with corresponding marginal distribution $p_t^\theta$ obtained by solving the Kolmogorov ODE $dp^\theta_t/dt = p_t^\theta P_t^\theta$.
+The model aims to learn the time-reversal of the forward process $q_t$, denoted by $p_t^\theta$: starting from an all-mask terminal state, we randomly unmask each position to a token in the vocabulary. We provide mathematical details in Appendix~\ref{sec:literature-appendix}.
 
 
 \subsection{Related Works on MDM Inference}\label{subsec:confidence}
@@ -72,7 +51,7 @@ at position $i$, a confidence score $c_i$ is computed and used to guide the unma
 Given these scores, unmasking strategies are typically either \emph{greedy}, selecting the top-$N$ positions with highest confidence, or \emph{randomized}, for example by perturbing confidence scores before top-$N$ selection \citep{kim2025train} or sampling positions proportionally via a softmax transformation \citep{ye2025dream7bdiffusionlarge}. While simple and effective in practice, these approaches are largely heuristic and do not arise from an explicit optimization objective. Beyond fixed-size selection, \citet{benhamu2025eb} propose an adaptive sampler that dynamically chooses both which and how many tokens to unmask, justified by a KL-based entropy bound on joint dependence error.
 
 \textbf{Trainable inference methods.}
-Beyond fixed heuristics, several works treat the unmasking order as a trainable policy. Some introduce a separate policy network to learn update sequences \citep{peng2025path, jazbec2025learning, chen2025dultra} or add an MDM training stage on preferred trajectories \citep{song2025seeddiffusionlargescalediffusion}, while others modify the backward process itself to encourage more structured updates --- for example, jointly updating semantically related variables \citep{meshchaninov2025guided} or incorporating corrective refinement steps for already unmasked tokens \citep{zhao2024informed}. These methods demonstrate that learning the inference procedure can significantly improve sample quality, but most existing approaches rely on rewards (reinforcement learning) or ad hoc update rules. \citet{wang2025learningorder} propose a sample-likelihood-maximization framework for learning the optimal decoding order in any-order autoregressive models \citep{shih2022traininginferenceanyorderautoregressive}, which are limited to single-token generation; our \alg{} extends this framework to multi-token unmasking in masked diffusion models. From a related likelihood-based perspective, \citet{turok2026duel} restrict attention to deterministic position selection and obtain exact test-time likelihoods within this class. 
+Beyond fixed heuristics, several works treat the unmasking order as a trainable policy. We defer these discussions to Appendix~\ref{sec:literature-appendix}. 
 
 \iffalse
 \textbf{Theoretical perspectives and limitations.}
