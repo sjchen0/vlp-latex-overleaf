@@ -6,37 +6,37 @@ Database file #1: main.bib
 Warning--empty booktitle in Huang2024OpenCoderTO
 You've used 39 entries,
             2773 wiz_defined-function locations,
-            771 strings with 15115 characters,
-and the built_in function-call counts, 27832 in all, are:
-= -- 2092
-> -- 3026
+            770 strings with 15063 characters,
+and the built_in function-call counts, 27691 in all, are:
+= -- 2083
+> -- 3008
 < -- 7
-+ -- 1012
-- -- 970
-* -- 2697
-:= -- 4572
-add.period$ -- 125
++ -- 1007
+- -- 964
+* -- 2686
+:= -- 4547
+add.period$ -- 124
 call.type$ -- 39
-change.case$ -- 435
-chr.to.int$ -- 36
+change.case$ -- 433
+chr.to.int$ -- 35
 cite$ -- 79
-duplicate$ -- 789
-empty$ -- 1421
-format.name$ -- 1013
-if$ -- 5500
-int.to.chr$ -- 4
+duplicate$ -- 781
+empty$ -- 1413
+format.name$ -- 1007
+if$ -- 5471
+int.to.chr$ -- 5
 int.to.str$ -- 1
-missing$ -- 30
-newline$ -- 209
+missing$ -- 29
+newline$ -- 208
 num.names$ -- 158
-pop$ -- 927
+pop$ -- 923
 preamble$ -- 1
-purify$ -- 398
+purify$ -- 396
 quote$ -- 0
-skip$ -- 813
+skip$ -- 809
 stack$ -- 0
 substring$ -- 354
-swap$ -- 69
+swap$ -- 70
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
@@ -44,5 +44,5 @@ type$ -- 419
 warning$ -- 1
 while$ -- 133
 width$ -- 0
-write$ -- 498
+write$ -- 496
 (There was 1 warning)
