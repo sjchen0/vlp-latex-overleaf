@@ -473,16 +473,10 @@ Unless otherwise specified, we train the policy with batch size 4, sequence leng
 For evaluation, we use zero-shot setting (no in-context demonstrations) and prompts for HumanEval, MBPP, and GSM8K are formatted with the chat template (Table~\ref{tab:chat-humaneval}, \ref{tab:chat-mbpp},\ref{tab:chat-gsm8k}). All prompts are padded with mask tokens up to the requested generation length. We use context length 1024 for code tasks (HumanEval, MBPP) and 512 for math tasks (GSM8K, MATH500). Generation uses the diffusion sampler for the specified number of steps. For confidence and policy variants, an algorithm temperature controls whether positions are selected greedily or sampled from a softmax over scores. Unless otherwise specified, the temperature for performing categorical sampling among the vocabulary is set to $0$.
 
 
+
 \subsubsection{Additional Results}\label{sec:vlp-additional-results}
 
-\paragraph{Evaluation on DiffuCoder-7B.} Table~\ref{tab:diffucoder-all} reports the corresponding full DiffuCoder-7B results on HumanEval, MBPP, GSM8K, and MATH500. This table expands the main-text summary by including all step counts and both confidence variants. VLP consistently improves over uniform unmasking and is especially strong on HumanEval and MATH500, while randomized confidence remains a competitive baseline on some MBPP and GSM8K settings.
-
-\paragraph{Effect of KL regularization in VLP training.} Table~\ref{tab:text-kl} studies the effect of the KL regularization strength $\lambda$ in RADD text generation with diffusion steps $K$ for training fixed at 16. We evaluate unconditional generation quality using perplexity and entropy across different sampling steps. The best value of $\lambda$ depends on the inference budget: $\lambda=10^{-2}$ gives the lowest perplexity at 16 steps, while $\lambda=10^{-1}$ gives the lowest perplexity at 32, 64, and 128 steps. This suggests that KL regularization consistently brings improvement to generation quality.
-
-\paragraph{Effect of sampling steps $K$ in VLP training.} Table~\ref{tab:text-step} ablates the choice of the training diffusion step $K$ for RADD, with $\lambda$ fixed at $1e^{-2}$. Although each policy is trained with a fixed $K$, we evaluate it across several sampling budgets. Training with $K=32$ gives the strongest overall perplexity, suggesting that a mid-range training horizon transfers well across different numbers of inference steps.
-
-\paragraph{Effect of sampling temperature.} The generation process involves two types of temperature: (1) vocabulary temperature that controls the categorical sampling among the vocabulary, and (2) policy temperature that controls the greediness of choosing unmasking indices from the predicted multinomial distribution. Table~\ref{tab:temp-humaneval} studies the effect of varying both types of temperatures on Pass@1 score of HumanEval with DiffuCoder-7B model. The results show that low vocabulary temperature is important for reliable code generation, while a moderate policy temperature can improve Pass@1 by avoiding overly deterministic position selection.
-
+\paragraph{Evaluation on DiffuCoder-7B.} Table~\ref{tab:diffucoder-all} reports the corresponding full DiffuCoder-7B results on HumanEval, MBPP, GSM8K, and MATH500. VLP consistently improves over uniform unmasking and is able to achieve matching or better performance compared to confidence methods. Note that the backbone DiffuCoder-7B model is finetuned specifically on coding performance~\citep{gong2025diffucoderunderstandingimprovingmasked}, leading to a degrade of math abilities regardless of decoding methods.
 
 \begin{table*}[h]
 \centering
@@ -529,208 +523,79 @@ confidence-r
 \label{tab:diffucoder-all}
 \end{table*}
 
+\paragraph{Effect of KL regularization in VLP training.} Table~\ref{tab:text-kl} studies the effect of the KL regularization strength $\lambda$ in RADD text generation with diffusion steps $K$ for training fixed at 16. We evaluate unconditional generation quality using perplexity and entropy across different sampling steps. The best value of $\lambda$ depends on the inference budget: $\lambda=10^{-2}$ gives the lowest perplexity at 16 steps, while $\lambda=10^{-1}$ gives the lowest perplexity at 32, 64, and 128 steps. This suggests that KL regularization consistently brings improvement to generation quality.
 
 \begin{table*}[h]
 \centering
-\caption{Effect of KL regularization strength $\lambda$ in VLP training for RADD. We report perplexity ($\downarrow$) and entropy of unconditional generation at different sampling steps.}
-\setlength{\tabcolsep}{4.5pt}
-\begin{tabular}{ccccccccc}
+\caption{Effect of KL regularization strength $\lambda$ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow$), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.}
+\setlength{\tabcolsep}{4.0pt}
+\begin{tabular}{ccccccccccccc}
 \toprule
-& \multicolumn{4}{c}{Perplexity}
+& \multicolumn{4}{c}{Perplexity mean}
+& \multicolumn{4}{c}{Perplexity std. dev.}
 & \multicolumn{4}{c}{Entropy} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}\cmidrule(lr){10-13}
 $\lambda$
+& 16 & 32 & 64 & 128
 & 16 & 32 & 64 & 128
 & 16 & 32 & 64 & 128 \\
 \midrule
 0
 & 313.9 & 186.0 & 142.5 & 127.4
+& 85.2 & 47.5 & 42.8 & 42.6
 & 5.79 & 5.73 & 5.68 & 5.68 \\
 $10^{-3}$
 & 320.0 & 182.8 & 140.5 & 129.8
+& 85.7 & 41.0 & 35.6 & 47.5
 & 5.78 & 5.73 & 5.68 & 5.66 \\
 $10^{-2}$
 & \textbf{301.7} & 186.8 & 145.3 & 127.3
+& 81.5 & 48.3 & 47.9 & 47.9
 & 5.77 & 5.73 & 5.68 & 5.67 \\
 $10^{-1}$
 & 301.8 & \textbf{179.1} & \textbf{134.4} & \textbf{118.6}
+& 89.4 & 42.6 & 41.9 & 35.0
 & 5.77 & 5.72 & 5.67 & 5.64 \\
 \bottomrule
 \end{tabular}
 \label{tab:text-kl}
 \end{table*}
 
+\paragraph{Effect of sampling steps $K$ in VLP training.} Table~\ref{tab:text-step} ablates the choice of the training diffusion step $K$ for RADD, with $\lambda$ fixed at $1e^{-2}$. Although each policy is trained with a fixed $K$, we evaluate it across several sampling budgets. Training with $K=32$ gives the strongest overall perplexity, suggesting that a mid-range training horizon transfers well across different numbers of inference steps.
+
 \begin{table*}[h]
 \centering
-\caption{Effect of choice of $K$ in VLP training for RADD. We report perplexity ($\downarrow$) and entropy of unconditional generation at different sampling steps.}
-\setlength{\tabcolsep}{4.5pt}
-\begin{tabular}{ccccccccc}
+\caption{Effect of choice of $K$ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow$), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.}
+\setlength{\tabcolsep}{4.0pt}
+\begin{tabular}{ccccccccccccc}
 \toprule
-& \multicolumn{4}{c}{Perplexity}
+& \multicolumn{4}{c}{Perplexity mean}
+& \multicolumn{4}{c}{Perplexity std. dev.}
 & \multicolumn{4}{c}{Entropy} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}\cmidrule(lr){10-13}
 $K$
+& 16 & 32 & 64 & 128
 & 16 & 32 & 64 & 128
 & 16 & 32 & 64 & 128 \\
 \midrule
 16
 & 301.7 & 186.8 & 145.3 & 127.3
+& 81.5 & 48.3 & 47.9 & 47.9
 & 5.77 & 5.73 & 5.68 & 5.67 \\
 32
 & \textbf{300.8} & \textbf{174.8} & \textbf{138.0} & 128.9
+& 77.4 & 43.7 & 38.1 & 45.4
 & 5.78 & 5.72 & 5.67 & 5.67 \\
 64
 & 316.2 & 178.1 & 141.8 & \textbf{125.5}
+& 83.2 & 44.0 & 45.2 & 42.9
 & 5.78 & 5.72 & 5.69 & 5.66 \\
 \bottomrule
 \end{tabular}
 \label{tab:text-step}
 \end{table*}
 
-
-\iffalse
-\begin{table*}[h]
-\caption{Average perplexity ($\downarrow$) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.}
-\centering
-\begin{tabular}{cccccc}
-\toprule
-steps & 16 & 32 & 64 & 128 & 256 \\
-\midrule
-uniform
-& 335.1\scriptsize{$\pm$85.3}
-& 199.7\scriptsize{$\pm$50.8}
-& 154.5\scriptsize{$\pm$52.8}
-& 132.2\scriptsize{$\pm$42.9}
-& 118.9\scriptsize{$\pm$38.4} \\
-confidence-g
-& 836.3\scriptsize{$\pm$226.7}
-& 800.0\scriptsize{$\pm$283.9}
-& 618.5\scriptsize{$\pm$213.0}
-& 782.0\scriptsize{$\pm$316.4}
-& 644.3\scriptsize{$\pm$312.1} \\
-confidence-r
-& 308.7\scriptsize{$\pm$96.6}
-& 186.3\scriptsize{$\pm$57.7}
-& 132.4\scriptsize{$\pm$39.0}
-& \textbf{109.2}\scriptsize{$\pm$29.6}
-& \textbf{103.4}\scriptsize{$\pm$36.9} \\
-\midrule
-\alg{}
-& \textbf{293.2}\scriptsize{$\pm$71.7}
-& \textbf{179.6}\scriptsize{$\pm$47.3}
-& \textbf{130.3}\scriptsize{$\pm$33.4}
-& 116.9\scriptsize{$\pm$34.2}
-& 106.7\scriptsize{$\pm$36.8} \\
-\bottomrule
-\end{tabular}
-\label{tab:text-gen}
-\end{table*}
-
-\begin{table*}[h!]
-\centering
-\caption{Pass@1 ($\uparrow$) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps on coding benchmarks. All generations have context length 1024.}
-\begin{tabular}{ccccccccc}
-\toprule
-& \multicolumn{4}{c}{HumanEval} & \multicolumn{4}{c}{MBPP} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
-steps
-& 16 & 32 & 64 & 128
-& 16 & 32 & 64 & 128 \\
-\midrule
-uniform
-& 15.9 & 23.8 & 22.6 & 28.7
-& 23.8 & 31.6 & 35.8 & 39.4 \\
-confidence-g
-& 4.3 & 11.6 & 26.2 & 30.2
-& 1.8 & 5.0 & 18.4 & 31.2 \\
-confidence-r
-& 20.7 & 25.0 & 29.9 & 32.3
-& \textbf{33.2} & \textbf{39.4} & 39.8 & 41.8 \\
-\midrule
-VLP
-& \textbf{23.2} & \textbf{27.4} & \textbf{30.5} & \textbf{33.5}
-& 29.8 & 37.6 & \textbf{40.4} & \textbf{42.4} \\
-\bottomrule
-\end{tabular}
-\label{tab:code-gen-diffucoder}
-\end{table*}
-
-\begin{table*}[h!]
-\centering
-\caption{Zero-shot math results ($\uparrow$) of DiffuCoder under different unmasking strategies and numbers of sampling steps.}
-\begin{tabular}{ccccccccc}
-\toprule
-& \multicolumn{4}{c}{GSM8K} & \multicolumn{4}{c}{MATH500} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
-steps
-& 16 & 32 & 64 & 128
-& 16 & 32 & 64 & 128 \\
-\midrule
-confidence-r
-& 7.3 & 10.2 & -- & --
-& 4.2 & 5.8 & 5.0 & 6.0 \\
-uniform
-& 7.1 & 7.3 & -- & --
-& 3.8 & 4.6 & 5.4 & 6.4 \\
-VLP
-& \textbf{7.4} & 9.7 & -- & --
-& \textbf{6.4} & \textbf{8.8} & \textbf{8.2} & \textbf{7.0} \\
-\bottomrule
-\end{tabular}
-\label{tab:math-diffucoder}
-\end{table*}
-
-\begin{table*}[h]
-\centering
-\caption{Pass@1 ($\uparrow$) of Dream~7B under different unmasking strategies and numbers of sampling steps on coding benchmarks. Here ``origin'' denotes Dream's original sampling strategy and ``dream-policy'' denotes our trained policy.}
-\begin{tabular}{ccccccccc}
-\toprule
-& \multicolumn{4}{c}{HumanEval} & \multicolumn{4}{c}{MBPP} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
-steps
-& 16 & 32 & 64 & 128
-& 16 & 32 & 64 & 128 \\
-\midrule
-confidence
-& 15.2 & 18.3 & 26.2 & 27.4
-& 25.2 & 24.4 & 27.4 & 32.0 \\
-origin
-& 8.5 & 17.6 & 19.5 & 23.2
-& 18.6 & 25.6 & 27.6 & 30.8 \\
-VLP
-& \textbf{17.0} & \textbf{22.6} & \textbf{27.4} & \textbf{29.3}
-& 22.8 & \textbf{26.2} & \textbf{31.6} & \textbf{32.8} \\
-\bottomrule
-\end{tabular}
-\label{tab:dream-code}
-\end{table*}
-
-\begin{table*}[h]
-\centering
-\caption{Math benchmark results ($\uparrow$) of Dream~7B under different unmasking strategies and numbers of sampling steps.}
-\begin{tabular}{ccccccccc}
-\toprule
-& \multicolumn{4}{c}{GSM8K} & \multicolumn{4}{c}{MATH500} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
-steps
-& 16 & 32 & 64 & 128
-& 16 & 32 & 64 & 128 \\
-\midrule
-confidence-r
-& 32.7 & 36.5 & \textbf{39.2} & \textbf{39.6}
-& 15.2 & 16.8 & 16.6 & 18.2 \\
-uniform
-& 23.4 & 30.0 & 34.9 & 35.4
-& 10.4 & 12.8 & 13.8 & 16.8 \\
-VLP
-& \textbf{33.6} & \textbf{36.6} & 38.3 & 38.2
-& \textbf{15.6} & \textbf{17.0} & \textbf{17.2} & \textbf{19.4} \\
-\bottomrule
-\end{tabular}
-\label{tab:dream-math}
-\end{table*}
-\fi
-
+\paragraph{Effect of sampling temperature.} The generation process involves two types of temperature: (1) vocabulary temperature that controls the categorical sampling among the vocabulary, and (2) policy temperature that controls the greediness of choosing unmasking indices from the predicted multinomial distribution. Table~\ref{tab:temp-humaneval} studies the effect of varying both types of temperatures on Pass@1 score of HumanEval with DiffuCoder-7B model. The results show that low vocabulary temperature is important for reliable code generation, while a moderate policy temperature can improve Pass@1 by avoiding overly deterministic position selection.
 
 \begin{table*}[h]
 \centering
@@ -765,6 +630,19 @@ Temperature type & Value & 16 & 32 \\
 \end{tabular}
 \label{tab:temp-humaneval}
 \end{table*}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{table*}[h]
 \centering
@@ -837,4 +715,29 @@ Temperature type & Value & 16 & 32 \\
 \end{chatbox}
 \label{tab:chat-gsm8k}
 \end{minipage}
+\end{table*}
+
+
+\subsubsection{Datasets, Models, and Licenses}\label{sec:asset-licenses}
+
+Table~\ref{tab:asset-licenses} lists the public datasets and pretrained model checkpoints used in our experiments, together with their public URLs and license information. License names are taken from the corresponding Hugging Face model or dataset cards when available.
+
+\begin{table*}[h]
+\centering
+\caption{Public datasets and pretrained models used in the experiments.}
+\setlength{\tabcolsep}{4pt}
+\small
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}p{0.16\textwidth}X p{0.22\textwidth}}
+\toprule
+Asset & Type & URL & License \\
+\midrule
+OpenWebText & Dataset & \url{https://huggingface.co/datasets/Skylion007/openwebtext} & CC0-1.0 \\
+OpenCoder-SFT stage 2 & Dataset & \url{https://huggingface.co/datasets/OpenCoder-LLM/opc-sft-stage2} & MIT \\
+MetaMathQA & Dataset & \url{https://huggingface.co/datasets/meta-math/MetaMathQA} & MIT \\
+RADD & Model & \url{https://huggingface.co/JingyangOu/radd-lambda-dce} & Apache-2.0 for official code release; no license specified on the Hugging Face model card \\
+Dream-7B-Base & Model & \url{https://huggingface.co/Dream-org/Dream-v0-Base-7B} & Apache-2.0 \\
+DiffuCoder-7B-Instruct & Model & \url{https://huggingface.co/apple/DiffuCoder-7B-Instruct} & Apple Machine Learning Research License (\texttt{apple-amlr}) \\
+\bottomrule
+\end{tabularx}
+\label{tab:asset-licenses}
 \end{table*}
