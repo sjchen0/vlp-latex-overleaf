@@ -1,16 +1,16 @@
 \section{Background}\label{sec:prelim}
 \subsection{Masked Diffusion Models}
-A continuous-time discrete diffusion model consists of a forward noising process and a backward denoising process, both continuous-time Markov chains. In the forward process, the training samples are progressively corrupted into pure noise. The model aims to learn its backward process that inverts this corruption, and generate new samples by sampling through the backward process from noise.
+A continuous-time discrete diffusion model consists of a forward noising process and a backward denoising process, both continuous-time Markov chains. In the forward process, training samples are progressively corrupted into pure noise. The model learns the corresponding backward process that inverts this corruption, then generates new samples by running the backward process from noise.
 
 \textbf{Continuous-time Markov chain.} We consider a discrete state space $\mathcal{X}$. A continuous-time Markov chain (CTMC) is a process $\vx_t$ on $\mathcal X$ with ${t \in [0, 1]}$, starting from an initial data distribution $q_0(\vx_0)$. A CTMC is characterized by a time-dependent transition rate matrix $Q_t \in \mathbb{R}^{|\mathcal{X}| \times |\mathcal{X}|}$. For distinct states $\vx_t, \vy \in \mathcal{X}$, $Q_t(\vx_t, \vy) \ge 0$ defines the instantaneous transition rate from $\vx_t$ to $\vy$, i.e., over an infinitesimal time interval $[t,t+\Delta t]$ the transition probability is given by
 \begin{equation}\label{eq:infinitesimal_transition}
     q_{t+\Delta t|t}(\vy|\vx_t) = \delta(\vx_t, \vy) + Q_t(\vx_t, \vy) \Delta t + o(\Delta t),
 \end{equation}
 where $\delta$ is the Kronecker delta.
-In other words, a CTMC leads to an evolution of the marginal distribution $q_t\in\Delta{(\mathcal X)}$ that follows the Kolmogorov ODE $dq_t/dt = q_t Q_t$.
+Equivalently, the marginal distribution $q_t\in\Delta(\mathcal X)$ evolves according to the Kolmogorov ODE $dq_t/dt = q_t Q_t$.
 Note that the diagonal entries of $Q_t$ should satisfy $Q_t(\vx_t, \vx_t) = - \sum_{\vx_t \neq \vy} Q_t(\vx_t, \vy)$ to ensure that $q_t$ sums to $1$. 
 
-\textbf{The masking and unmasking processes.} In the forward process of MDMs, the transition rate matrix commonly adopts a parameterization $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is adopted so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
+\textbf{The masking and unmasking processes.} In the forward process of MDMs, the transition rate matrix is commonly parameterized as $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is adopted so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
 \begin{equation*}
     q_{t+\Delta t|t}(y|x)=
 \begin{cases}
@@ -48,7 +48,7 @@ at position $i$, a confidence score $c_i$ is computed and used to guide the unma
     \item {Top-1 probability} \citep{nie2025scalingmaskeddiffusionmodels}, $c_i = \max_v p_i(v)$;
     \item {Top-2 margin} \citep{kim2025train}, $c_i = p_i(v_1) - p_i(v_2)$, where $v_1, v_2$ are the two most likely tokens at $i$.
 \end{itemize}
-Given these scores, unmasking strategies are typically either \emph{greedy}, selecting the top-$N$ positions with highest confidence, or \emph{randomized}, for example by perturbing confidence scores before top-$N$ selection \citep{kim2025train} or sampling positions proportionally via a softmax transformation \citep{ye2025dream7bdiffusionlarge}. While simple and effective in practice, these approaches are largely heuristic and do not arise from an explicit optimization objective. Beyond fixed-size selection, \citet{benhamu2025eb} propose an adaptive sampler that dynamically chooses both which and how many tokens to unmask, justified by an entropy bound on joint dependence error in a KL framework.
+Given these scores, unmasking strategies are typically either \emph{greedy}, selecting the top-$N$ positions with highest confidence, or \emph{randomized}, for example by perturbing confidence scores before top-$N$ selection \citep{kim2025train} or sampling positions proportionally via a softmax transformation \citep{ye2025dream7bdiffusionlarge}. While simple and effective in practice, these approaches are largely heuristic and do not arise from an explicit optimization objective. Beyond fixed-size selection, \citet{benhamu2025eb} propose an adaptive sampler that dynamically chooses both which and how many tokens to unmask, justified by a KL-based entropy bound on joint dependence error.
 
 \textbf{Trainable inference methods.}
 Beyond fixed heuristics, several works treat the unmasking order as a trainable policy. We defer these discussions to Appendix~\ref{sec:literature-appendix}. 
