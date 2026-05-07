@@ -470,7 +470,7 @@ The backbone model is loaded in \texttt{bfloat16} and kept frozen throughout pol
 
 Unless otherwise specified, we train the policy with batch size 4, sequence length 1024, and \(K=16\) discrete masking steps. We optimize the policy with AdamW using learning rate \(10^{-3}\), weight decay 0, \((\beta_1,\beta_2)=(0.9,0.999)\), \(\epsilon=10^{-8}\), and gradient clipping at norm $1.0$. The KL regularization parameter $\lambda$ is set to $10^{-2}$. Training is run on a single A100 80GB GPU for $10^3$ steps.
 
-For evaluation, prompts are formatted with the chat template (Table~\ref{tab:chat-humaneval}, \ref{tab:chat-mbpp}) and padded with mask tokens up to the requested generation length. We use context length 1024 for code tasks (HumanEval, MBPP) and 512 for math tasks (GSM8K, MATH500). Generation uses the diffusion sampler for the specified number of steps. For confidence and policy variants, an algorithm temperature controls whether positions are selected greedily or sampled from a softmax over scores. Unless otherwise specified, the temperature for performing categorical sampling among the vocabulary is set to $0$.
+For evaluation, we use zero-shot setting (no in-context demonstrations) and prompts for HumanEval, MBPP, and GSM8K are formatted with the chat template (Table~\ref{tab:chat-humaneval}, \ref{tab:chat-mbpp},\ref{tab:chat-gsm8k}). All prompts are padded with mask tokens up to the requested generation length. We use context length 1024 for code tasks (HumanEval, MBPP) and 512 for math tasks (GSM8K, MATH500). Generation uses the diffusion sampler for the specified number of steps. For confidence and policy variants, an algorithm temperature controls whether positions are selected greedily or sampled from a softmax over scores. Unless otherwise specified, the temperature for performing categorical sampling among the vocabulary is set to $0$.
 
 
 \subsubsection{Additional Results}\label{sec:vlp-additional-results}
@@ -574,13 +574,13 @@ $K$
 & 16 & 32 & 64 & 128 \\
 \midrule
 16
-& 302.5 & 184.6 & 146.8 & \textbf{125.4}
-& 5.76 & 5.73 & 5.69 & 5.67 \\
+& 301.7 & 186.8 & 145.3 & 127.3
+& 5.77 & 5.73 & 5.68 & 5.67 \\
 32
 & \textbf{300.8} & \textbf{174.8} & \textbf{138.0} & 128.9
 & 5.78 & 5.72 & 5.67 & 5.67 \\
 64
-& 316.2 & 178.1 & 141.8 & 125.5
+& 316.2 & 178.1 & 141.8 & \textbf{125.5}
 & 5.78 & 5.72 & 5.69 & 5.66 \\
 \bottomrule
 \end{tabular}
@@ -732,10 +732,7 @@ VLP
 \fi
 
 
-\subsubsection{Chat Template for Code Generation Experiments}
 \begin{table*}[h]
-\centering
-\begin{minipage}[t]{0.48\textwidth}
 \centering
 \caption{Temperature analysis on HumanEval. We report Pass@1 ($\uparrow$) at different sampling steps.}
 \setlength{\tabcolsep}{4.5pt}
@@ -767,8 +764,10 @@ Temperature type & Value & 16 & 32 \\
 \bottomrule
 \end{tabular}
 \label{tab:temp-humaneval}
-\end{minipage}
-\hfill
+\end{table*}
+
+\begin{table*}[h]
+\centering
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \caption{Chat template for \alg{} OpenCoder-SFT training.}
@@ -784,9 +783,7 @@ Temperature type & Value & 16 & 32 \\
 \end{chatbox}
 \label{tab:chat-sft}
 \end{minipage}
-
-\vspace{0.8em}
-
+\hfill
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \caption{Chat template for \alg{} HumanEval evaluation.}
@@ -805,7 +802,9 @@ Temperature type & Value & 16 & 32 \\
 \end{chatbox}
 \label{tab:chat-humaneval}
 \end{minipage}
-\hfill
+
+\vspace{0.8em}
+
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \caption{Chat template for \alg{} MBPP evaluation.}
@@ -822,5 +821,20 @@ Temperature type & Value & 16 & 32 \\
     \textasciigrave\textasciigrave\textasciigrave python
 \end{chatbox}
 \label{tab:chat-mbpp}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\caption{Chat template for VLP GSM8K evaluation.}
+\begin{chatbox}
+    <|im\_start|>system\\
+    You are a helpful assistant.<|im\_end|>\\
+    <|im\_start|>user\\
+    \{{question}\}\\
+    <|im\_end|>\\
+    <|im\_start|>assistant\\
+    Let's think step by step.
+\end{chatbox}
+\label{tab:chat-gsm8k}
 \end{minipage}
 \end{table*}

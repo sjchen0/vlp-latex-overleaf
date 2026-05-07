@@ -1,5 +1,8 @@
 \documentclass{article}
 
+% Use numeric citations with natbib.
+\PassOptionsToPackage{numbers, compress}{natbib}
+
 % NeurIPS 2026 template.
 % For submission, keep the default option below. For camera-ready, use e.g.
 % \usepackage[main, final]{neurips_2026}
@@ -207,7 +210,7 @@ While this work focuses on masked diffusion, our likelihood framework naturally 
 \newpage
 
 {\small
-\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 \bibliography{main}
 }
 

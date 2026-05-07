@@ -10,7 +10,7 @@ where $\delta$ is the Kronecker delta.
 Equivalently, the marginal distribution $q_t\in\Delta(\mathcal X)$ evolves according to the Kolmogorov ODE $dq_t/dt = q_t Q_t$.
 Note that the diagonal entries of $Q_t$ should satisfy $Q_t(\vx_t, \vx_t) = - \sum_{\vx_t \neq \vy} Q_t(\vx_t, \vy)$ to ensure that $q_t$ sums to $1$. 
 
-\textbf{The masking and unmasking processes.} In the forward process of MDMs, the transition rate matrix is commonly parameterized as $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is adopted so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
+\textbf{The masking and unmasking processes.} In the forward process of MDMs with law $q_t$, the transition rate matrix is commonly parameterized as $Q_t = \sigma(t)Q$, where $\sigma(t)$ is a scalar noise schedule and $Q$ is a constant rate matrix determined by the model design \citep{campbell2022continuous}. For MDMs, a specific $Q$ is adopted so that over an infinitesimal interval $[t,t+\Delta t]$, the token-level transition probabilities are
 \begin{equation*}
     q_{t+\Delta t|t}(y|x)=
 \begin{cases}
