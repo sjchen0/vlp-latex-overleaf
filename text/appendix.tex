@@ -476,6 +476,52 @@ For evaluation, we use zero-shot setting (no in-context demonstrations) and prom
 
 \subsubsection{Additional Results}\label{sec:vlp-additional-results}
 
+\paragraph{RADD} Table~\ref{tab:text-gen-full} evaluates the mean and standard deviation of GPT-2 perplexity as well as sample entropy in unconditional generations from RADD.
+
+\begin{table*}[h]
+\centering
+\caption{Mean GPT-2 perplexity ($\downarrow$), perplexity standard deviation, and sample entropy of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024. OpenWebText dataset has sample entropy 5.44.}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccccccccccc}
+\toprule
+& \multicolumn{5}{c}{Perplexity mean}
+& \multicolumn{5}{c}{Perplexity std. dev.}
+& \multicolumn{5}{c}{Entropy} \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-11}\cmidrule(lr){12-16}
+steps
+& 16 & 32 & 64 & 128 & 256
+& 16 & 32 & 64 & 128 & 256
+& 16 & 32 & 64 & 128 & 256 \\
+\midrule
+uniform
+& 330.3 & 192.1 & 145.5 & 134.5 & 116.8
+& 100.6 & 54.5 & 47.4 & 46.7 & 60.0
+& 5.77 & 5.71 & 5.68 & 5.69 & 5.64 \\
+confidence-g
+& 1123.0 & 1036.5 & 982.4 & 860.7 & 550.8
+& 290.8 & 333.5 & 330.6 & 335.4 & 257.0
+& 5.72 & 5.64 & 5.59 & 5.60 & 5.52 \\
+confidence-r
+& 313.0 & 181.6 & 140.7 & \textbf{116.7} & \textbf{103.4}
+& 78.2 & 53.3 & 50.5 & 41.1 & 35.3
+& 5.74 & 5.67 & 5.63 & 5.61 & 5.59 \\
+\midrule
+\alg{}
+& \textbf{300.8}
+& \textbf{174.8}
+& \textbf{138.0}
+& 128.9
+& 106.7
+& 77.4 & 43.7 & 38.1 & 45.4 & 47.8
+& 5.78 & 5.72 & 5.67 & 5.67 & 5.63 \\
+\bottomrule
+\end{tabular}%
+}
+\label{tab:text-gen-full}
+\end{table*}
+
+
 \paragraph{Evaluation on DiffuCoder-7B.} Table~\ref{tab:diffucoder-all} reports the corresponding full DiffuCoder-7B results on HumanEval, MBPP, GSM8K, and MATH500. VLP consistently improves over uniform unmasking and is able to achieve matching or better performance compared to confidence methods. Note that the backbone DiffuCoder-7B model is finetuned specifically on coding performance~\citep{gong2025diffucoderunderstandingimprovingmasked}, leading to a degrade of math abilities regardless of decoding methods.
 
 \begin{table*}[h]
