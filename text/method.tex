@@ -1,13 +1,13 @@
 \section{Building Trainable Unmasking Policy with Likelihood Principles}\label{sec:method}
-Our discussions above not only justify confidence unmasking as a reasonable approach for generating credible samples by minimizing \eqref{eq:trainable_confidence}, but also suggest room for developing other strategies by directly optimizing \eqref{eq:obj}. This section presents \alg{}, a training and inference framework that learns a policy from \eqref{eq:obj} via variational inference. Notably, \citet{benhamu2025eb} explicitly suggest learning a parameterized adaptive sampler optimizing a KL-based bound as a direction for future work; \alg{} realizes this idea within our likelihood-maximization formulation (cf.~\eqref{eq:vlp}).
+Our discussions above not only justify confidence unmasking as a reasonable approach for generating high-likelihood samples by minimizing \eqref{eq:trainable_confidence}, but also suggest room for developing other strategies by directly optimizing \eqref{eq:obj}. This section presents \alg{}, a training and inference framework that learns a policy from \eqref{eq:obj} via variational inference. Notably, \citet{benhamu2025eb} explicitly suggest learning a parameterized adaptive sampler optimizing a KL-based bound as a direction for future work; \alg{} realizes this idea within our likelihood-maximization formulation (cf.~\eqref{eq:vlp}).
 
 Recall that the log-likelihood in \eqref{eq:obj} can be expanded as
 \begin{align*}
     \log p_0^{\theta,\pi}(\bm x_0) = \log\sum_{\mathcal U} p_0^{\theta,\pi}(\bm x_0, \bm x_1, ..., \bm x_K)
 \end{align*}
-by marginalization, where as in Section~\ref{sec:theory}, the intermediate states $\bm x_1, ..., \bm x_K$ are determined by the trajectory $\mathcal U=(\mathcal U_1, ..., \mathcal U_K)$ and the data point $\bm x_0$ through the unmasking process. Training directly from this log-likelihood is intractable due to the exponential summation over $\mathcal U$.
+by marginalization, where (as in Section~\ref{sec:theory}) the intermediate states $\bm x_1, \ldots, \bm x_K$ are determined by the trajectory $\mathcal U=(\mathcal U_1, \ldots, \mathcal U_K)$ and the data point $\bm x_0$ through the unmasking process. Training directly from this log-likelihood is intractable due to the exponential summation over $\mathcal U$.
 
-Instead, similar to \citep{wang2025learningorder}, we introduce a variant of the evidence lower bound (ELBO) of the log-likelihood. Let $w(\cdot|\bm x_0)$ be an arbitrary discrete probability distribution over trajectories, with $w(\mathcal U|\bm x_0)$ denoting the probability of $\mathcal U$. By Jensen's inequality,
+Following \citet{wang2025learningorder}, we introduce a variant of the evidence lower bound (ELBO) of the log-likelihood. Let $w(\cdot|\bm x_0)$ be an arbitrary discrete probability distribution over trajectories, with $w(\mathcal U|\bm x_0)$ denoting the probability of $\mathcal U$. By Jensen's inequality,
 \begin{align}
     \log p_0^{\theta,\pi}(\bm x_0) 
     = \log \EE_{\mathcal U \sim w(\cdot|\bm x_0)}\frac{p_0^{\theta,\pi}(\bm x_0, \bm x_1, ..., \bm x_K)}{w(\mathcal U|\bm x_0)}
@@ -15,12 +15,12 @@ Instead, similar to \citep{wang2025learningorder}, we introduce a variant of the
 \end{align}
 Maximizing this lower bound aligns the auxiliary trajectory distribution $w(\cdot|\bm x_0)$ with the model's joint distribution $p_0^{\theta,\pi}(\bm x_0,\cdot)$, viewed as a measure over trajectories. Different choices of $w$ yield different gaps between the bound and the exact log-likelihood.
 
-To discourage the parameterized distributions from collapsing to degenerate solutions, following standard practice in policy-based reinforcement learning \citep{schulman2017proximal}, we additionally introduce KL regularization between $\pi_\phi$ and a reference policy $\pi_\text{ref}$, and between $w_\phi$ and a reference $w_\text{ref}$, where $\pi_\text{ref}$ implements confidence unmasking and $w_\text{ref}$ is the uniform distribution over trajectories.
+To discourage the parameterized distributions from collapsing to degenerate solutions, we additionally introduce KL regularization --- following standard practice in policy-based reinforcement learning \citep{schulman2017proximal} --- between $\pi_\phi$ and a reference policy $\pi_\text{ref}$, and between $w_\phi$ and a reference $w_\text{ref}$, where $\pi_\text{ref}$ implements confidence unmasking and $w_\text{ref}$ is the uniform distribution over trajectories.
 
-In \alg{}, both $w$ and $\pi$ are parameterized by neural networks $w_\phi$ and $\pi_\phi$ sharing weights $\phi$; see Section~\ref{subsec:architecture}. Substituting the parameterization into \eqref{eq:vlp}, the loss function we use for training VLP is
+In \alg{}, both $w$ and $\pi$ are parameterized by neural networks $w_\phi$ and $\pi_\phi$ sharing weights $\phi$; see Appendix~\ref{subsec:architecture}. Substituting the parameterization into \eqref{eq:vlp} gives the loss function used for training \alg{}:
 \begin{align*}
     \mathcal L(\phi) &:= -\EE_{\bm x_0\sim q_0}\, \EE_{\mathcal U\sim w_\phi(\cdot|\bm x_0)}\log\frac{p_0^{\theta,\pi_\phi}(\bm x_0, \bm x_1, ..., \bm x_K)}{w_\phi(\mathcal U|\bm x_0)} + \lambda\, \mathcal R(\phi),\\
     \mathcal R(\phi) &:= \mathrm{KL}(\pi_\phi\|\pi_\text{ref}) + \mathrm{KL}(w_\phi\|w_\text{ref}).
 \end{align*}
 
-We defer the detailed description of the model architecture and training/inference algorithms used in VLP to Appendix~\ref{sec:further-vlp}. 
+We defer the detailed description of the model architecture and training/inference algorithms used in \alg{} to Appendix~\ref{sec:further-vlp}. 
