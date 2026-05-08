@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.9)  7 MAY 2026 17:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.9)  7 MAY 2026 17:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -806,24 +806,24 @@ File: tikzlibrarypositioning.code.tex 2021/05/15 v3.1.9a (3.1.9a)
  (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 181.
-LaTeX Font Info:    ... okay on input line 181.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 176.
+LaTeX Font Info:    ... okay on input line 176.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -891,7 +891,7 @@ LaTeX Font Info:    ... okay on input line 181.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 181.
+Package hyperref Info: Link coloring OFF on input line 176.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/local/texlive/2022/texmf-dist/tex/latex/refcount/refcount.sty
@@ -901,25 +901,25 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count357
 )
-LaTeX Info: Redefining \ref on input line 181.
-LaTeX Info: Redefining \pageref on input line 181.
-LaTeX Info: Redefining \nameref on input line 181.
+LaTeX Info: Redefining \ref on input line 176.
+LaTeX Info: Redefining \pageref on input line 176.
+LaTeX Info: Redefining \nameref on input line 176.
  (./main.out) (./main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 181.
-Package microtype Info: Applying patch `item' on input line 181.
-Package microtype Info: Applying patch `toc' on input line 181.
-Package microtype Info: Applying patch `eqnum' on input line 181.
-Package microtype Info: Applying patch `footnote' on input line 181.
+LaTeX Info: Redefining \microtypecontext on input line 176.
+Package microtype Info: Applying patch `item' on input line 176.
+Package microtype Info: Applying patch `toc' on input line 176.
+Package microtype Info: Applying patch `eqnum' on input line 176.
+Package microtype Info: Applying patch `footnote' on input line 176.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 181.
+LaTeX Info: Redefining \showhyphens on input line 176.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -951,19 +951,19 @@ Package caption Info: End \AtBeginDocument code.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 184.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 179.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 184.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 179.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 184.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 179.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -1006,11 +1006,11 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 94
  (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )) (./text/preliminaries.tex [3]) (./text/theory.tex [4] [5] [6]) (./text/method.tex [7]) (./text/experiments.tex
-Overfull \hbox (1.11671pt too wide) in paragraph at lines 26--58
+Overfull \hbox (1.11671pt too wide) in paragraph at lines 23--55
  [][] 
  []
 
-[8]) [9] [10] (./main.bbl [11]
+[8]) [9] (./main.bbl [10]
 Underfull \hbox (badness 1917) in paragraph at lines 287--294
 []\T1/ptm/m/n/9 (+20) Ilya Sutskever, Oriol Vinyals, and Quoc V Le.  Se-quence to se-quence learn-ing with neu-
  []
@@ -1020,13 +1020,13 @@ Underfull \hbox (badness 2393) in paragraph at lines 287--294
 \T1/ptm/m/n/9 (+20) ral net-works.  In Z. Ghahra-mani, M. Welling, C. Cortes, N. Lawrence, and K.Q. Wein-
  []
 
-[12]) [13] (./text/appendix.tex [14]
+[11]) [12] (./text/appendix.tex [13]
 Underfull \hbox (badness 1014) in paragraph at lines 60--61
 \T1/ptm/m/n/10 (+20) EB-Sampler un-masks to-ken sub-sets sat-is-fy-ing an entropy-difference bound $[][] \OML/cmm/m/it/10 H[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 l\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@
  []
 
-[15] [16]
-<figs/vlp.png, id=579, 619.113pt x 506.766pt>
+[14] [15]
+<figs/vlp.png, id=575, 619.113pt x 506.766pt>
 File: figs/vlp.png Graphic file (type png)
 <use figs/vlp.png>
 Package pdftex.def Info: figs/vlp.png  used on input line 277.
@@ -1036,36 +1036,36 @@ Underfull \hbox (badness 1158) in paragraph at lines 284--285
 \T1/ptm/m/n/10 (+20) cate-na-tion, we also in-put two bi-nary em-bed-dings
  []
 
-[17 <./figs/vlp.png>]
+[16 <./figs/vlp.png>]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 307.
- [18]
-<figs/policy_simplex_seed_6.png, id=603, 578.16pt x 505.89pt>
+ [17]
+<figs/policy_simplex_seed_6.png, id=599, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_6.png Graphic file (type png)
 <use figs/policy_simplex_seed_6.png>
 Package pdftex.def Info: figs/policy_simplex_seed_6.png  used on input line 385.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_8.png, id=604, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_8.png, id=600, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_8.png Graphic file (type png)
 <use figs/policy_simplex_seed_8.png>
 Package pdftex.def Info: figs/policy_simplex_seed_8.png  used on input line 390.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_10.png, id=605, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_10.png, id=601, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_10.png Graphic file (type png)
 <use figs/policy_simplex_seed_10.png>
 Package pdftex.def Info: figs/policy_simplex_seed_10.png  used on input line 395.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_12.png, id=606, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_12.png, id=602, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_12.png Graphic file (type png)
 <use figs/policy_simplex_seed_12.png>
 Package pdftex.def Info: figs/policy_simplex_seed_12.png  used on input line 400.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
- [19 <./figs/policy_simplex_seed_6.png> <./figs/policy_simplex_seed_8.png> <./figs/policy_simplex_seed_10.png> <./figs/policy_simplex_seed_12.png>]
-<figs/objective_steps_128.png, id=620, 578.16pt x 361.35pt>
+ [18 <./figs/policy_simplex_seed_6.png> <./figs/policy_simplex_seed_8.png> <./figs/policy_simplex_seed_10.png> <./figs/policy_simplex_seed_12.png>]
+<figs/objective_steps_128.png, id=615, 578.16pt x 361.35pt>
 File: figs/objective_steps_128.png Graphic file (type png)
 <use figs/objective_steps_128.png>
 Package pdftex.def Info: figs/objective_steps_128.png  used on input line 425.
 (pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
-<figs/objective_steps_256.png, id=621, 578.16pt x 361.35pt>
+<figs/objective_steps_256.png, id=616, 578.16pt x 361.35pt>
 File: figs/objective_steps_256.png Graphic file (type png)
 <use figs/objective_steps_256.png>
 Package pdftex.def Info: figs/objective_steps_256.png  used on input line 431.
@@ -1074,19 +1074,19 @@ File: figs/objective_steps_512.png Graphic file (type png)
 <use figs/objective_steps_512.png>
 Package pdftex.def Info: figs/objective_steps_512.png  used on input line 437.
 (pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
-<figs/objective_steps_1024.png, id=622, 578.16pt x 361.35pt>
+<figs/objective_steps_1024.png, id=617, 578.16pt x 361.35pt>
 File: figs/objective_steps_1024.png Graphic file (type png)
 <use figs/objective_steps_1024.png>
 Package pdftex.def Info: figs/objective_steps_1024.png  used on input line 443.
 (pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
- [20 <./figs/objective_steps_128.png> <./figs/objective_steps_256.png> <./figs/objective_steps_1024.png>]
+ [19 <./figs/objective_steps_128.png> <./figs/objective_steps_256.png> <./figs/objective_steps_1024.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21]
+[20]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1194,23 +1194,23 @@ Underfull \hbox (badness 3724) in paragraph at lines 787--787
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [22] [23] [24] (./main.aux)
+) [21] [22] [23] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 05FAC2D0EB79A2E7463924EB4DE2A8C0;7525.
  ) 
 Here is how much of TeX's memory you used:
- 36518 strings out of 478268
- 722388 string characters out of 5846347
- 1082007 words of memory out of 5000000
+ 36517 strings out of 478268
+ 722378 string characters out of 5846347
+ 1080932 words of memory out of 5000000
  53532 multiletter control sequences out of 15000+600000
- 531148 words of font info for 340 fonts, out of 8000000 for 9000
+ 531145 words of font info for 340 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,19n,104p,1661b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (24 pages, 13435889 bytes).
+Output written on main.pdf (23 pages, 13441964 bytes).
 PDF statistics:
- 836 PDF objects out of 1000 (max. 8388607)
- 692 compressed objects within 7 object streams
- 157 named destinations out of 1000 (max. 500000)
+ 831 PDF objects out of 1000 (max. 8388607)
+ 688 compressed objects within 7 object streams
+ 156 named destinations out of 1000 (max. 500000)
  57361 words of extra memory for PDF output out of 61914 (max. 10000000)
 

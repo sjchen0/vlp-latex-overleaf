@@ -16,9 +16,6 @@ We also evaluate the local objective value \eqref{eq:trainable_confidence} attai
 \paragraph{Text Generation.}
 
 
-For text generation, we evaluate \alg{} on RADD~\citep{ou2025absorbingdiscretediffusionsecretly}, a pretrained MDM for unconditional text generation containing 162M parameters. We train the unmasking policy on OpenWebText~\citep{Gokaslan2019OpenWeb} and evaluate generation quality using GPT-2 perplexity over sampling budgets from 16 to 256 steps. We compare against uniform unmasking and confidence unmasking based on top-2 probability margin, including both greedy and randomized variants. The detailed training and evaluation setup is provided in Appendix~\ref{sec:vlp-experiment-setup}. We also report sample entropy in Appendix~\ref{sec:vlp-additional-results} to indicate that the performance gain does not compromise sample diversity.
-
-
 \begin{wraptable}{r}{0.55\textwidth}
 \caption{Average perplexity ($\downarrow$) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.}
 \centering
@@ -56,6 +53,8 @@ confidence-r
 \end{tabular}
 \label{tab:text-gen}
 \end{wraptable}
+
+For text generation, we evaluate \alg{} on RADD~\citep{ou2025absorbingdiscretediffusionsecretly}, a pretrained MDM for unconditional text generation containing 162M parameters. We train the unmasking policy on OpenWebText~\citep{Gokaslan2019OpenWeb} and evaluate generation quality using GPT-2 perplexity over sampling budgets from 16 to 256 steps. We compare against uniform unmasking and confidence unmasking based on top-2 probability margin, including both greedy and randomized variants. The detailed training and evaluation setup is provided in Appendix~\ref{sec:vlp-experiment-setup}. We also report sample entropy in Appendix~\ref{sec:vlp-additional-results} to indicate that the performance gain does not compromise sample diversity.
 
 We report the GPT-2 perplexity of generated samples in Table~\ref{tab:text-gen}. \alg{} substantially improves over uniform unmasking and matches or outperforms confidence-based methods, with the largest gains in the low-step regime. Randomized confidence unmasking is consistently stronger than greedy confidence unmasking, suggesting that deterministic high-confidence selection can be suboptimal.
 
