@@ -49,12 +49,12 @@
 \newlabel{fig:illustrate}{{2}{2}{Two different sampling trajectories of decoding a length-2 sequence on a simple vocabulary $\{\texttt {A},\texttt {B}\}$. Confidence-based unmasking indicates that trajectory 1 is preferred.\relax }{figure.caption.3}{}}
 \newlabel{fig:illustrate@cref}{{[figure][2][]2}{[1][2][]2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Theoretical Understanding of Confidence}{2}{subsection.1.1}\protected@file@percent }
-\newlabel{eq:obj}{{1}{2}{Theoretical Understanding of Confidence}{equation.1.1}{}}
-\newlabel{eq:obj@cref}{{[equation][1][]1}{[1][2][]2}}
 \citation{ou2025absorbingdiscretediffusionsecretly}
 \citation{ye2025dream7bdiffusionlarge}
 \citation{gong2025diffucoderunderstandingimprovingmasked}
 \citation{campbell2022continuous}
+\newlabel{eq:obj}{{1}{3}{Theoretical Understanding of Confidence}{equation.1.1}{}}
+\newlabel{eq:obj@cref}{{[equation][1][]1}{[1][3][]3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Unmasking Policy via Likelihood Optimization}{3}{subsection.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background}{3}{section.2}\protected@file@percent }
 \newlabel{sec:prelim}{{2}{3}{Background}{section.2}{}}
@@ -90,7 +90,7 @@
 \citation{boyd2004convex}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Optimality of Confidence Heuristics}{6}{section.4}\protected@file@percent }
 \newlabel{sec:confidence}{{4}{6}{Optimality of Confidence Heuristics}{section.4}{}}
-\newlabel{sec:confidence@cref}{{[section][4][]4}{[1][5][]6}}
+\newlabel{sec:confidence@cref}{{[section][4][]4}{[1][6][]6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Locality Restriction}{6}{subsection.4.1}\protected@file@percent }
 \newlabel{eq:oracle_confidence}{{6}{6}{Locality Restriction}{equation.4.6}{}}
 \newlabel{eq:oracle_confidence@cref}{{[equation][6][]6}{[1][6][]6}}
@@ -100,12 +100,12 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Greedy Confidence Unmasking}{6}{subsubsection.4.2.1}\protected@file@percent }
 \newlabel{thm:confidence}{{4.1}{6}{}{theorem.4.1}{}}
 \newlabel{thm:confidence@cref}{{[theorem][1][4]4.1}{[1][6][]6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Randomized Confidence Unmasking}{6}{subsubsection.4.2.2}\protected@file@percent }
 \citation{benhamu2025eb}
 \citation{wang2025learningorder}
 \citation{schulman2017proximal}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Randomized Confidence Unmasking}{7}{subsubsection.4.2.2}\protected@file@percent }
 \newlabel{thm:confidence-rand}{{4.2}{7}{}{theorem.4.2}{}}
-\newlabel{thm:confidence-rand@cref}{{[theorem][2][4]4.2}{[1][6][]7}}
+\newlabel{thm:confidence-rand@cref}{{[theorem][2][4]4.2}{[1][7][]7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Controlling Sub-Optimality Gap under Distribution Shift}{7}{subsubsection.4.2.3}\protected@file@percent }
 \newlabel{thm:confidence_bounds}{{4.3}{7}{}{theorem.4.3}{}}
 \newlabel{thm:confidence_bounds@cref}{{[theorem][3][4]4.3}{[1][7][]7}}
@@ -128,10 +128,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Evaluation of VLP}{8}{subsection.6.2}\protected@file@percent }
 \newlabel{subsec:vlp-eval}{{6.2}{8}{Evaluation of VLP}{subsection.6.2}{}}
 \newlabel{subsec:vlp-eval@cref}{{[subsection][2][6]6.2}{[1][8][]8}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }}{8}{table.caption.7}\protected@file@percent }
-\newlabel{tab:text-gen}{{1}{8}{Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }{table.caption.7}{}}
-\newlabel{tab:text-gen@cref}{{[table][1][]1}{[1][8][]8}}
-\@writefile{toc}{\contentsline {paragraph}{Text Generation.}{8}{table.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Text Generation.}{8}{section*.6}\protected@file@percent }
 \citation{ye2025dream7bdiffusionlarge}
 \citation{gong2025diffucoderunderstandingimprovingmasked}
 \citation{Huang2024OpenCoderTO}
@@ -140,6 +137,9 @@
 \citation{austin2021programsynthesislargelanguage}
 \citation{cobbe2021training}
 \citation{lightman2023let}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }}{9}{table.caption.7}\protected@file@percent }
+\newlabel{tab:text-gen}{{1}{9}{Average perplexity ($\downarrow $) of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024.\relax }{table.caption.7}{}}
+\newlabel{tab:text-gen@cref}{{[table][1][]1}{[1][8][]9}}
 \@writefile{toc}{\contentsline {paragraph}{Code and Math Generation.}{9}{section*.8}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Results ($\uparrow $) of Dream-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }}{9}{table.caption.9}\protected@file@percent }
 \newlabel{tab:dream-all}{{2}{9}{Results ($\uparrow $) of Dream-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }{table.caption.9}{}}
@@ -200,88 +200,88 @@
 \citation{wang2025learningorder}
 \citation{shih2022traininginferenceanyorderautoregressive}
 \citation{turok2026duel}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Additional Background and Preliminaries}{20}{appendix.A}\protected@file@percent }
-\newlabel{sec:literature-appendix}{{A}{20}{Additional Background and Preliminaries}{appendix.A}{}}
-\newlabel{sec:literature-appendix@cref}{{[appendix][1][2147483647]A}{[1][20][]20}}
-\@writefile{toc}{\contentsline {paragraph}{Backward unmasking process of MDMs.}{20}{section*.12}\protected@file@percent }
-\newlabel{eq:infinitesimal_transition_rev}{{9}{20}{Backward unmasking process of MDMs}{equation.A.9}{}}
-\newlabel{eq:infinitesimal_transition_rev@cref}{{[equation][9][2147483647]9}{[1][20][]20}}
-\@writefile{toc}{\contentsline {paragraph}{Trainable inference methods for MDMs.}{20}{section*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Proofs}{20}{appendix.B}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Preparation}{20}{subsection.B.1}\protected@file@percent }
-\newlabel{eq:obj-equiv}{{10}{20}{Preparation}{equation.B.10}{}}
-\newlabel{eq:obj-equiv@cref}{{[equation][10][2147483647]10}{[1][20][]20}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Proof of Theorem \ref  {thm:confidence}}{20}{subsection.B.2}\protected@file@percent }
-\newlabel{subsec:proof-confidence}{{B.2}{20}{Proof of Theorem \ref {thm:confidence}}{subsection.B.2}{}}
-\newlabel{subsec:proof-confidence@cref}{{[subappendix][2][2147483647,2]B.2}{[1][20][]20}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Additional Background and Preliminaries}{14}{appendix.A}\protected@file@percent }
+\newlabel{sec:literature-appendix}{{A}{14}{Additional Background and Preliminaries}{appendix.A}{}}
+\newlabel{sec:literature-appendix@cref}{{[appendix][1][2147483647]A}{[1][14][]14}}
+\@writefile{toc}{\contentsline {paragraph}{Backward unmasking process of MDMs.}{14}{section*.11}\protected@file@percent }
+\newlabel{eq:infinitesimal_transition_rev}{{9}{14}{Backward unmasking process of MDMs}{equation.A.9}{}}
+\newlabel{eq:infinitesimal_transition_rev@cref}{{[equation][9][2147483647]9}{[1][14][]14}}
+\@writefile{toc}{\contentsline {paragraph}{Trainable inference methods for MDMs.}{14}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Proofs}{14}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Preparation}{14}{subsection.B.1}\protected@file@percent }
+\newlabel{eq:obj-equiv}{{10}{14}{Preparation}{equation.B.10}{}}
+\newlabel{eq:obj-equiv@cref}{{[equation][10][2147483647]10}{[1][14][]14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Proof of Theorem \ref  {thm:confidence}}{14}{subsection.B.2}\protected@file@percent }
+\newlabel{subsec:proof-confidence}{{B.2}{14}{Proof of Theorem \ref {thm:confidence}}{subsection.B.2}{}}
+\newlabel{subsec:proof-confidence@cref}{{[subappendix][2][2147483647,2]B.2}{[1][14][]14}}
 \citation{cover1987log}
 \citation{benhamu2025eb}
 \citation{kim2025klass}
 \citation{kim2025klass}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Worked Example: KLASS as a Constrained Instance}{21}{subsection.B.3}\protected@file@percent }
-\newlabel{subsec:klass-extension}{{B.3}{21}{Worked Example: KLASS as a Constrained Instance}{subsection.B.3}{}}
-\newlabel{subsec:klass-extension@cref}{{[subappendix][3][2147483647,2]B.3}{[1][21][]21}}
-\newlabel{eq:klass-obj}{{11}{21}{Worked Example: KLASS as a Constrained Instance}{equation.B.11}{}}
-\newlabel{eq:klass-obj@cref}{{[equation][11][2147483647]11}{[1][21][]21}}
-\newlabel{prop:klass}{{B.3}{21}{}{theorem.B.3}{}}
-\newlabel{prop:klass@cref}{{[proposition][3][2147483647,2]B.3}{[1][21][]21}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Worked Example: KLASS as a Constrained Instance}{15}{subsection.B.3}\protected@file@percent }
+\newlabel{subsec:klass-extension}{{B.3}{15}{Worked Example: KLASS as a Constrained Instance}{subsection.B.3}{}}
+\newlabel{subsec:klass-extension@cref}{{[subappendix][3][2147483647,2]B.3}{[1][15][]15}}
+\newlabel{eq:klass-obj}{{11}{15}{Worked Example: KLASS as a Constrained Instance}{equation.B.11}{}}
+\newlabel{eq:klass-obj@cref}{{[equation][11][2147483647]11}{[1][15][]15}}
+\newlabel{prop:klass}{{B.3}{15}{}{theorem.B.3}{}}
+\newlabel{prop:klass@cref}{{[proposition][3][2147483647,2]B.3}{[1][15][]15}}
 \citation{wright2022optimization}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Proof of Theorem\nobreakspace  {}\ref  {thm:confidence-rand}}{22}{subsection.B.4}\protected@file@percent }
-\newlabel{subsec:proof-random}{{B.4}{22}{Proof of Theorem~\ref {thm:confidence-rand}}{subsection.B.4}{}}
-\newlabel{subsec:proof-random@cref}{{[subappendix][4][2147483647,2]B.4}{[1][22][]22}}
-\newlabel{eq:proj-eq-1}{{12}{22}{Proof of Theorem~\ref {thm:confidence-rand}}{equation.B.12}{}}
-\newlabel{eq:proj-eq-1@cref}{{[equation][12][2147483647]12}{[1][22][]22}}
-\newlabel{eq:cauchy-ineq}{{13}{22}{Proof of Theorem~\ref {thm:confidence-rand}}{equation.B.13}{}}
-\newlabel{eq:cauchy-ineq@cref}{{[equation][13][2147483647]13}{[1][22][]22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Proof of Theorem \ref  {thm:confidence_bounds}}{22}{subsection.B.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Proof of Theorem\nobreakspace  {}\ref  {thm:confidence-rand}}{16}{subsection.B.4}\protected@file@percent }
+\newlabel{subsec:proof-random}{{B.4}{16}{Proof of Theorem~\ref {thm:confidence-rand}}{subsection.B.4}{}}
+\newlabel{subsec:proof-random@cref}{{[subappendix][4][2147483647,2]B.4}{[1][15][]16}}
+\newlabel{eq:proj-eq-1}{{12}{16}{Proof of Theorem~\ref {thm:confidence-rand}}{equation.B.12}{}}
+\newlabel{eq:proj-eq-1@cref}{{[equation][12][2147483647]12}{[1][16][]16}}
+\newlabel{eq:cauchy-ineq}{{13}{16}{Proof of Theorem~\ref {thm:confidence-rand}}{equation.B.13}{}}
+\newlabel{eq:cauchy-ineq@cref}{{[equation][13][2147483647]13}{[1][16][]16}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Proof of Theorem \ref  {thm:confidence_bounds}}{16}{subsection.B.5}\protected@file@percent }
 \citation{vaswani2017attention}
 \citation{su2023roformerenhancedtransformerrotary}
 \citation{chen2025dultra}
 \citation{wang2025learningorder}
 \citation{shi2022gradient}
 \citation{wang2025learningorder}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Further Details on VLP}{23}{appendix.C}\protected@file@percent }
-\newlabel{sec:further-vlp}{{C}{23}{Further Details on VLP}{appendix.C}{}}
-\newlabel{sec:further-vlp@cref}{{[appendix][3][2147483647]C}{[1][23][]23}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Model Architecture}{23}{subsection.C.1}\protected@file@percent }
-\newlabel{subsec:architecture}{{C.1}{23}{Model Architecture}{subsection.C.1}{}}
-\newlabel{subsec:architecture@cref}{{[subappendix][1][2147483647,3]C.1}{[1][23][]23}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces An illustration of the shared-torso architecture of VLP{} with a trained MDM.\relax }}{23}{figure.caption.14}\protected@file@percent }
-\newlabel{fig:vlp}{{3}{23}{An illustration of the shared-torso architecture of \alg {} with a trained MDM.\relax }{figure.caption.14}{}}
-\newlabel{fig:vlp@cref}{{[figure][3][2147483647]3}{[1][23][]23}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Training and Inference}{23}{subsection.C.2}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces VLP{} Training\relax }}{24}{algorithm.1}\protected@file@percent }
-\newlabel{alg:train}{{1}{24}{\alg {} Training\relax }{algorithm.1}{}}
-\newlabel{alg:train@cref}{{[algorithm][1][2147483647]1}{[1][24][]24}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces VLP{} Inference\relax }}{24}{algorithm.2}\protected@file@percent }
-\newlabel{alg:inf}{{2}{24}{\alg {} Inference\relax }{algorithm.2}{}}
-\newlabel{alg:inf@cref}{{[algorithm][2][2147483647]2}{[1][24][]24}}
-\@writefile{toc}{\contentsline {section}{\numberline {D}Further Details on Experiments}{24}{appendix.D}\protected@file@percent }
-\newlabel{sec:experiment-appendix}{{D}{24}{Further Details on Experiments}{appendix.D}{}}
-\newlabel{sec:experiment-appendix@cref}{{[appendix][4][2147483647]D}{[1][24][]24}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Optimality Analysis}{24}{subsection.D.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.1.1}Synthetic Experiments}{24}{subsubsection.D.1.1}\protected@file@percent }
-\newlabel{subsec:synthetic}{{D.1.1}{24}{Synthetic Experiments}{subsubsection.D.1.1}{}}
-\newlabel{subsec:synthetic@cref}{{[subsubappendix][1][2147483647,4,1]D.1.1}{[1][24][]24}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Further Details on VLP}{17}{appendix.C}\protected@file@percent }
+\newlabel{sec:further-vlp}{{C}{17}{Further Details on VLP}{appendix.C}{}}
+\newlabel{sec:further-vlp@cref}{{[appendix][3][2147483647]C}{[1][17][]17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Model Architecture}{17}{subsection.C.1}\protected@file@percent }
+\newlabel{subsec:architecture}{{C.1}{17}{Model Architecture}{subsection.C.1}{}}
+\newlabel{subsec:architecture@cref}{{[subappendix][1][2147483647,3]C.1}{[1][17][]17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces An illustration of the shared-torso architecture of VLP{} with a trained MDM.\relax }}{17}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:vlp}{{3}{17}{An illustration of the shared-torso architecture of \alg {} with a trained MDM.\relax }{figure.caption.13}{}}
+\newlabel{fig:vlp@cref}{{[figure][3][2147483647]3}{[1][17][]17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Training and Inference}{17}{subsection.C.2}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces VLP{} Training\relax }}{18}{algorithm.1}\protected@file@percent }
+\newlabel{alg:train}{{1}{18}{\alg {} Training\relax }{algorithm.1}{}}
+\newlabel{alg:train@cref}{{[algorithm][1][2147483647]1}{[1][18][]18}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces VLP{} Inference\relax }}{18}{algorithm.2}\protected@file@percent }
+\newlabel{alg:inf}{{2}{18}{\alg {} Inference\relax }{algorithm.2}{}}
+\newlabel{alg:inf@cref}{{[algorithm][2][2147483647]2}{[1][18][]18}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}Further Details on Experiments}{18}{appendix.D}\protected@file@percent }
+\newlabel{sec:experiment-appendix}{{D}{18}{Further Details on Experiments}{appendix.D}{}}
+\newlabel{sec:experiment-appendix@cref}{{[appendix][4][2147483647]D}{[1][18][]18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Optimality Analysis}{18}{subsection.D.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.1.1}Synthetic Experiments}{18}{subsubsection.D.1.1}\protected@file@percent }
+\newlabel{subsec:synthetic}{{D.1.1}{18}{Synthetic Experiments}{subsubsection.D.1.1}{}}
+\newlabel{subsec:synthetic@cref}{{[subsubappendix][1][2147483647,4,1]D.1.1}{[1][18][]18}}
 \citation{ou2024your}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Policy simplex and different unmasking strategies under various choices of data-generating seed in the synthetic data.\relax }}{25}{figure.caption.15}\protected@file@percent }
-\newlabel{fig:policy-simplex-seed}{{4}{25}{Policy simplex and different unmasking strategies under various choices of data-generating seed in the synthetic data.\relax }{figure.caption.15}{}}
-\newlabel{fig:policy-simplex-seed@cref}{{[figure][4][2147483647]4}{[1][25][]25}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.1.2}Text Generation Experiments}{25}{subsubsection.D.1.2}\protected@file@percent }
-\newlabel{subsec:radd-gen-exp}{{D.1.2}{25}{Text Generation Experiments}{subsubsection.D.1.2}{}}
-\newlabel{subsec:radd-gen-exp@cref}{{[subsubappendix][2][2147483647,4,1]D.1.2}{[1][25][]25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Policy simplex and different unmasking strategies under various choices of data-generating seed in the synthetic data.\relax }}{19}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:policy-simplex-seed}{{4}{19}{Policy simplex and different unmasking strategies under various choices of data-generating seed in the synthetic data.\relax }{figure.caption.14}{}}
+\newlabel{fig:policy-simplex-seed@cref}{{[figure][4][2147483647]4}{[1][19][]19}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.1.2}Text Generation Experiments}{19}{subsubsection.D.1.2}\protected@file@percent }
+\newlabel{subsec:radd-gen-exp}{{D.1.2}{19}{Text Generation Experiments}{subsubsection.D.1.2}{}}
+\newlabel{subsec:radd-gen-exp@cref}{{[subsubappendix][2][2147483647,4,1]D.1.2}{[1][19][]19}}
 \citation{ou2025absorbingdiscretediffusionsecretly}
 \citation{ou2025absorbingdiscretediffusionsecretly}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Local objective values \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:trainable_confidence}\unskip \@@italiccorr )}} attained by different unmasking methods in text generation with RADD\nobreakspace  {}\citep  {ou2025absorbingdiscretediffusionsecretly}.\relax }}{26}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:radd-obj-all-step}{{5}{26}{Local objective values \eqref {eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep {ou2025absorbingdiscretediffusionsecretly}.\relax }{figure.caption.16}{}}
-\newlabel{fig:radd-obj-all-step@cref}{{[figure][5][2147483647]5}{[1][26][]26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Evaluation of VLP}{26}{subsection.D.2}\protected@file@percent }
-\newlabel{sec:vlp}{{D.2}{26}{Evaluation of VLP}{subsection.D.2}{}}
-\newlabel{sec:vlp@cref}{{[subappendix][2][2147483647,4]D.2}{[1][26][]26}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.2.1}Experiment Setup}{26}{subsubsection.D.2.1}\protected@file@percent }
-\newlabel{sec:vlp-experiment-setup}{{D.2.1}{26}{Experiment Setup}{subsubsection.D.2.1}{}}
-\newlabel{sec:vlp-experiment-setup@cref}{{[subsubappendix][1][2147483647,4,2]D.2.1}{[1][26][]26}}
-\@writefile{toc}{\contentsline {paragraph}{Text Generation Details.}{26}{section*.17}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Local objective values \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:trainable_confidence}\unskip \@@italiccorr )}} attained by different unmasking methods in text generation with RADD\nobreakspace  {}\citep  {ou2025absorbingdiscretediffusionsecretly}.\relax }}{20}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:radd-obj-all-step}{{5}{20}{Local objective values \eqref {eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep {ou2025absorbingdiscretediffusionsecretly}.\relax }{figure.caption.15}{}}
+\newlabel{fig:radd-obj-all-step@cref}{{[figure][5][2147483647]5}{[1][20][]20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Evaluation of VLP}{20}{subsection.D.2}\protected@file@percent }
+\newlabel{sec:vlp}{{D.2}{20}{Evaluation of VLP}{subsection.D.2}{}}
+\newlabel{sec:vlp@cref}{{[subappendix][2][2147483647,4]D.2}{[1][20][]20}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.2.1}Experiment Setup}{20}{subsubsection.D.2.1}\protected@file@percent }
+\newlabel{sec:vlp-experiment-setup}{{D.2.1}{20}{Experiment Setup}{subsubsection.D.2.1}{}}
+\newlabel{sec:vlp-experiment-setup@cref}{{[subsubappendix][1][2147483647,4,2]D.2.1}{[1][20][]20}}
+\@writefile{toc}{\contentsline {paragraph}{Text Generation Details.}{20}{section*.16}\protected@file@percent }
 \citation{chen2021evaluatinglargelanguagemodels}
 \citation{austin2021programsynthesislargelanguage}
 \citation{cobbe2021training}
@@ -289,46 +289,46 @@
 \citation{Gokaslan2019OpenWeb}
 \citation{yu2023metamath}
 \citation{gong2025diffucoderunderstandingimprovingmasked}
-\@writefile{toc}{\contentsline {paragraph}{Code and Math Generation Details.}{27}{section*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.2.2}Additional Results}{27}{subsubsection.D.2.2}\protected@file@percent }
-\newlabel{sec:vlp-additional-results}{{D.2.2}{27}{Additional Results}{subsubsection.D.2.2}{}}
-\newlabel{sec:vlp-additional-results@cref}{{[subsubappendix][2][2147483647,4,2]D.2.2}{[1][27][]27}}
-\@writefile{toc}{\contentsline {paragraph}{RADD}{27}{section*.19}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and sample entropy of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024. OpenWebText dataset has sample entropy 5.44.\relax }}{27}{table.caption.20}\protected@file@percent }
-\newlabel{tab:text-gen-full}{{3}{27}{Mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and sample entropy of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024. OpenWebText dataset has sample entropy 5.44.\relax }{table.caption.20}{}}
-\newlabel{tab:text-gen-full@cref}{{[table][3][2147483647]3}{[1][27][]27}}
-\@writefile{toc}{\contentsline {paragraph}{Evaluation on DiffuCoder-7B.}{27}{section*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Effect of KL regularization in VLP training.}{27}{section*.23}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Results ($\uparrow $) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }}{28}{table.caption.22}\protected@file@percent }
-\newlabel{tab:diffucoder-all}{{4}{28}{Results ($\uparrow $) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }{table.caption.22}{}}
-\newlabel{tab:diffucoder-all@cref}{{[table][4][2147483647]4}{[1][27][]28}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Effect of KL regularization strength $\lambda $ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }}{28}{table.caption.24}\protected@file@percent }
-\newlabel{tab:text-kl}{{5}{28}{Effect of KL regularization strength $\lambda $ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }{table.caption.24}{}}
-\newlabel{tab:text-kl@cref}{{[table][5][2147483647]5}{[1][27][]28}}
-\@writefile{toc}{\contentsline {paragraph}{Effect of sampling steps $K$ in VLP training.}{28}{section*.25}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Effect of choice of $K$ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }}{28}{table.caption.26}\protected@file@percent }
-\newlabel{tab:text-step}{{6}{28}{Effect of choice of $K$ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }{table.caption.26}{}}
-\newlabel{tab:text-step@cref}{{[table][6][2147483647]6}{[1][28][]28}}
-\@writefile{toc}{\contentsline {paragraph}{Effect of sampling temperature.}{28}{section*.27}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.2.3}Datasets, Models, and Licenses}{28}{subsubsection.D.2.3}\protected@file@percent }
-\newlabel{sec:asset-licenses}{{D.2.3}{28}{Datasets, Models, and Licenses}{subsubsection.D.2.3}{}}
-\newlabel{sec:asset-licenses@cref}{{[subsubappendix][3][2147483647,4,2]D.2.3}{[1][28][]28}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Temperature analysis on HumanEval. We report Pass@1 ($\uparrow $) at different sampling steps.\relax }}{29}{table.caption.28}\protected@file@percent }
-\newlabel{tab:temp-humaneval}{{7}{29}{Temperature analysis on HumanEval. We report Pass@1 ($\uparrow $) at different sampling steps.\relax }{table.caption.28}{}}
-\newlabel{tab:temp-humaneval@cref}{{[table][7][2147483647]7}{[1][28][]29}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Chat template for VLP{} OpenCoder-SFT training.\relax }}{29}{table.caption.29}\protected@file@percent }
-\newlabel{tab:chat-sft}{{8}{29}{Chat template for \alg {} OpenCoder-SFT training.\relax }{table.caption.29}{}}
-\newlabel{tab:chat-sft@cref}{{[table][8][2147483647]8}{[1][28][]29}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Chat template for VLP{} HumanEval evaluation.\relax }}{29}{table.caption.29}\protected@file@percent }
-\newlabel{tab:chat-humaneval}{{9}{29}{Chat template for \alg {} HumanEval evaluation.\relax }{table.caption.29}{}}
-\newlabel{tab:chat-humaneval@cref}{{[table][9][2147483647]9}{[1][28][]29}}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Chat template for VLP{} MBPP evaluation.\relax }}{29}{table.caption.29}\protected@file@percent }
-\newlabel{tab:chat-mbpp}{{10}{29}{Chat template for \alg {} MBPP evaluation.\relax }{table.caption.29}{}}
-\newlabel{tab:chat-mbpp@cref}{{[table][10][2147483647]10}{[1][28][]29}}
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Chat template for VLP GSM8K evaluation.\relax }}{29}{table.caption.29}\protected@file@percent }
-\newlabel{tab:chat-gsm8k}{{11}{29}{Chat template for VLP GSM8K evaluation.\relax }{table.caption.29}{}}
-\newlabel{tab:chat-gsm8k@cref}{{[table][11][2147483647]11}{[1][28][]29}}
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Public datasets and pretrained models used in the experiments.\relax }}{30}{table.caption.30}\protected@file@percent }
-\newlabel{tab:asset-licenses}{{12}{30}{Public datasets and pretrained models used in the experiments.\relax }{table.caption.30}{}}
-\newlabel{tab:asset-licenses@cref}{{[table][12][2147483647]12}{[1][28][]30}}
-\gdef \@abspage@last{30}
+\@writefile{toc}{\contentsline {paragraph}{Code and Math Generation Details.}{21}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.2.2}Additional Results}{21}{subsubsection.D.2.2}\protected@file@percent }
+\newlabel{sec:vlp-additional-results}{{D.2.2}{21}{Additional Results}{subsubsection.D.2.2}{}}
+\newlabel{sec:vlp-additional-results@cref}{{[subsubappendix][2][2147483647,4,2]D.2.2}{[1][21][]21}}
+\@writefile{toc}{\contentsline {paragraph}{RADD}{21}{section*.18}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and sample entropy of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024. OpenWebText dataset has sample entropy 5.44.\relax }}{21}{table.caption.19}\protected@file@percent }
+\newlabel{tab:text-gen-full}{{3}{21}{Mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and sample entropy of unconditional generations from RADD under different unmasking strategies and numbers of sampling steps. All generations have context length 1024. OpenWebText dataset has sample entropy 5.44.\relax }{table.caption.19}{}}
+\newlabel{tab:text-gen-full@cref}{{[table][3][2147483647]3}{[1][21][]21}}
+\@writefile{toc}{\contentsline {paragraph}{Evaluation on DiffuCoder-7B.}{21}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Effect of KL regularization in VLP training.}{21}{section*.22}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Results ($\uparrow $) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }}{22}{table.caption.21}\protected@file@percent }
+\newlabel{tab:diffucoder-all}{{4}{22}{Results ($\uparrow $) of DiffuCoder-7B under different unmasking strategies and numbers of sampling steps across four benchmarks.\relax }{table.caption.21}{}}
+\newlabel{tab:diffucoder-all@cref}{{[table][4][2147483647]4}{[1][21][]22}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Effect of KL regularization strength $\lambda $ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }}{22}{table.caption.23}\protected@file@percent }
+\newlabel{tab:text-kl}{{5}{22}{Effect of KL regularization strength $\lambda $ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }{table.caption.23}{}}
+\newlabel{tab:text-kl@cref}{{[table][5][2147483647]5}{[1][21][]22}}
+\@writefile{toc}{\contentsline {paragraph}{Effect of sampling steps $K$ in VLP training.}{22}{section*.24}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Effect of choice of $K$ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }}{22}{table.caption.25}\protected@file@percent }
+\newlabel{tab:text-step}{{6}{22}{Effect of choice of $K$ in VLP training for RADD. We report mean GPT-2 perplexity ($\downarrow $), perplexity standard deviation, and entropy of unconditional generation at different sampling steps. OpenWebText dataset has sample entropy 5.44.\relax }{table.caption.25}{}}
+\newlabel{tab:text-step@cref}{{[table][6][2147483647]6}{[1][22][]22}}
+\@writefile{toc}{\contentsline {paragraph}{Effect of sampling temperature.}{22}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {D.2.3}Datasets, Models, and Licenses}{22}{subsubsection.D.2.3}\protected@file@percent }
+\newlabel{sec:asset-licenses}{{D.2.3}{22}{Datasets, Models, and Licenses}{subsubsection.D.2.3}{}}
+\newlabel{sec:asset-licenses@cref}{{[subsubappendix][3][2147483647,4,2]D.2.3}{[1][22][]22}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Temperature analysis on HumanEval. We report Pass@1 ($\uparrow $) at different sampling steps.\relax }}{23}{table.caption.27}\protected@file@percent }
+\newlabel{tab:temp-humaneval}{{7}{23}{Temperature analysis on HumanEval. We report Pass@1 ($\uparrow $) at different sampling steps.\relax }{table.caption.27}{}}
+\newlabel{tab:temp-humaneval@cref}{{[table][7][2147483647]7}{[1][22][]23}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Chat template for VLP{} OpenCoder-SFT training.\relax }}{23}{table.caption.28}\protected@file@percent }
+\newlabel{tab:chat-sft}{{8}{23}{Chat template for \alg {} OpenCoder-SFT training.\relax }{table.caption.28}{}}
+\newlabel{tab:chat-sft@cref}{{[table][8][2147483647]8}{[1][22][]23}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Chat template for VLP{} HumanEval evaluation.\relax }}{23}{table.caption.28}\protected@file@percent }
+\newlabel{tab:chat-humaneval}{{9}{23}{Chat template for \alg {} HumanEval evaluation.\relax }{table.caption.28}{}}
+\newlabel{tab:chat-humaneval@cref}{{[table][9][2147483647]9}{[1][22][]23}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Chat template for VLP{} MBPP evaluation.\relax }}{23}{table.caption.28}\protected@file@percent }
+\newlabel{tab:chat-mbpp}{{10}{23}{Chat template for \alg {} MBPP evaluation.\relax }{table.caption.28}{}}
+\newlabel{tab:chat-mbpp@cref}{{[table][10][2147483647]10}{[1][22][]23}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Chat template for VLP GSM8K evaluation.\relax }}{23}{table.caption.28}\protected@file@percent }
+\newlabel{tab:chat-gsm8k}{{11}{23}{Chat template for VLP GSM8K evaluation.\relax }{table.caption.28}{}}
+\newlabel{tab:chat-gsm8k@cref}{{[table][11][2147483647]11}{[1][22][]23}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Public datasets and pretrained models used in the experiments.\relax }}{24}{table.caption.29}\protected@file@percent }
+\newlabel{tab:asset-licenses}{{12}{24}{Public datasets and pretrained models used in the experiments.\relax }{table.caption.29}{}}
+\newlabel{tab:asset-licenses@cref}{{[table][12][2147483647]12}{[1][22][]24}}
+\gdef \@abspage@last{24}
