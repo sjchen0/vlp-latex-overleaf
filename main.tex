@@ -152,7 +152,8 @@
 \newcommand{\jiaxin}[1]{\textcolor{blue}{[Jiaxin: #1]}}
 \newcommand{\strblk}[1]{\sethlcolor{black!12}\hl{\texttt{\footnotesize #1}}}
 
-\title{On Confidence-Based Decoding Strategies for Masked Diffusion and Beyond: A Likelihood Optimization Perspective}
+\title{Understanding and Generalizing Confidence-Based Decoding in Masked Diffusion Models}
+
 
 % In the default NeurIPS submission mode, the style anonymizes author information.
 % For the camera-ready version, compile with the final option above.
@@ -162,11 +163,10 @@
   \texttt{chensj@princeton.edu}
   \And
   Chang Yu \\
-  Princeton University \\
-  \texttt{cy7438@princeton.edu}
+  Princeton University
   \And
   Jiaxin Shi \\
-  Meta SuperIntelligence Labs
+  Meta Superintelligence Labs
   \And
   Jason M. Klusowski \\
   Princeton University \\
@@ -191,6 +191,12 @@ Masked diffusion language models enable a more flexible generation order than th
 In this work, we study inference in masked diffusion language models through a likelihood-based formulation that treats the unmasking order as a policy to be optimized. Under local planning and distribution-approximation reductions, this framework explains confidence-based unmasking as an near-optimal policy, with numerical evidence supporting the likelihood-optimality view. Building on the same principle, we introduced Variational Likelihood Policy (\alg{}), a trainable unmasking policy optimized by a variational lower bound, and showed that it matches or improves over uniform and confidence-based unmasking across text, code, and math generation tasks and multiple MDMs at different scales.
 
 This work still has several limitations. The theoretical derivation relies on local reductions and approximation assumptions, while the design of VLP is prototypical and can face inefficiency and instability in training. Future work may improve the optimization of VLP, explore joint training with the underlying diffusion model, and extend the likelihood principle to other discrete diffusion models beyond MDMs.
+
+\section*{Acknowledgments}
+
+Jason M. Klusowski is grateful for support from the National Science
+Foundation through NSF CAREER DMS-2239448 and the Alfred P. Sloan Foundation through a Sloan
+Research Fellowship. Sijin Chen acknowledges support from Princeton University's Gordon Wu Fellowship. The work reported on in this paper was substantially performed using Princeton University’s Research Computing resources. 
 
 % \section*{Impact Statement}
 

@@ -48,7 +48,7 @@
         \label{fig:vlp-eval}
     \end{subfigure}
     \label{fig:optimality-exp}
-    \caption{\textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}. \textbf{(c)}: Selected evaluation results (see Table~\ref{tab:text-gen} and~\ref{tab:dream-all} for full version) of our likelihood-trained policy, VLP, compared to uniform and confidence unmasking methods in RADD text generation, and Dream-7B~\citep{ye2025dream7bdiffusionlarge} code and math generation. Data are rescaled between the best and worst performance among the compared methods.}
+    \caption{\textbf{(a)}: The landscape of the local likelihood maximization problem \eqref{eq:trainable_confidence} over the policy simplex, and different unmasking methods with their attained objective values. \textbf{(b)}: Monte Carlo estimation of per-step local objective values \eqref{eq:trainable_confidence} attained by different unmasking methods in text generation with RADD~\citep{ou2025absorbingdiscretediffusionsecretly}. \textbf{(c)}: Selected evaluation results (see Table~\ref{tab:text-gen} and~\ref{tab:dream-all} for full version) of our likelihood-trained policy, VLP, compared to uniform and confidence unmasking methods in RADD text generation, and Dream-7B~\citep{ye2025dream7bdiffusionlarge} code and math generation. Data are rescaled between the best and worst performance among the compared methods. \jiaxin{can we increase the font size to be visible? May consider moving (c) to a separate figure.}}
 \end{figure}
 
 Diffusion language models~\citep{nie2025large,ye2025dream7bdiffusionlarge,gong2025diffucoderunderstandingimprovingmasked,song2025seeddiffusionlargescalediffusion} recently emerged as a potential alternative to their autoregressive counterparts for language modeling with advances in discrete diffusion~\citep{austin2021structured, lou2024discrete, sahoo2024simple,shi2024simplified,ou2024your}. These models conduct training and inference by leveraging a forward-backward pair of continuous-time Markov chains (CTMC) evolving over continuous time $t\in(0,1)$ in a discrete state space. In the forward (noising) process, a training data sample is gradually corrupted into pure noise; then the model aims to learn its reverse, i.e. the backward (denoising) process, that refines a random draw from pure noise step by step back to data.
@@ -66,7 +66,7 @@ usually underperforms in empirical studies of MDM inference \citep{zhao2024infor
     \vspace{-1em}
     \centering
     \includegraphics[width=0.98\linewidth]{figs/illustration-icml.png}
-    \caption{Two different sampling trajectories of decoding a length-2 sequence on a simple vocabulary $\{\texttt{A},\texttt{B}\}$. Confidence-based unmasking indicates that trajectory 1 is preferred.}
+    \caption{Two different sampling trajectories of decoding a length-2 sequence on a simple vocabulary $\{\texttt{A},\texttt{B}\}$. Confidence-based unmasking indicates that trajectory 1 is preferred. \jiaxin{Let's tweak the example such that the two tokens are not independent? Otherwise the order is not relevant}}
     \label{fig:illustrate}
     \vspace{-1.5em}
 \end{wrapfigure}

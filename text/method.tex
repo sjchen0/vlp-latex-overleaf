@@ -1,5 +1,6 @@
 \section{Building Trainable Unmasking Policy with Likelihood Principles}\label{sec:method}
-Our discussions above not only justify confidence unmasking as a reasonable approach for generating high-likelihood samples by minimizing \eqref{eq:trainable_confidence}, but also suggest room for developing other strategies by directly optimizing \eqref{eq:obj}. This section presents \alg{}, a training and inference framework that learns a policy from \eqref{eq:obj} via variational inference. Notably, \citet{benhamu2025eb} explicitly suggest learning a parameterized adaptive sampler optimizing a KL-based bound as a direction for future work; \alg{} realizes this idea within our likelihood-maximization formulation (cf.~\eqref{eq:vlp}).
+Our discussions above not only justify confidence unmasking as a reasonable approach for generating high-likelihood samples by minimizing \eqref{eq:trainable_confidence}, but also suggest room for developing other strategies by directly optimizing \eqref{eq:obj}. This section presents \alg{}, a training and inference framework that learns a policy from \eqref{eq:obj} via variational inference. Relatedly, \citet{benhamu2025eb} explicitly suggest learning a parameterized adaptive sampler optimizing a KL-based bound as a direction for future work; \alg{} %realizes this idea 
+can be seen as realizing this idea within our likelihood-maximization formulation (cf.~\eqref{eq:vlp}).
 
 Recall that the log-likelihood in \eqref{eq:obj} can be expanded as
 \begin{align*}
@@ -23,4 +24,4 @@ In \alg{}, both $w$ and $\pi$ are parameterized by neural networks $w_\phi$ and 
     \mathcal R(\phi) &:= \mathrm{KL}(\pi_\phi\|\pi_\text{ref}) + \mathrm{KL}(w_\phi\|w_\text{ref}).
 \end{align*}
 
-We defer the detailed description of the model architecture and training/inference algorithms used in \alg{} to Appendix~\ref{sec:further-vlp}. 
+We defer the detailed description of the model architecture and training/inference algorithms used in \alg{} to Appendix~\ref{sec:further-vlp}. \jiaxin{Comment in appendix}

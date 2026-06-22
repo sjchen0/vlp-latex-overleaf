@@ -19,14 +19,17 @@ Note that the diagonal entries of $Q_t$ should satisfy $Q_t(\vx_t, \vx_t) = - \s
 0, & \text{otherwise},
 \end{cases}
 \end{equation*}
-with a state space $\mathcal V\cup\{\mask\}$. Letting $\bar\sigma(t)=\int_0^t\sigma(s)\,ds$, the distribution of a token at time $t$ conditioned on the initial state $x$ is given by
+with a state space $\mathcal V\cup\{\mask\}$. Letting $\bar\sigma(t)=\int_0^t\sigma(s)\,ds$ and $\alpha_t = e^{-\bar\sigma(t)}$, the distribution of a token at time $t$ conditioned on the initial state $x$ is given by
 \begin{equation*}
 \label{eq:forward_seq}
     q_{t|0}(y|x)
 =
-e^{-\bar\sigma(t)}\mathbf 1[y=x]
+%e^{-\bar\sigma(t)}
+\alpha_t\mathbf 1[y=x]
 +
-\bigl(1-e^{-\bar\sigma(t)}\bigr)\mathbf 1[y=\mask].
+\bigl(1-
+%e^{-\bar\sigma(t)}
+\alpha_t\bigr)\mathbf 1[y=\mask].
 \end{equation*}
 Due to token-wise independence, the forward process for a length-$L$ sequence is the product CTMC on $(\mathcal V\cup\{\mask\})^L$, with the joint distribution
 \begin{equation*}
@@ -48,7 +51,7 @@ at position $i$, a confidence score $c_i$ is computed and used to guide the unma
     \item {Top-1 probability} \citep{nie2025scalingmaskeddiffusionmodels}, $c_i = \max_v p_i(v)$;
     \item {Top-2 margin} \citep{kim2025train}, $c_i = p_i(v_1) - p_i(v_2)$, where $v_1, v_2$ are the two most likely tokens at $i$.
 \end{itemize}
-Given these scores, unmasking strategies are typically either \emph{greedy}, selecting the top-$N$ positions with highest confidence, or \emph{randomized}, for example by perturbing confidence scores before top-$N$ selection \citep{kim2025train} or sampling positions proportionally via a softmax transformation \citep{ye2025dream7bdiffusionlarge}. While simple and effective in practice, these approaches are largely heuristic and do not arise from an explicit optimization objective. Beyond fixed-size selection, \citet{benhamu2025eb} propose an adaptive sampler that dynamically chooses both which and how many tokens to unmask, justified by a KL-based entropy bound on joint dependence error.
+Given these scores, unmasking strategies are typically either \emph{greedy}, selecting the top-$N$ positions with highest confidence, or \emph{randomized}, for example by perturbing confidence scores before top-$N$ selection \citep{kim2025train} or sampling positions proportionally via a softmax transformation \citep{ye2025dream7bdiffusionlarge}. While simple and effective in practice, these approaches are largely heuristic and do not arise from an explicit optimization objective. Beyond fixed-size selection, \citet{benhamu2025eb} propose an adaptive sampler that dynamically chooses both which and how many tokens to unmask, justified by a KL-based entropy bound on joint dependence error. \jiaxin{cite FastdLLM for adaptive threshold, too?}
 
 \textbf{Trainable inference methods.}
 Beyond fixed heuristics, several works treat the unmasking order as a trainable policy. We defer these discussions to Appendix~\ref{sec:literature-appendix}. 
