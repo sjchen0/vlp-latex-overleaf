@@ -19,9 +19,8 @@ For the unmasking policy to be valid, we constrain the unmasking trajectories $\
 \end{align*}
 Both the uniform ($\tau$-leaping) and confidence-based unmasking methods discussed above can be recovered by $p_k^{\theta,\pi}$ with appropriate choices of $\pi$.
 
-\subsection{%Likelihood Optimization 
-\jiaxin{The Maximum Likelihood Policy}}
-Recall that a major question motivating this work is how we can theoretically compare different unmasking policies and search for the best one. This is made possible by connecting our discrete-time sampling process $p_k^{\theta,\pi}$ to \jiaxin{maximum likelihood}, 
+\subsection{The Maximum Likelihood Policy}
+Recall that a major question motivating this work is how we can theoretically compare different unmasking policies and search for the best one. This is made possible by connecting our discrete-time sampling process $p_k^{\theta,\pi}$ to maximum likelihood, 
 % likelihood optimization, 
 a fundamental objective of generative modeling. Specifically, since $p_k^{\theta,\pi}$ is intended to recover the data distribution at the endpoint $k=0$, its generative performance can be measured by the sample log-likelihood under the training data distribution $q_0$. Under this criterion, the optimal policy is obtained by
 \begin{align}\label{eq:min-obj}
@@ -112,18 +111,15 @@ Define entropy at index $i$ to be
 \end{align*}
 We have the following result on the optimality of greedy confidence unmasking based on negative entropy (cf.~Section~\ref{subsec:confidence}).
 
-\begin{theorem}
+\begin{theorem}[Informal]
     \label{thm:confidence}
-     Consider a policy $\pi$ that selects an index set of size at least $N$. 
-     If (1) $\pi$ is a deterministic policy, or (2) $p_{t_k}^\theta$ satisfies
-     \begin{align*}
-         \EE_{x^i\sim p_{t_k}^\theta(\cdot|\bm x_k)}\left[\frac{\prod_{i\in\mathcal U'}p_{t_k}^\theta(x^i|\bm x_k)}{\prod_{i\in\mathcal U}p_{t_k}^\theta(x^i|\bm x_k)}\right]\leq 1
-     \end{align*}
-     for some $\mathcal U$ and arbitrary $\mathcal U'$ \jiaxin{Do you mean there exists some $\mathcal{U}$ such that for any $\mathcal{U}'$? Also, I find this condition hard to interpret - we can improve the readability by simplifying the theorem as stating "the optimal deterministic policy is entropy minimized" and defer this extension to a remark that follows.}, then the optimal strategy $\pi^*$ to \eqref{eq:trainable_confidence} satisfies $\pi^*(\cdot|\bm x_k)=\mathbf1_{\mathcal U^*}$, where
+     Consider a policy $\pi$ that selects an index set of size at least $N$. Then, the optimal deterministic policy $\pi^*$ to \eqref{eq:trainable_confidence} satisfies $\pi^*(\cdot|\bm x_k)=\mathbf1_{\mathcal U^*}$, where
      $$\mathcal U^*={\arg\max}_{|\mathcal U|=N}\sum_{i\in\mathcal U}-H_k(i).$$
 \end{theorem}
 
-In words, $\pi^*$ will deterministically output the index set $\mathcal U^*$ with the smallest total entropy (highest confidence) for the next step's unmasking. The proof is deferred to Appendix~\ref{subsec:proof-confidence}. We also leave remarks on the connection to prior entropy-based criteria and extensions to constrained confidence samplers in Appendix~\ref{subsec:proof-confidence}.
+\jiaxin{Do you mean there exists some $\mathcal{U}$ such that for any $\mathcal{U}'$? Also, I find this condition hard to interpret - we can improve the readability by simplifying the theorem as stating "the optimal deterministic policy is entropy minimized" and defer this extension to a remark that follows.} \sijin{I prepared a simple statement in main text, and move the condition to appendix}
+
+In words, $\pi^*$ will deterministically output the index set $\mathcal U^*$ with the smallest total entropy (highest confidence) for the next step's unmasking. Indeed, the optimality result generalizes to a certain subset of non-deterministic policies, and we provide a full statement and proof in Appendix~\ref{subsec:proof-confidence}. We also leave remarks on the connection to prior entropy-based criteria and extensions to constrained confidence samplers in Appendix~\ref{subsec:proof-confidence}.
 
 \iffalse
 \begin{theorem}
@@ -152,8 +148,9 @@ In Theorem~\ref{thm:confidence}, the optimality of the greedy confidence policy 
 
 In words, while $\pi^*$ is not greedy, it still assigns a high probability to the top-confidence subset $\mathcal U^*$ if the predicted distribution $p^\theta_{t_k}$ is well-conditioned. We defer the proof to Appendix~\ref{subsec:proof-random}.
 
+\iffalse
 \subsubsection{Controlling Sub-Optimality Gap under Distribution Shift}
-\jiaxin{I feel the D-sup condition used here is too unrealistic. This section may not add too much value in my opinion. Shall we remove it?}
+\jiaxin{I feel the D-sup condition used here is too unrealistic. This section may not add too much value in my opinion. Shall we remove it?} \sijin{I think this section tries to theoretically understand the distribution shift from q to p, which is an important question. We only obtained result with Renyi-divergence at $\infty$, which is surely unrealistic and we didn't succeed in deriving a KL-based result. @Jason @Chang what do you think?}
 Note that our optimality results from \eqref{eq:trainable_confidence} involve a distribution shift from $q_0(\cdot|\bm x_k)$ to $p^\theta_{t_k}(\cdot|\bm x_k)$, and so an optimal policy for \eqref{eq:trainable_confidence} is suboptimal for \eqref{eq:oracle_confidence}. The following theorem bounds the suboptimality gap in terms of the difference between the two distributions.
 
 \begin{theorem}
@@ -165,6 +162,7 @@ Note that our optimality results from \eqref{eq:trainable_confidence} involve a 
 \end{align*}
 Then, the ratio between the optimal value of \eqref{eq:trainable_confidence} and \eqref{eq:oracle_confidence} is bounded by $1+8\epsilon$.
 \end{theorem}
+\fi
 
 
 \iffalse

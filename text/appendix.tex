@@ -37,6 +37,17 @@ Consider an indexing of subsets $j\mapsto\mathcal U_j$ for all the size-$N$ subs
 \end{align}
 
 \subsection{Proof of Theorem \ref{thm:confidence}}\label{subsec:proof-confidence}
+We first state the complete version of Theorem~\ref{thm:confidence-rand} on a general non-deterministic policy.
+\begin{theorem}
+    \label{thm:confidence-complete}
+     Consider a policy $\pi$ that selects an index set of size at least $N$. 
+     If (1) $\pi$ is a deterministic policy, or (2) there exists $\mathcal U$ such that for all $\mathcal U'$, $p_{t_k}^\theta$ satisfies
+     \begin{align*}
+         \EE_{x^i\sim p_{t_k}^\theta(\cdot|\bm x_k)}\left[\frac{\prod_{i\in\mathcal U'}p_{t_k}^\theta(x^i|\bm x_k)}{\prod_{i\in\mathcal U}p_{t_k}^\theta(x^i|\bm x_k)}\right]\leq 1
+     \end{align*}
+    , then the optimal strategy $\pi^*$ to \eqref{eq:trainable_confidence} satisfies $\pi^*(\cdot|\bm x_k)=\mathbf1_{\mathcal U^*}$, where
+     $$\mathcal U^*={\arg\max}_{|\mathcal U|=N}\sum_{i\in\mathcal U}-H_k(i).$$
+\end{theorem}
 \begin{proof}
 \textbf{Condition (1).} If $\pi$ is restricted to be a deterministic policy, then the optimal $\bm\pi^*=\bm e_j$ for some standard basis vector $\bm e_j$. Taking this to \eqref{eq:obj-equiv}, 
 \begin{align*}
@@ -97,6 +108,7 @@ $\Delta_{S_k}$ is itself a probability simplex, supported on $J(S_k)$. The KKT a
 The same reduction applies to any confidence-based sampler that imposes a data-dependent feasibility set $\mathcal U \in \mathcal C(\bm x_k)$ determined by the model's predictions (and not by $\pi$ itself). In each case, the optimal policy under the constrained objective is the entropy-greedy choice within $\mathcal C(\bm x_k)$.
 
 \subsection{Proof of Theorem~\ref{thm:confidence-rand}}\label{subsec:proof-random}
+
 \begin{proof}
 The Hessian of the objective is
 \begin{align*}
@@ -128,6 +140,7 @@ Since ${\hat{\bm\pi}}=\bm e_{j^*}$,
 which completes the proof.
 \end{proof}
 
+\iffalse
 \subsection{Proof of Theorem \ref{thm:confidence_bounds}}
 \begin{proof}
     Let $F$ be the objective function
@@ -267,7 +280,7 @@ Now, due to linearity of expectation, any optimal $\pi$ should give identical pr
 % maximizing this form of ELBO over $\pi$ is equivalent to maximizing
 % $\mathbb E_{x_0}\mathbb E_{T\sim r}[\log A_\pi(T)]$.
 % \end{proof}
-
+\fi
 
 \section{Further Details on VLP}\label{sec:further-vlp}
 \subsection{Model Architecture}\label{subsec:architecture}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{43}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -322,6 +322,14 @@ Zhe Wang, Jiaxin Shi, Nicolas Heess, Arthur Gretton, and Michalis Titsias.
 Stephen~J Wright and Benjamin Recht.
 \newblock \emph{Optimization for data analysis}.
 \newblock Cambridge University Press, 2022.
+
+\bibitem[Wu et~al.(2025)Wu, Zhang, Xue, Liu, Diao, Zhu, Luo, Han, and
+  Xie]{wu2025fastdllm}
+Chengyue Wu, Hao Zhang, Shuchen Xue, Zhijian Liu, Shizhe Diao, Ligeng Zhu, Ping
+  Luo, Song Han, and Enze Xie.
+\newblock Fast-dllm: Training-free acceleration of diffusion llm by enabling kv
+  cache and parallel decoding, 2025.
+\newblock URL \url{https://arxiv.org/abs/2505.22618}.
 
 \bibitem[Ye et~al.(2025)Ye, Xie, Zheng, Gao, Wu, Jiang, Li, and
   Kong]{ye2025dream7bdiffusionlarge}

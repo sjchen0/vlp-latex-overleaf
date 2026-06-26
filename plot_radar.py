@@ -152,7 +152,14 @@ def save_matplotlib(out_dir):
         label_radius = 1.18 if key in {"HumanEval", "MATH500"} else 1.09
         if key == "HumanEval":
             label_radius = 1.24
-        dx = -5 if key == "MATH500" else 0
+        if key == "MATH500":
+            dx = -8
+        elif key == "HumanEval":
+            dx = 5
+        elif key == "GSM8K":
+            dx = -4
+        else:
+            dx = 0
         dy = -5
         text_transform = ax.transData + mtransforms.ScaledTranslation(
             dx / 72,
@@ -166,7 +173,7 @@ def save_matplotlib(out_dir):
             transform=text_transform,
             ha="center",
             va="center",
-            fontsize=10,
+            fontsize=12,
         )
 
     # Matplotlib fills legend entries down columns. This interleaving produces
@@ -204,7 +211,7 @@ def save_matplotlib(out_dir):
         frameon=False,
         handlelength=2.4,
         columnspacing=1.2,
-        fontsize=9,
+        fontsize=12,
     )
     fig.tight_layout(rect=[0, 0.12, 1, 1])
     fig.savefig(out_dir / "radar_steps32_64.png", dpi=300, bbox_inches="tight")

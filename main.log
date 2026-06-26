@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.9)  7 MAY 2026 17:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.9)  26 JUN 2026 13:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -972,26 +972,29 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  (./text/introduction.tex
-<figs/policy_simplex.png, id=199, 578.16pt x 505.89pt>
-File: figs/policy_simplex.png Graphic file (type png)
-<use figs/policy_simplex.png>
-Package pdftex.def Info: figs/policy_simplex.png  used on input line 25.
+<figs/policy_simplex_seed_5.png, id=191, 578.16pt x 505.89pt>
+File: figs/policy_simplex_seed_5.png Graphic file (type png)
+<use figs/policy_simplex_seed_5.png>
+Package pdftex.def Info: figs/policy_simplex_seed_5.png  used on input line 25.
 (pdftex.def)             Requested size: 119.24696pt x 104.3411pt.
-<figs/objective_steps_512.png, id=201, 578.16pt x 361.35pt>
+<figs/objective_steps_512.png, id=193, 419.166pt x 361.35pt>
 File: figs/objective_steps_512.png Graphic file (type png)
 <use figs/objective_steps_512.png>
 Package pdftex.def Info: figs/objective_steps_512.png  used on input line 35.
-(pdftex.def)             Requested size: 151.04146pt x 94.40091pt.
-<figs/radar_steps32_64.png, id=202, 347.1369pt x 307.1475pt>
+(pdftex.def)             Requested size: 128.26437pt x 110.57274pt.
+<figs/radar_steps32_64.png, id=194, 399.6531pt x 307.3884pt>
 File: figs/radar_steps32_64.png Graphic file (type png)
 <use figs/radar_steps32_64.png>
 Package pdftex.def Info: figs/radar_steps32_64.png  used on input line 45.
-(pdftex.def)             Requested size: 119.24326pt x 105.5067pt.
+(pdftex.def)             Requested size: 119.24434pt x 91.71535pt.
+
+Underfull \vbox (badness 1237) has occurred while \output is active []
+
  [1
 
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<figs/illustration-icml.png, id=250, 423.546pt x 201.699pt>
+<figs/illustration-icml.png, id=242, 423.546pt x 201.699pt>
 File: figs/illustration-icml.png Graphic file (type png)
 <use figs/illustration-icml.png>
 Package pdftex.def Info: figs/illustration-icml.png  used on input line 68.
@@ -1001,11 +1004,14 @@ Underfull \hbox (badness 1783) in paragraph at lines 78--79
 \T1/ptm/m/n/10 (+20) Despite their em-pir-i-cal suc-cess, the de-sign of
  []
 
-[2 <./figs/policy_simplex.png> <./figs/objective_steps_512.png> <./figs/radar_steps32_64.png> <./figs/illustration-icml.png>]
+
+Underfull \vbox (badness 2547) has occurred while \output is active []
+
+ [2 <./figs/policy_simplex_seed_5.png> <./figs/objective_steps_512.png> <./figs/radar_steps32_64.png> <./figs/illustration-icml.png>]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 94.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)) (./text/preliminaries.tex [3]) (./text/theory.tex [4] [5] [6]) (./text/method.tex [7]) (./text/experiments.tex
+)) (./text/preliminaries.tex [3]) (./text/theory.tex [4] [5] [6]) (./text/method.tex) (./text/experiments.tex [7]
 Overfull \hbox (1.11671pt too wide) in paragraph at lines 23--55
  [][] 
  []
@@ -1021,65 +1027,71 @@ Underfull \hbox (badness 2393) in paragraph at lines 287--294
  []
 
 [11]) [12] (./text/appendix.tex [13]
-Underfull \hbox (badness 1014) in paragraph at lines 60--61
+Underfull \hbox (badness 1014) in paragraph at lines 71--72
 \T1/ptm/m/n/10 (+20) EB-Sampler un-masks to-ken sub-sets sat-is-fy-ing an entropy-difference bound $[][] \OML/cmm/m/it/10 H[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 l\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@
  []
 
-[14] [15]
-<figs/vlp.png, id=575, 619.113pt x 506.766pt>
+[14]
+<figs/vlp.png, id=561, 619.113pt x 506.766pt>
 File: figs/vlp.png Graphic file (type png)
 <use figs/vlp.png>
-Package pdftex.def Info: figs/vlp.png  used on input line 277.
+Package pdftex.def Info: figs/vlp.png  used on input line 290.
 (pdftex.def)             Requested size: 166.94296pt x 136.64307pt.
-
-Underfull \hbox (badness 1158) in paragraph at lines 284--285
-\T1/ptm/m/n/10 (+20) cate-na-tion, we also in-put two bi-nary em-bed-dings
- []
-
-[16 <./figs/vlp.png>]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 307.
- [17]
-<figs/policy_simplex_seed_6.png, id=599, 578.16pt x 505.89pt>
+ [15]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 321.
+ [16 <./figs/vlp.png>]
+<figs/policy_simplex_seed_6.png, id=587, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_6.png Graphic file (type png)
 <use figs/policy_simplex_seed_6.png>
-Package pdftex.def Info: figs/policy_simplex_seed_6.png  used on input line 385.
+Package pdftex.def Info: figs/policy_simplex_seed_6.png  used on input line 399.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_8.png, id=600, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_8.png, id=588, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_8.png Graphic file (type png)
 <use figs/policy_simplex_seed_8.png>
-Package pdftex.def Info: figs/policy_simplex_seed_8.png  used on input line 390.
+Package pdftex.def Info: figs/policy_simplex_seed_8.png  used on input line 404.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_10.png, id=601, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_10.png, id=589, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_10.png Graphic file (type png)
 <use figs/policy_simplex_seed_10.png>
-Package pdftex.def Info: figs/policy_simplex_seed_10.png  used on input line 395.
+Package pdftex.def Info: figs/policy_simplex_seed_10.png  used on input line 409.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
-<figs/policy_simplex_seed_12.png, id=602, 578.16pt x 505.89pt>
+<figs/policy_simplex_seed_12.png, id=590, 578.16pt x 505.89pt>
 File: figs/policy_simplex_seed_12.png Graphic file (type png)
 <use figs/policy_simplex_seed_12.png>
-Package pdftex.def Info: figs/policy_simplex_seed_12.png  used on input line 400.
+Package pdftex.def Info: figs/policy_simplex_seed_12.png  used on input line 414.
 (pdftex.def)             Requested size: 190.79109pt x 166.9365pt.
- [18 <./figs/policy_simplex_seed_6.png> <./figs/policy_simplex_seed_8.png> <./figs/policy_simplex_seed_10.png> <./figs/policy_simplex_seed_12.png>]
-<figs/objective_steps_128.png, id=615, 578.16pt x 361.35pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[17]
+<figs/objective_steps_128.png, id=599, 419.166pt x 361.35pt>
 File: figs/objective_steps_128.png Graphic file (type png)
 <use figs/objective_steps_128.png>
-Package pdftex.def Info: figs/objective_steps_128.png  used on input line 425.
-(pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
-<figs/objective_steps_256.png, id=616, 578.16pt x 361.35pt>
+Package pdftex.def Info: figs/objective_steps_128.png  used on input line 439.
+(pdftex.def)             Requested size: 190.79109pt x 164.47516pt.
+<figs/objective_steps_256.png, id=600, 419.166pt x 361.35pt>
 File: figs/objective_steps_256.png Graphic file (type png)
 <use figs/objective_steps_256.png>
-Package pdftex.def Info: figs/objective_steps_256.png  used on input line 431.
-(pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
+Package pdftex.def Info: figs/objective_steps_256.png  used on input line 445.
+(pdftex.def)             Requested size: 190.79109pt x 164.47516pt.
 File: figs/objective_steps_512.png Graphic file (type png)
 <use figs/objective_steps_512.png>
-Package pdftex.def Info: figs/objective_steps_512.png  used on input line 437.
-(pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
-<figs/objective_steps_1024.png, id=617, 578.16pt x 361.35pt>
+Package pdftex.def Info: figs/objective_steps_512.png  used on input line 451.
+(pdftex.def)             Requested size: 190.79109pt x 164.47516pt.
+<figs/objective_steps_1024.png, id=601, 419.166pt x 361.35pt>
 File: figs/objective_steps_1024.png Graphic file (type png)
 <use figs/objective_steps_1024.png>
-Package pdftex.def Info: figs/objective_steps_1024.png  used on input line 443.
-(pdftex.def)             Requested size: 190.79109pt x 119.24036pt.
- [19 <./figs/objective_steps_128.png> <./figs/objective_steps_256.png> <./figs/objective_steps_1024.png>]
+Package pdftex.def Info: figs/objective_steps_1024.png  used on input line 457.
+(pdftex.def)             Requested size: 190.79109pt x 164.47516pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 2671) has occurred while \output is active []
+
+ [18 <./figs/policy_simplex_seed_6.png> <./figs/policy_simplex_seed_8.png> <./figs/policy_simplex_seed_10.png> <./figs/policy_simplex_seed_12.png>] [19 <./figs/objective_steps_128.png> <./figs/objective_steps_256.png> <./figs/objective_steps_1024.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1087,15 +1099,11 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [20]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 699--707
+Underfull \hbox (badness 10000) in paragraph at lines 713--721
 \T1/cmtt/m/n/9 You are a helpful
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 719.
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 733.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -1104,32 +1112,32 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Underfull \hbox (badness 10000) in paragraph at lines 715--726
+Underfull \hbox (badness 10000) in paragraph at lines 729--740
 \T1/cmtt/m/n/9 You are a helpful
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 715--726
+Underfull \hbox (badness 10000) in paragraph at lines 729--740
 \T1/cmtt/m/n/9 Please complete the following
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 715--726
+Underfull \hbox (badness 10000) in paragraph at lines 729--740
 \T1/cmtt/m/n/9 Here is the code to solve this
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 736--746
+Underfull \hbox (badness 10000) in paragraph at lines 750--760
 \T1/cmtt/m/n/9 You are a helpful
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 736--746
+Underfull \hbox (badness 10000) in paragraph at lines 750--760
 \T1/cmtt/m/n/9 Here is the code to solve this
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 754--761
+Underfull \hbox (badness 10000) in paragraph at lines 768--775
 \T1/cmtt/m/n/9 You are a helpful
  []
 
@@ -1137,80 +1145,84 @@ Underfull \hbox (badness 10000) in paragraph at lines 754--761
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|[]$\T1/cmtt/m/n/9 https : / / huggingface . co /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 \T1/cmtt/m/n/9 datasets / Skylion007 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|\T1/ptm/m/n/9 (+20) OpenCoder-SFT
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|[]$\T1/cmtt/m/n/9 https : / / huggingface . co /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 \T1/cmtt/m/n/9 datasets / OpenCoder-[]LLM /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|[]$\T1/cmtt/m/n/9 https : / / huggingface . co /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|[]$\T1/cmtt/m/n/9 https : / / huggingface . co /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|[]$\T1/cmtt/m/n/9 https : / / huggingface . co /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|\T1/ptm/m/n/9 (+20) DiffuCoder-7B-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--787
+Underfull \hbox (badness 10000) in paragraph at lines 801--801
 []|[]$\T1/cmtt/m/n/9 https : / / huggingface . co / apple /
  []
 
 
-Underfull \hbox (badness 3724) in paragraph at lines 787--787
+Underfull \hbox (badness 3724) in paragraph at lines 801--801
 \T1/ptm/m/n/9 (+20) ing Re-search Li-cense
  []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21]
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [21] [22] [23] (./main.aux)
+) [22] [23] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 05FAC2D0EB79A2E7463924EB4DE2A8C0;7525.
+(rerunfilecheck)             Checksum: D5082B438F4103E3AD95DBACDDF58940;7035.
  ) 
 Here is how much of TeX's memory you used:
- 36517 strings out of 478268
- 722378 string characters out of 5846347
- 1080932 words of memory out of 5000000
- 53532 multiletter control sequences out of 15000+600000
- 531145 words of font info for 340 fonts, out of 8000000 for 9000
+ 36527 strings out of 478268
+ 722541 string characters out of 5846347
+ 1073249 words of memory out of 5000000
+ 53534 multiletter control sequences out of 15000+600000
+ 531609 words of font info for 345 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,19n,104p,1661b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (23 pages, 13441964 bytes).
+Output written on main.pdf (23 pages, 10900473 bytes).
 PDF statistics:
- 831 PDF objects out of 1000 (max. 8388607)
- 688 compressed objects within 7 object streams
+ 823 PDF objects out of 1000 (max. 8388607)
+ 680 compressed objects within 7 object streams
  156 named destinations out of 1000 (max. 500000)
- 57361 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 57345 words of extra memory for PDF output out of 61914 (max. 10000000)
 
